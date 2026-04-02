@@ -25,7 +25,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   position: relative; margin-bottom: 24px;
 }
 #lottieCellWrap {
-  position: absolute; top: 15px; right: 15px;
+  position: absolute; top: -120px; right: 15px;
   width: 100px; height: 100px; pointer-events: none; z-index: 1;
 }
 
@@ -162,6 +162,14 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   transition: background 0.2s, outline 0.12s; border: none; outline: none;
 }
 .p2-cta-btn:hover { outline: 2px dashed rgba(255,255,255,0.5) !important; }
+
+.p2-cta-ghost {
+  display: inline-flex; align-items: center; gap: 8px; border-radius: 10px;
+  padding: 9px 19px; cursor: pointer; font-size: 14px; font-weight: 700;
+  letter-spacing: 0.05em; line-height: 1; background: transparent;
+  border: 1.5px solid; transition: opacity 0.2s, outline 0.12s; outline: none;
+}
+.p2-cta-ghost:hover { opacity: 0.75; }
 
 /* Contrast bar */
 .p2-contrast {
@@ -373,7 +381,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
     <button class="btn-back" onclick="goPage1()" title="返回設定">
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <span class="p2-hint">點擊元素可即時修改顏色</span>
+    <span class="p2-hint">點擊元素修改顏色</span>
     <button class="btn-download" onclick="downloadImage()" title="匯出圖片">
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2v9M4 8l4 4 4-4M2 14h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
@@ -382,19 +390,19 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   <div class="p2-content" id="p2Content">
 
     <div id="p2AboveText" class="p2-above-text"
-         title="點擊修改背景文字色" onclick="openPicker(event,'tx')">
+         title="點擊修改背景字色" onclick="openPicker(event,'tx')">
       這裡是標題
     </div>
 
     <div id="p2Subtitle" class="p2-subtitle"
-         title="點擊修改背景文字色" onclick="openPicker(event,'tx')">
+         title="點擊修改背景字色" onclick="openPicker(event,'tx')">
       這是副標題
     </div>
 
     <div id="p2Block" class="p2-block"
          title="點擊修改色塊色" onclick="openPicker(event,'hl')">
       <div id="p2BlockBold" class="p2-block-text-bold"
-           title="點擊修改色塊文字色"
+           title="點擊修改色塊的文字色"
            onclick="event.stopPropagation(); openPicker(event,'bt')">
         請感受易讀性
       </div>
@@ -410,11 +418,16 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
       <div class="p2-below-bold"   id="p2BelowBold">這是稍微粗一點的內文小字</div>
     </div>
 
-    <div>
+    <div style="display:flex;gap:12px;align-items:center;">
       <button id="p2CtaBtn" class="p2-cta-btn"
-              title="點擊修改 CTA 顏色" onclick="openPicker(event,'ct')">
+              title="點擊修改 CTA 底色" onclick="openPicker(event,'ct')">
         <span id="p2CtaText">閱讀更多</span>
         <span id="p2CtaArrow">→</span>
+      </button>
+      <button id="p2CtaGhost" class="p2-cta-btn"
+              title="點擊修改文字色" onclick="openPicker(event,'tx')">
+        <span id="p2CtaGhostText">閱讀更多</span>
+        <span>→</span>
       </button>
     </div>
 
@@ -460,7 +473,7 @@ const FONTS = {
   serif: "'Noto Serif TC', serif",
   zen:   "'Zen Maru Gothic', sans-serif"
 };
-const P2_TEXT_IDS = ['p2AboveText','p2Subtitle','p2BlockBold','p2BlockMedium','p2CtaText','p2BelowMedium','p2BelowBold'];
+const P2_TEXT_IDS = ['p2AboveText','p2Subtitle','p2BlockBold','p2BlockMedium','p2CtaText','p2CtaGhostText','p2BelowMedium','p2BelowBold'];
 
 function isHex(h){ return /^#[0-9A-Fa-f]{6}$/.test(h); }
 function hexRgb(h){ return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]; }
@@ -511,6 +524,9 @@ function syncPage2(){
   document.getElementById('p2CtaBtn').style.background=c.ct;
   document.getElementById('p2CtaText').style.color=c.bt;
   document.getElementById('p2CtaArrow').style.color=c.bt;
+  document.getElementById('p2CtaGhost').style.borderColor=c.ct;
+  document.getElementById('p2CtaGhost').style.color=c.tx;
+  document.getElementById('p2CtaGhostText').style.color=c.tx;
   document.getElementById('p2BelowMedium').style.color=c.tx;
   document.getElementById('p2BelowBold').style.color=c.tx;
   // pp-ok button tracks CTA color
@@ -712,10 +728,13 @@ async function downloadImage(){
     txt('這是稍微粗一點的內文小字', ix+6, iy+15, 18, 700, c.tx);
     iy += 30 + 12;
 
-    // CTA button
-    const ctaW=140;
+    // CTA buttons row
+    const ctaW=140, ctaGap=12;
     fillRR(ix, iy, ctaW, ctaH, 9, c.ct);
     txt('閱讀更多 →', ix+ctaW/2, iy+ctaH/2, 14, 700, c.bt, 'center');
+    const gx=ix+ctaW+ctaGap;
+    strokeRR(gx, iy, ctaW, ctaH, 9, c.ct, 1.5);
+    txt('閱讀更多 →', gx+ctaW/2, iy+ctaH/2, 14, 700, c.tx, 'center');
     iy += ctaH + previewPad;
 
     y = cardY + previewInnerH + GAP;
