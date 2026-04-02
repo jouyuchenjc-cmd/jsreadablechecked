@@ -15,23 +15,23 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 .page.active { display: flex; }
 
 /* ═══════════════════════════ PAGE 1 ═══════════════════════════ */
-#page1 { background: #EDE8DF; align-items: center; justify-content: center; padding: 40px 20px; position: relative; }
+#page1 { background: #EDE8DF; align-items: center; justify-content: center; padding: 40px 20px; }
 .p1-wrap { width: min(480px, 100%); display: flex; flex-direction: column; }
 .p1-title { font-size: 22px; font-weight: 600; color: #2C3A4A; margin-bottom: 4px; }
 .p1-sub   { font-size: 14px; color: #5A6A7A; margin-bottom: 20px; }
 
-/* Lottie — floats in right whitespace of page1 */
+/* Font selector wrapper — relative so lottie can sit top-right */
+.font-selector-wrap {
+  position: relative; margin-bottom: 24px;
+}
 #lottieCellWrap {
-  position: absolute;
-  right: max(20px, calc(50% - 240px - 100px));
-  top: 50%; transform: translateY(-50%);
-  width: 80px; height: 80px; flex-shrink: 0;
-  pointer-events: none;
+  position: absolute; top: -36px; right: -8px;
+  width: 64px; height: 64px; pointer-events: none; z-index: 1;
 }
 
 /* Font selector */
 .font-selector-row {
-  display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px;
   background: #F5F2EC; border: 1.5px solid #D9D3C7; border-radius: 12px; padding: 12px 16px;
 }
 .font-selector-label { font-size: 12px; font-weight: 600; color: #9AABB8; white-space: nowrap; }
@@ -256,18 +256,20 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 
 <!-- ═══════════ PAGE 1 ═══════════ -->
 <div class="page active" id="page1">
-<div id="lottieCellWrap" title="Triple.Cell"></div>
 <div class="p1-wrap">
 
   <div class="p1-title">Color Compare</div>
   <div class="p1-sub">設定五個顏色，預覽組合的可讀性</div>
 
-  <div class="font-selector-row">
-    <span class="font-selector-label">字體</span>
-    <div class="font-selector-btns">
-      <button class="font-btn active" onclick="setFont('sans')" data-font="sans">思源黑體</button>
-      <button class="font-btn" onclick="setFont('serif')" data-font="serif">思源宋體</button>
-      <button class="font-btn" onclick="setFont('zen')" data-font="zen">圓體</button>
+  <div class="font-selector-wrap">
+    <div id="lottieCellWrap" title="Triple.Cell"></div>
+    <div class="font-selector-row">
+      <span class="font-selector-label">字體</span>
+      <div class="font-selector-btns">
+        <button class="font-btn active" onclick="setFont('sans')" data-font="sans">思源黑體</button>
+        <button class="font-btn" onclick="setFont('serif')" data-font="serif">思源宋體</button>
+        <button class="font-btn" onclick="setFont('zen')" data-font="zen">圓體</button>
+      </div>
     </div>
   </div>
 
