@@ -55,7 +55,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   position: relative; overflow: hidden; cursor: pointer;
 }
 .cb-swatch input[type=color] {
-  position: absolute; inset: -6px; opacity: 0; width: 200%; height: 200%; cursor: pointer;
+  position: absolute; inset: -6px; opacity: 0; width: 200%; height: 200%; cursor: pointer;pointer-events: none; /* <--- 加入這一行，強制讓點擊穿透到 HSB 彈窗 */
 }
 .cb-info { flex: 1; }
 .cb-num  { font-size: 11px; font-weight: 700; color: #9AABB8; letter-spacing: 0.07em; margin-bottom: 2px; }
@@ -233,14 +233,34 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 
 /* Hex row */
+/* 修正後的樣子 */
 .pp-hex-row {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  margin-bottom: 16px;
+  width: 100%; 
 }
-.pp-hex-label { font-size: 11px; font-weight: 700; color: #9AABB8; width: 28px; flex-shrink: 0; }
+.pp-hex-label { 
+  font-size: 11px; 
+  font-weight: 700; 
+  color: #9AABB8; 
+  width: 35px; 
+  flex-shrink: 0; 
+}
 .pp-hex-in {
-  flex: 1; background: #EDE8DF; border: 1.5px solid #D9D3C7; border-radius: 8px;
-  padding: 7px 10px; font-size: 13px; font-weight: 600; color: #2C3A4A;
-  font-family: 'Noto Sans TC', sans-serif; outline: none; letter-spacing: 0.06em;
+  flex: 1; 
+  max-width: 105px; /* 這裡縮短了，就不會撞到邊緣 */
+  background: #EDE8DF; 
+  border: 1.5px solid #D9D3C7; 
+  border-radius: 8px;
+  padding: 6px 10px; 
+  font-size: 13px; 
+  font-weight: 600; 
+  color: #2C3A4A;
+  font-family: 'Noto Sans TC', sans-serif; 
+  outline: none; 
+  letter-spacing: 0.06em;
 }
 .pp-hex-in:focus { border-color: #548EB8; }
 
@@ -704,17 +724,22 @@ function openPicker(e, key) {
 }
 
 // Called from page-1 color rows
+/* ════ 替換後的 openPickerFromBtn ════ */
 function openPickerFromBtn(key, e) {
   e.stopPropagation();
   popupKey = key;
   const pp = document.getElementById('pickerPopup');
+  
+  // 1. 更新標題與基礎顏色
   document.getElementById('ppTitle').textContent = '修改：' + LABELS[key];
-  document.getElementById('ppHex').value = c[key].toUpperCase();
-  document.getElementById('ppStrip').style.background = c[key];
-  document.getElementById('ppOk').style.background = c.ct;
-  loadHsbFromHex(c[key]);
+  const currentHex = c[key].toUpperCase();
+  document.getElementById('ppHex').value = currentHex;
+  document.getElementById('ppStrip').style.background = currentHex;
+  
+  // 2. 核心穩定性：強制將當前 HEX 轉換並同步給 HSB 滑桿
+  loadHsbFromHex(currentHex);
 
-  // Position near the clicked row
+  // 3. 彈窗定位邏輯 (維持你原本的計算方式)
   const rect = e.currentTarget.getBoundingClientRect();
   const PW = 280;
   let x = rect.right + 12;
@@ -723,6 +748,7 @@ function openPickerFromBtn(key, e) {
   if (x < 8) x = 8;
   if (y + 320 > window.innerHeight - 8) y = window.innerHeight - 328;
   if (y < 8) y = 8;
+  
   pp.style.left = x + 'px';
   pp.style.top  = y + 'px';
   pp.classList.add('open');
