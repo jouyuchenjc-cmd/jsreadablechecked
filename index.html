@@ -186,16 +186,36 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 /* ══════════════════════════════════════════════════
    HSB PICKER POPUP
 ══════════════════════════════════════════════════ */
+/* ════════ 彈窗中央定位修正 ════════ */
 .picker-popup {
-  position: fixed; z-index: 9999;
-  background: #F5F2EC; border-radius: 16px;
-  box-shadow: 0 12px 40px rgba(44,58,74,0.28); border: 1px solid #D9D3C7;
-  padding: 18px 18px 14px; width: 272px; display: none;
+  position: fixed; 
+  z-index: 9999;
+  /* 讓彈窗基準點在螢幕正中央 */
+  left: 50% !important; 
+  top: 50% !important;
+  transform: translate(-50%, -50%) scale(0.93); /* 初始縮小一點做動畫 */
+  
+  background: #F5F2EC; 
+  border-radius: 16px;
+  box-shadow: 0 12px 60px rgba(44,58,74,0.35); /* 加深陰影，讓中央彈窗更立體 */
+  border: 1px solid #D9D3C7;
+  padding: 18px 18px 14px; 
+  width: 280px; /* 稍微寬一點點，視覺更平衡 */
+  display: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
-.picker-popup.open { display: block; animation: popIn 0.13s ease; }
+
+.picker-popup.open { 
+  display: block; 
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1); /* 恢復原大小 */
+}
+
+/* 移除原本的 popIn 動畫以免衝突，改用上面的 transition */
 @keyframes popIn {
-  from { opacity:0; transform:scale(0.93) translateY(-4px); }
-  to   { opacity:1; transform:scale(1) translateY(0); }
+  from { opacity:0; transform: translate(-50%, -52%) scale(0.93); }
+  to   { opacity:1; transform: translate(-50%, -50%) scale(1); }
 }
 
 .pp-title {
@@ -757,44 +777,44 @@ function openPicker(e, key) {
   pp.classList.add('open');
 }
 
-// Called from page-1 color rows
-/* ════ 替換後的 openPickerFromBtn ════ */
-/* ════ 修正版：彈窗開啟與邏輯同步 ════ */
+/* ══════════════ 修正後的彈窗邏輯 ══════════════ */
+
+// 1. 第一頁：點擊列表列觸發
 function openPickerFromBtn(key, e) {
-  e.stopPropagation();
+  if(e) e.stopPropagation();
   popupKey = key;
   const pp = document.getElementById('pickerPopup');
   
+  // 更新標題與基礎數值
   document.getElementById('ppTitle').textContent = '修改：' + LABELS[key];
-  const currentHex = c[key].toUpperCase();
-  document.getElementById('ppHex').value = currentHex;
-  document.getElementById('ppStrip').style.background = currentHex;
+  document.getElementById('ppHex').value = c[key].toUpperCase();
+  document.getElementById('ppStrip').style.background = c[key];
+  document.getElementById('ppOk').style.background = c.ct;
   
-  // 同步 HSB 數值並立即更新滑桿背景顏色
-  loadHsbFromHex(currentHex); 
+  // 同步 HSB 數值並「立即」更新滑桿漸層背景
+  loadHsbFromHex(c[key]); 
   updateSliderTracks(); 
 
-  // 定位邏輯
-  const rect = e.currentTarget.getBoundingClientRect();
-  const PW = 280;
-  let x = rect.right + 12;
-  let y = rect.top;
-  if (x + PW > window.innerWidth - 8) x = rect.left - PW - 12;
-  if (x < 8) x = 8;
-  if (y + 320 > window.innerHeight - 8) y = window.innerHeight - 328;
-  if (y < 8) y = 8;
+  // 清除舊的 inline style (原本的 x, y 定位)，確保 CSS 的 50% 居中生效
+  pp.style.left = '';
+  pp.style.top = '';
   
-  pp.style.left = x + 'px';
-  pp.style.top  = y + 'px';
   pp.classList.add('open');
 }
 
+// 2. 第二頁：點擊預覽元素觸發
+function openPicker(e, key) {
+  // 邏輯與上方一致，直接呼叫即可，保持程式碼簡潔
+  openPickerFromBtn(key, e);
+}
+
+// 3. 關閉彈窗
 function closePicker(){
   document.getElementById('pickerPopup').classList.remove('open');
   popupKey = null;
 }
 
-/* 這是新增的：專門用來畫滑桿漸層的函式 */
+// 4. 滑桿漸層背景更新 (解決盲滑問題)
 function updateSliderTracks() {
   const h = +document.getElementById('slH').value;
   const s = +document.getElementById('slS').value;
@@ -802,19 +822,21 @@ function updateSliderTracks() {
 
   // H: 彩虹
   document.getElementById('slH').style.background = `linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)`;
-  // S: 灰 -> 純
+  // S: 灰 -> 當前色相
   document.getElementById('slS').style.background = `linear-gradient(to right, ${hsbToHex(h, 0, b)}, ${hsbToHex(h, 100, b)})`;
-  // B: 黑 -> 亮
+  // B: 黑色 -> 當前亮度
   document.getElementById('slB').style.background = `linear-gradient(to right, #000000, ${hsbToHex(h, s, 100)})`;
 }
 
-// 點擊空白處關閉
+// 5. 點擊空白處關閉 (判斷 Page 1 與 Page 2 的觸發源)
 document.addEventListener('click', e => {
-  if (!e.target.closest('.picker-popup') && !e.target.closest('.color-btn')) {
+  // 如果點擊的不是彈窗內，也不是 Page 1 的按鈕，也不是 Page 2 的可點擊元素，就關閉
+  if (!e.target.closest('.picker-popup') && 
+      !e.target.closest('.color-btn') && 
+      !e.target.hasAttribute('onclick')) {
     closePicker();
   }
 });
-
 /* ════ 核心視覺優化：讓滑桿背景顯示顏色 ════ */
 function updateSliderTracks() {
   const h = +document.getElementById('slH').value;
