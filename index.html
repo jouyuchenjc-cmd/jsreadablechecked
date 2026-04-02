@@ -55,7 +55,13 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   position: relative; overflow: hidden; cursor: pointer;
 }
 .cb-swatch input[type=color] {
-  position: absolute; inset: -6px; opacity: 0; width: 200%; height: 200%; cursor: pointer;pointer-events: none; /* <--- 加入這一行，強制讓點擊穿透到 HSB 彈窗 */
+  position: absolute; 
+  inset: -6px; 
+  opacity: 0; 
+  width: 200%; 
+  height: 200%; 
+  cursor: pointer;
+  pointer-events: none; /* 關鍵修改 */
 }
 .cb-info { flex: 1; }
 .cb-num  { font-size: 11px; font-weight: 700; color: #9AABB8; letter-spacing: 0.07em; margin-bottom: 2px; }
@@ -212,10 +218,16 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   width: 14px; flex-shrink: 0; letter-spacing: 0.04em;
 }
 .hsb-slider {
-  flex: 1; height: 6px; border-radius: 3px;
-  -webkit-appearance: none; appearance: none;
-  outline: none; cursor: pointer; border: none;
+  flex: 1; 
+  height: 8px; 
+  border-radius: 4px;
+  -webkit-appearance: none; 
+  appearance: none;
+  outline: none; 
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.05); 
 }
+  
 .hsb-slider::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none;
   width: 18px; height: 18px; border-radius: 50%;
@@ -250,7 +262,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .pp-hex-in {
   flex: 1; 
-  max-width: 105px; /* 這裡縮短了，就不會撞到邊緣 */
+  max-width: 105px;         /* 關鍵修改：限制寬度，防止撞到右邊邊緣 */
   background: #EDE8DF; 
   border: 1.5px solid #D9D3C7; 
   border-radius: 8px;
@@ -261,6 +273,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   font-family: 'Noto Sans TC', sans-serif; 
   outline: none; 
   letter-spacing: 0.06em;
+  transition: border-color 0.2s; /* 額外加的小細節：讓邊框變化更順滑 */
 }
 .pp-hex-in:focus { border-color: #548EB8; }
 
@@ -542,31 +555,52 @@ function onHsbSlide() {
   const s = +document.getElementById('slS').value;
   const b = +document.getElementById('slB').value;
   
-  // 更新數值文字顯示
   document.getElementById('valH').textContent = h;
   document.getElementById('valS').textContent = s + '%';
   document.getElementById('valB').textContent = b + '%';
   
-  // 轉成 HEX 並更新預覽
   const hex = hsbToHex(h, s, b);
   document.getElementById('ppHex').value = hex.toUpperCase();
   document.getElementById('ppStrip').style.background = hex;
   
-  // 動態更新滑桿軌道的漸層色 (讓 UI 更直覺)
-  updateSliderTracks(h, s, b);
+  // --- 務必確認這行有在裡面 ---
+  updateSliderTracks(); 
   
   if (popupKey) {
     c[popupKey] = hex;
     document.getElementById('sw-' + popupKey).style.background = hex;
     document.getElementById('disp-' + popupKey).textContent = hex.toUpperCase();
-    syncPage2(); // 同步到第二頁預覽
+    
+    // 如果你有原生 input 也要同步
+    const nativePick = document.getElementById('pick-'+popupKey);
+    if (nativePick) nativePick.value = hex;
+    
+    syncPage2(); // 同步到你的第二頁預覽區
   }
 }
 
 // 修正：確保滑桿背景也會跟著變色
-function updateSliderTracks(h, s, b) {
-  document.getElementById('slS').style.background = `linear-gradient(to right, ${hsbToHex(h, 0, b)}, ${hsbToHex(h, 100, b)})`;
-  document.getElementById('slB').style.background = `linear-gradient(to right, #000, ${hsbToHex(h, s, 100)})`;
+function updateSliderTracks() {
+  // 取得目前滑桿的數值
+  const h = +document.getElementById('slH').value;
+  const s = +document.getElementById('slS').value;
+  const b = +document.getElementById('slB').value;
+
+  // 1. 色相滑桿 (H): 固定的彩虹漸層
+  const hBtn = document.getElementById('slH');
+  hBtn.style.background = `linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)`;
+
+  // 2. 飽和度滑桿 (S): 從「灰色」到「目前的純色」
+  const sBtn = document.getElementById('slS');
+  const sStart = hsbToHex(h, 0, b);   
+  const sEnd   = hsbToHex(h, 100, b); 
+  sBtn.style.background = `linear-gradient(to right, ${sStart}, ${sEnd})`;
+
+  // 3. 亮度滑桿 (B): 從「全黑」到「目前的最高亮度」
+  const bBtn = document.getElementById('slB');
+  const bStart = "#000000";           
+  const bEnd   = hsbToHex(h, s, 100); 
+  bBtn.style.background = `linear-gradient(to right, ${bStart}, ${bEnd})`;
 }
 
 /* ══════════════════════════════════════════════
@@ -725,21 +759,22 @@ function openPicker(e, key) {
 
 // Called from page-1 color rows
 /* ════ 替換後的 openPickerFromBtn ════ */
+/* ════ 修正版：彈窗開啟與邏輯同步 ════ */
 function openPickerFromBtn(key, e) {
   e.stopPropagation();
   popupKey = key;
   const pp = document.getElementById('pickerPopup');
   
-  // 1. 更新標題與基礎顏色
   document.getElementById('ppTitle').textContent = '修改：' + LABELS[key];
   const currentHex = c[key].toUpperCase();
   document.getElementById('ppHex').value = currentHex;
   document.getElementById('ppStrip').style.background = currentHex;
   
-  // 2. 核心穩定性：強制將當前 HEX 轉換並同步給 HSB 滑桿
-  loadHsbFromHex(currentHex);
+  // 同步 HSB 數值並立即更新滑桿背景顏色
+  loadHsbFromHex(currentHex); 
+  updateSliderTracks(); 
 
-  // 3. 彈窗定位邏輯 (維持你原本的計算方式)
+  // 定位邏輯
   const rect = e.currentTarget.getBoundingClientRect();
   const PW = 280;
   let x = rect.right + 12;
@@ -759,11 +794,46 @@ function closePicker(){
   popupKey = null;
 }
 
+/* 這是新增的：專門用來畫滑桿漸層的函式 */
+function updateSliderTracks() {
+  const h = +document.getElementById('slH').value;
+  const s = +document.getElementById('slS').value;
+  const b = +document.getElementById('slB').value;
+
+  // H: 彩虹
+  document.getElementById('slH').style.background = `linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)`;
+  // S: 灰 -> 純
+  document.getElementById('slS').style.background = `linear-gradient(to right, ${hsbToHex(h, 0, b)}, ${hsbToHex(h, 100, b)})`;
+  // B: 黑 -> 亮
+  document.getElementById('slB').style.background = `linear-gradient(to right, #000000, ${hsbToHex(h, s, 100)})`;
+}
+
+// 點擊空白處關閉
 document.addEventListener('click', e => {
   if (!e.target.closest('.picker-popup') && !e.target.closest('.color-btn')) {
     closePicker();
   }
 });
+
+/* ════ 核心視覺優化：讓滑桿背景顯示顏色 ════ */
+function updateSliderTracks() {
+  const h = +document.getElementById('slH').value;
+  const s = +document.getElementById('slS').value;
+  const b = +document.getElementById('slB').value;
+
+  // 1. 色相 (H): 彩虹漸層
+  document.getElementById('slH').style.background = `linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)`;
+
+  // 2. 飽和度 (S): 灰色 -> 純色
+  const sStart = hsbToHex(h, 0, b);   
+  const sEnd   = hsbToHex(h, 100, b); 
+  document.getElementById('slS').style.background = `linear-gradient(to right, ${sStart}, ${sEnd})`;
+
+  // 3. 亮度 (B): 全黑 -> 最高亮度
+  const bStart = "#000000";           
+  const bEnd   = hsbToHex(h, s, 100); 
+  document.getElementById('slB').style.background = `linear-gradient(to right, ${bStart}, ${bEnd})`;
+}
 
 /* ══════════════════════════════════════════════
    Canvas export  ★ 修正：contrast 高度計算
