@@ -1,5 +1,5 @@
-// Color Compare SW v14
-const CACHE = 'color-compare-v14';
+// Color Compare SW v15
+const CACHE = 'color-compare-v15';
 
 // Core assets — must succeed
 const CORE = [
