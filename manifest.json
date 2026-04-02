@@ -1,8 +1,9 @@
 {
-  "name": "Color Compare",
-  "short_name": "ColorCmp",
+  "name": "Colour Compare",
+  "short_name": "ColourCMP",
   "description": "設定顏色組合，預覽文字易讀性",
-  "start_url": "./color-compare.html",
+  "start_url": "index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#EDE8DF",
   "theme_color": "#4f586d",
