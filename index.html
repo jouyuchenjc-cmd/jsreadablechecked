@@ -15,10 +15,19 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 .page.active { display: flex; }
 
 /* ═══════════════════════════ PAGE 1 ═══════════════════════════ */
-#page1 { background: #EDE8DF; align-items: center; justify-content: center; padding: 40px 20px; }
+#page1 { background: #EDE8DF; align-items: center; justify-content: center; padding: 40px 20px; position: relative; }
 .p1-wrap { width: min(480px, 100%); display: flex; flex-direction: column; }
 .p1-title { font-size: 22px; font-weight: 600; color: #2C3A4A; margin-bottom: 4px; }
 .p1-sub   { font-size: 14px; color: #5A6A7A; margin-bottom: 20px; }
+
+/* Lottie — floats in right whitespace of page1 */
+#lottieCellWrap {
+  position: absolute;
+  right: max(20px, calc(50% - 240px - 100px));
+  top: 50%; transform: translateY(-50%);
+  width: 80px; height: 80px; flex-shrink: 0;
+  pointer-events: none;
+}
 
 /* Font selector */
 .font-selector-row {
@@ -70,9 +79,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .cb-hex-input:focus { border-color: #548EB8; }
 .cb-hex-input.visible { display: block; }
-
-/* Page 1 title row */
-.p1-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
 
 /* Page 1 footer */
 .p1-footer { margin-top: 28px; display: flex; gap: 10px; justify-content: center; }
@@ -250,12 +256,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 
 <!-- ═══════════ PAGE 1 ═══════════ -->
 <div class="page active" id="page1">
+<div id="lottieCellWrap" title="Triple.Cell"></div>
 <div class="p1-wrap">
 
-  <div class="p1-title-row">
-    <div class="p1-title">Color Compare</div>
-    <div id="lottieCellWrap" title="Triple.Cell"></div>
-  </div>
+  <div class="p1-title">Color Compare</div>
   <div class="p1-sub">設定五個顏色，預覽組合的可讀性</div>
 
   <div class="font-selector-row">
