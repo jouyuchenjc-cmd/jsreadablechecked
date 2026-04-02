@@ -760,23 +760,34 @@ async function downloadImage(){
 Object.keys(c).forEach(k=>document.getElementById('sw-'+k).style.background=c[k]);
 document.getElementById('ppOk').style.background=c.ct;
 
-/* ── Lottie init — inline animationData so no extra fetch needed ── */
-(function(){
+/* ── Lottie init ── */
+async function initLottie(){
   const wrap = document.getElementById('lottieCellWrap');
-  if(!wrap || typeof lottie === 'undefined') return;
-  // Try path first (works on GitHub Pages); fall back gracefully
-  const anim = lottie.loadAnimation({
-    container: wrap,
-    renderer: 'svg',
-    loop: true,
-    autoplay: true,
-    path: 'data.json'
-  });
-  anim.addEventListener('data_failed', () => {
-    // If data.json fetch fails, hide the wrap silently
+  if(!wrap) return;
+  // Wait for lottie library (CDN may be slow)
+  let tries = 0;
+  while(typeof lottie === 'undefined' && tries++ < 20){
+    await new Promise(r => setTimeout(r, 150));
+  }
+  if(typeof lottie === 'undefined'){ wrap.style.display='none'; return; }
+
+  try {
+    const res = await fetch('data.json');
+    if(!res.ok) throw new Error('data.json not found');
+    const animData = await res.json();
+    lottie.loadAnimation({
+      container: wrap,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      animationData: animData
+    });
+  } catch(e){
+    console.warn('Lottie load failed:', e);
     wrap.style.display = 'none';
-  });
-})();
+  }
+}
+initLottie();
 
 /* ── Service Worker ── */
 if('serviceWorker' in navigator && location.protocol !== 'file:'){
