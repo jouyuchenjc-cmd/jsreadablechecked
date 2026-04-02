@@ -20,16 +20,12 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 .p1-title { font-size: 22px; font-weight: 600; color: #2C3A4A; margin-bottom: 4px; }
 .p1-sub   { font-size: 14px; color: #5A6A7A; margin-bottom: 20px; }
 
-/* Font selector wrapper — relative so lottie can sit top-right */
-.font-selector-wrap {
-  position: relative; margin-bottom: 24px;
-}
+.font-selector-wrap { position: relative; margin-bottom: 24px; }
 #lottieCellWrap {
   position: absolute; top: -100px; right: 15px;
   width: 100px; height: 100px; pointer-events: none; z-index: 1;
 }
 
-/* Font selector */
 .font-selector-row {
   display: flex; align-items: center; gap: 10px;
   background: #F5F2EC; border: 1.5px solid #D9D3C7; border-radius: 12px; padding: 12px 16px;
@@ -45,7 +41,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 .font-btn:hover { border-color: #548EB8; color: #2C3A4A; }
 .font-btn.active { background: #548EB8; color: #fff; border-color: #548EB8; }
 
-/* Color rows */
 .color-btn-list { display: flex; flex-direction: column; gap: 12px; }
 .color-btn {
   display: flex; align-items: center; gap: 16px;
@@ -80,7 +75,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 .cb-hex-input:focus { border-color: #548EB8; }
 .cb-hex-input.visible { display: block; }
 
-/* Page 1 footer */
 .p1-footer { margin-top: 28px; display: flex; gap: 10px; justify-content: center; }
 .p1-copyright { margin-top: 16px; font-size: 11px; color: #9AABB8; letter-spacing: 0.04em; text-align: center; }
 
@@ -116,7 +110,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 .btn-download:hover { background: rgba(255,255,255,0.2); color: #fff; }
 .p2-hint { font-size: 12px; color: rgba(255,255,255,0.5); flex: 1; text-align: center; }
 
-/* Page 2 content */
 .p2-content { flex: 1; display: flex; flex-direction: column; padding: 48px 56px; gap: 18px; }
 
 .p2-above-text {
@@ -163,66 +156,94 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .p2-cta-btn:hover { outline: 2px dashed rgba(255,255,255,0.5) !important; }
 
-.p2-cta-ghost {
-  display: inline-flex; align-items: center; gap: 8px; border-radius: 10px;
-  padding: 9px 19px; cursor: pointer; font-size: 14px; font-weight: 700;
-  letter-spacing: 0.05em; line-height: 1; background: transparent;
-  border: 1.5px solid; transition: opacity 0.2s, outline 0.12s; outline: none;
-}
-.p2-cta-ghost:hover { opacity: 0.75; }
-
 /* Contrast bar */
 .p2-contrast {
   padding: 12px 28px 8px; display: flex; gap: 16px; flex-wrap: wrap;
   background: #4f586d; flex-shrink: 0; align-items: flex-start;
 }
 .contrast-group { display: flex; flex-direction: column; gap: 5px; }
-.contrast-group-label {
-  font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4);
-  letter-spacing: 0.08em;
-}
+.contrast-group-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; }
 .c-chip {
   display: inline-flex; align-items: center; gap: 6px;
   background: rgba(0,0,0,0.28); border-radius: 8px;
-  padding: 4px 10px; font-size: 12px; font-weight: 600; color: #fff;
+  padding: 4px 10px; font-size: 12px; font-weight: 500; color: #fff;
 }
 .cdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-/* Copyright */
+/* ★ 版權置中 */
 .p2-copyright {
   background: #4f586d; padding: 0 28px 12px;
   font-size: 11px; color: rgba(255,255,255,0.28);
-  letter-spacing: 0.04em; text-align: right; flex-shrink: 0;
+  letter-spacing: 0.04em; text-align: center; flex-shrink: 0;
 }
 
-/* ── Picker popup ── */
+/* ══════════════════════════════════════════════════
+   HSB PICKER POPUP
+══════════════════════════════════════════════════ */
 .picker-popup {
-  position: fixed; z-index: 9999; background: #F5F2EC; border-radius: 14px;
+  position: fixed; z-index: 9999;
+  background: #F5F2EC; border-radius: 16px;
   box-shadow: 0 12px 40px rgba(44,58,74,0.28); border: 1px solid #D9D3C7;
-  padding: 18px; width: 240px; display: none;
+  padding: 18px 18px 14px; width: 272px; display: none;
 }
 .picker-popup.open { display: block; animation: popIn 0.13s ease; }
 @keyframes popIn {
   from { opacity:0; transform:scale(0.93) translateY(-4px); }
   to   { opacity:1; transform:scale(1) translateY(0); }
 }
+
 .pp-title {
   font-size: 11px; font-weight: 700; color: #9AABB8; letter-spacing: 0.07em;
   margin-bottom: 12px; text-transform: uppercase;
 }
-.pp-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.pp-sw {
-  width: 38px; height: 38px; border-radius: 8px; border: 1.5px solid #D9D3C7;
-  flex-shrink: 0; position: relative; overflow: hidden; cursor: pointer;
+
+/* Color preview strip */
+.pp-preview-strip {
+  width: 100%; height: 40px; border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.10); margin-bottom: 14px;
+  transition: background 0.1s;
 }
-.pp-sw input { position: absolute; inset:-6px; opacity:0; width:200%; height:200%; cursor:pointer; }
+
+/* HSB sliders */
+.hsb-sliders { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.hsb-row { display: flex; align-items: center; gap: 8px; }
+.hsb-label {
+  font-size: 11px; font-weight: 700; color: #9AABB8;
+  width: 14px; flex-shrink: 0; letter-spacing: 0.04em;
+}
+.hsb-slider {
+  flex: 1; height: 6px; border-radius: 3px;
+  -webkit-appearance: none; appearance: none;
+  outline: none; cursor: pointer; border: none;
+}
+.hsb-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; border: 2px solid rgba(44,58,74,0.25);
+  box-shadow: 0 1px 4px rgba(44,58,74,0.2); cursor: pointer;
+}
+.hsb-slider::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; border: 2px solid rgba(44,58,74,0.25);
+  box-shadow: 0 1px 4px rgba(44,58,74,0.2); cursor: pointer; border: 2px solid rgba(44,58,74,0.25);
+}
+.hsb-val {
+  font-size: 12px; font-weight: 600; color: #2C3A4A;
+  width: 32px; text-align: right; flex-shrink: 0;
+}
+
+/* Hex row */
+.pp-hex-row {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.pp-hex-label { font-size: 11px; font-weight: 700; color: #9AABB8; width: 28px; flex-shrink: 0; }
 .pp-hex-in {
   flex: 1; background: #EDE8DF; border: 1.5px solid #D9D3C7; border-radius: 8px;
-  padding: 8px 10px; font-size: 13px; font-weight: 600; color: #2C3A4A;
-  font-family: 'Noto Sans TC', sans-serif; outline: none; letter-spacing: 0.04em; width: 0;
+  padding: 7px 10px; font-size: 13px; font-weight: 600; color: #2C3A4A;
+  font-family: 'Noto Sans TC', sans-serif; outline: none; letter-spacing: 0.06em;
 }
 .pp-hex-in:focus { border-color: #548EB8; }
-.pp-preview { height: 26px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); margin-bottom: 12px; }
+
 .pp-btns { display: flex; gap: 8px; }
 .pp-cancel {
   flex: 1; font-family: 'Noto Sans TC', sans-serif; font-size: 13px; font-weight: 600;
@@ -279,7 +300,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 
   <div class="color-btn-list">
 
-    <div class="color-btn" onclick="toggleHexInput('bg', event)">
+    <div class="color-btn" onclick="openPickerFromBtn('bg', event)">
       <div class="cb-swatch" id="sw-bg">
         <input type="color" id="pick-bg" value="#EDE8DF" oninput="onPick('bg',this.value)" onclick="event.stopPropagation()">
       </div>
@@ -290,12 +311,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
       </div>
       <div class="cb-hex-wrap">
         <div class="cb-hex" id="disp-bg">#EDE8DF</div>
-        <input class="cb-hex-input" id="hexin-bg" type="text" maxlength="7" placeholder="#000000"
-               oninput="onDirectHex('bg',this.value)" onclick="event.stopPropagation()">
       </div>
     </div>
 
-    <div class="color-btn" onclick="toggleHexInput('hl', event)">
+    <div class="color-btn" onclick="openPickerFromBtn('hl', event)">
       <div class="cb-swatch" id="sw-hl">
         <input type="color" id="pick-hl" value="#548EB8" oninput="onPick('hl',this.value)" onclick="event.stopPropagation()">
       </div>
@@ -306,12 +325,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
       </div>
       <div class="cb-hex-wrap">
         <div class="cb-hex" id="disp-hl">#548EB8</div>
-        <input class="cb-hex-input" id="hexin-hl" type="text" maxlength="7" placeholder="#000000"
-               oninput="onDirectHex('hl',this.value)" onclick="event.stopPropagation()">
       </div>
     </div>
 
-    <div class="color-btn" onclick="toggleHexInput('tx', event)">
+    <div class="color-btn" onclick="openPickerFromBtn('tx', event)">
       <div class="cb-swatch" id="sw-tx">
         <input type="color" id="pick-tx" value="#2C3A4A" oninput="onPick('tx',this.value)" onclick="event.stopPropagation()">
       </div>
@@ -322,12 +339,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
       </div>
       <div class="cb-hex-wrap">
         <div class="cb-hex" id="disp-tx">#2C3A4A</div>
-        <input class="cb-hex-input" id="hexin-tx" type="text" maxlength="7" placeholder="#000000"
-               oninput="onDirectHex('tx',this.value)" onclick="event.stopPropagation()">
       </div>
     </div>
 
-    <div class="color-btn" onclick="toggleHexInput('bt', event)">
+    <div class="color-btn" onclick="openPickerFromBtn('bt', event)">
       <div class="cb-swatch" id="sw-bt">
         <input type="color" id="pick-bt" value="#FFFFFF" oninput="onPick('bt',this.value)" onclick="event.stopPropagation()">
       </div>
@@ -338,12 +353,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
       </div>
       <div class="cb-hex-wrap">
         <div class="cb-hex" id="disp-bt">#FFFFFF</div>
-        <input class="cb-hex-input" id="hexin-bt" type="text" maxlength="7" placeholder="#000000"
-               oninput="onDirectHex('bt',this.value)" onclick="event.stopPropagation()">
       </div>
     </div>
 
-    <div class="color-btn" onclick="toggleHexInput('ct', event)">
+    <div class="color-btn" onclick="openPickerFromBtn('ct', event)">
       <div class="cb-swatch" id="sw-ct">
         <input type="color" id="pick-ct" value="#C66240" oninput="onPick('ct',this.value)" onclick="event.stopPropagation()">
       </div>
@@ -354,8 +367,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
       </div>
       <div class="cb-hex-wrap">
         <div class="cb-hex" id="disp-ct">#C66240</div>
-        <input class="cb-hex-input" id="hexin-ct" type="text" maxlength="7" placeholder="#000000"
-               oninput="onDirectHex('ct',this.value)" onclick="event.stopPropagation()">
       </div>
     </div>
 
@@ -389,26 +400,21 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 
   <div class="p2-content" id="p2Content">
 
-    <div id="p2AboveText" class="p2-above-text"
-         title="點擊修改背景文字色" onclick="openPicker(event,'tx')">
+    <div id="p2AboveText" class="p2-above-text" title="點擊修改背景文字色" onclick="openPicker(event,'tx')">
       這裡是標題
     </div>
 
-    <div id="p2Subtitle" class="p2-subtitle"
-         title="點擊修改背景文字色" onclick="openPicker(event,'tx')">
+    <div id="p2Subtitle" class="p2-subtitle" title="點擊修改背景文字色" onclick="openPicker(event,'tx')">
       這是副標題
     </div>
 
-    <div id="p2Block" class="p2-block"
-         title="點擊修改色塊色" onclick="openPicker(event,'hl')">
+    <div id="p2Block" class="p2-block" title="點擊修改色塊色" onclick="openPicker(event,'hl')">
       <div id="p2BlockBold" class="p2-block-text-bold"
-           title="點擊修改色塊文字色"
-           onclick="event.stopPropagation(); openPicker(event,'bt')">
+           title="點擊修改色塊文字色" onclick="event.stopPropagation(); openPicker(event,'bt')">
         請感受易讀性
       </div>
       <div id="p2BlockMedium" class="p2-block-text-medium"
-           title="點擊修改色塊文字色"
-           onclick="event.stopPropagation(); openPicker(event,'bt')">
+           title="點擊修改色塊文字色" onclick="event.stopPropagation(); openPicker(event,'bt')">
         細一點的文字在這
       </div>
     </div>
@@ -419,8 +425,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
     </div>
 
     <div>
-      <button id="p2CtaBtn" class="p2-cta-btn"
-              title="點擊修改 CTA 顏色" onclick="openPicker(event,'ct')">
+      <button id="p2CtaBtn" class="p2-cta-btn" title="點擊修改 CTA 顏色" onclick="openPicker(event,'ct')">
         <span id="p2CtaText">閱讀更多</span>
         <span id="p2CtaArrow">→</span>
       </button>
@@ -429,21 +434,48 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   </div>
 
   <div class="p2-contrast" id="p2Contrast"></div>
+  <!-- ★ 版權置中 -->
   <div class="p2-copyright">© Triple.Cell_illustration 細胞日常插畫</div>
 
 </div>
 </div>
 
-<!-- Picker popup -->
+<!-- ══ HSB Picker Popup ══ -->
 <div class="picker-popup" id="pickerPopup">
   <div class="pp-title" id="ppTitle">修改顏色</div>
-  <div class="pp-row">
-    <div class="pp-sw" id="ppSw">
-      <input type="color" id="ppColor" oninput="onPopupColor(this.value)">
+
+  <div class="pp-preview-strip" id="ppStrip"></div>
+
+  <div class="hsb-sliders">
+    <!-- Hue -->
+    <div class="hsb-row">
+      <span class="hsb-label">H</span>
+      <input class="hsb-slider" id="slH" type="range" min="0" max="359" step="1" value="0"
+             oninput="onHsbSlide()">
+      <span class="hsb-val" id="valH">0</span>
     </div>
-    <input class="pp-hex-in" id="ppHex" type="text" maxlength="7" oninput="onPopupHex(this.value)" placeholder="#000000">
+    <!-- Saturation -->
+    <div class="hsb-row">
+      <span class="hsb-label">S</span>
+      <input class="hsb-slider" id="slS" type="range" min="0" max="100" step="1" value="0"
+             oninput="onHsbSlide()">
+      <span class="hsb-val" id="valS">0%</span>
+    </div>
+    <!-- Brightness -->
+    <div class="hsb-row">
+      <span class="hsb-label">B</span>
+      <input class="hsb-slider" id="slB" type="range" min="0" max="100" step="1" value="100"
+             oninput="onHsbSlide()">
+      <span class="hsb-val" id="valB">100%</span>
+    </div>
   </div>
-  <div class="pp-preview" id="ppPreview"></div>
+
+  <div class="pp-hex-row">
+    <span class="pp-hex-label">HEX</span>
+    <input class="pp-hex-in" id="ppHex" type="text" maxlength="7" placeholder="#000000"
+           oninput="onPopupHex(this.value)">
+  </div>
+
   <div class="pp-btns">
     <button class="pp-cancel" onclick="closePicker()">取消</button>
     <button class="pp-ok" id="ppOk" onclick="closePicker()">完成</button>
@@ -458,11 +490,70 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 </div>
 
 <script>
+/* ══════════════════════════════════════════════
+   HSB ↔ HEX conversion helpers
+══════════════════════════════════════════════ */
+function hsbToHex(h, s, b) {
+  // h 0-359, s 0-100, b 0-100
+  s /= 100; b /= 100;
+  const k = n => (n + h / 60) % 6;
+  const f = n => b - b * s * Math.max(0, Math.min(k(n), 4 - k(n), 1));
+  const toHex = x => Math.round(x * 255).toString(16).padStart(2, '0');
+  return '#' + toHex(f(5)) + toHex(f(3)) + toHex(f(1));
+}
+
+function hexToHsb(hex) {
+  let r = parseInt(hex.slice(1,3),16)/255;
+  let g = parseInt(hex.slice(3,5),16)/255;
+  let b = parseInt(hex.slice(5,7),16)/255;
+  const max = Math.max(r,g,b), min = Math.min(r,g,b), d = max - min;
+  let h = 0, s = max === 0 ? 0 : d / max, bv = max;
+  if (d !== 0) {
+    if      (max === r) h = ((g - b) / d + 6) % 6;
+    else if (max === g) h = (b - r) / d + 2;
+    else                h = (r - g) / d + 4;
+    h *= 60;
+  }
+  return { h: Math.round(h), s: Math.round(s * 100), b: Math.round(bv * 100) };
+}
+
+function isHex(h){ return /^#[0-9A-Fa-f]{6}$/.test(h); }
+
+/* Hue gradient for H slider */
+function buildHueGrad() {
+  const stops = Array.from({length:7}, (_,i) => `hsl(${i*60},100%,50%) ${i*100/6}%`).join(',');
+  return `linear-gradient(to right, ${stops})`;
+}
+
+/* S slider gradient (grey → full-saturation hue) */
+function buildSatGrad(h, b) {
+  const lo = hsbToHex(h, 0, b);
+  const hi = hsbToHex(h, 100, b);
+  return `linear-gradient(to right, ${lo}, ${hi})`;
+}
+
+/* B slider gradient (black → full-brightness hue+sat) */
+function buildBriGrad(h, s) {
+  const hi = hsbToHex(h, s, 100);
+  return `linear-gradient(to right, #000, ${hi})`;
+}
+
+function updateSliderTracks() {
+  const h = +document.getElementById('slH').value;
+  const s = +document.getElementById('slS').value;
+  const b = +document.getElementById('slB').value;
+  document.getElementById('slH').style.background = buildHueGrad();
+  document.getElementById('slS').style.background = buildSatGrad(h, b);
+  document.getElementById('slB').style.background = buildBriGrad(h, s);
+}
+
+/* ══════════════════════════════════════════════
+   App state
+══════════════════════════════════════════════ */
 const LABELS = { bg:'背景色', hl:'Highlight 色塊', tx:'背景文字色', bt:'色塊文字色', ct:'CTA 按鈕色' };
 let c = { bg:'#EDE8DF', hl:'#548EB8', tx:'#2C3A4A', bt:'#FFFFFF', ct:'#C66240' };
 let popupKey = null;
 let currentFont = 'sans';
-
 const FONTS = {
   sans:  "'Noto Sans TC', sans-serif",
   serif: "'Noto Serif TC', serif",
@@ -470,7 +561,6 @@ const FONTS = {
 };
 const P2_TEXT_IDS = ['p2AboveText','p2Subtitle','p2BlockBold','p2BlockMedium','p2CtaText','p2BelowMedium','p2BelowBold'];
 
-function isHex(h){ return /^#[0-9A-Fa-f]{6}$/.test(h); }
 function hexRgb(h){ return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]; }
 function lum([r,g,b]){ const s=v=>{v/=255;return v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4;}; return 0.2126*s(r)+0.7152*s(g)+0.0722*s(b); }
 function contrast(h1,h2){ const a=lum(hexRgb(h1)),b=lum(hexRgb(h2)); return (Math.max(a,b)+0.05)/(Math.min(a,b)+0.05); }
@@ -483,48 +573,26 @@ function setFont(type) {
   P2_TEXT_IDS.forEach(id => { const el=document.getElementById(id); if(el) el.style.fontFamily=f; });
 }
 
-function toggleHexInput(key, e) {
-  e.stopPropagation();
-  const input = document.getElementById('hexin-'+key);
-  document.querySelectorAll('.cb-hex-input').forEach(inp => { if(inp!==input) inp.classList.remove('visible'); });
-  input.classList.toggle('visible');
-  if(input.classList.contains('visible')){ input.value=c[key].toUpperCase(); setTimeout(()=>input.focus(),10); }
-}
-
-function onDirectHex(key, val) {
-  val = val.startsWith('#') ? val : '#'+val;
-  if(!isHex(val)) return;
-  c[key]=val;
-  document.getElementById('sw-'+key).style.background=val;
-  document.getElementById('disp-'+key).textContent=val.toUpperCase();
-  document.getElementById('pick-'+key).value=val;
-  syncPage2();
-}
-
 function onPick(k, val){
-  c[k]=val;
-  document.getElementById('sw-'+k).style.background=val;
-  document.getElementById('disp-'+k).textContent=val.toUpperCase();
-  const hexin=document.getElementById('hexin-'+k);
-  if(hexin&&hexin.classList.contains('visible')) hexin.value=val.toUpperCase();
+  c[k] = val;
+  document.getElementById('sw-'+k).style.background = val;
+  document.getElementById('disp-'+k).textContent = val.toUpperCase();
 }
 
 function syncPage2(){
-  document.getElementById('p2bg').style.background=c.bg;
-  document.getElementById('p2AboveText').style.color=c.tx;
-  document.getElementById('p2Subtitle').style.color=c.tx;
-  document.getElementById('p2Block').style.background=c.hl;
-  document.getElementById('p2BlockBold').style.color=c.bt;
-  document.getElementById('p2BlockMedium').style.color=c.bt;
-  document.getElementById('p2CtaBtn').style.background=c.ct;
-  // Auto-pick whichever of bt or tx has better contrast against ct
+  document.getElementById('p2bg').style.background = c.bg;
+  document.getElementById('p2AboveText').style.color = c.tx;
+  document.getElementById('p2Subtitle').style.color = c.tx;
+  document.getElementById('p2Block').style.background = c.hl;
+  document.getElementById('p2BlockBold').style.color = c.bt;
+  document.getElementById('p2BlockMedium').style.color = c.bt;
+  document.getElementById('p2CtaBtn').style.background = c.ct;
   const ctaBestCol = contrast(c.bt,c.ct) >= contrast(c.tx,c.ct) ? c.bt : c.tx;
-  document.getElementById('p2CtaText').style.color=ctaBestCol;
-  document.getElementById('p2CtaArrow').style.color=ctaBestCol;
-  document.getElementById('p2BelowMedium').style.color=c.tx;
-  document.getElementById('p2BelowBold').style.color=c.tx;
-  // pp-ok button tracks CTA color
-  document.getElementById('ppOk').style.background=c.ct;
+  document.getElementById('p2CtaText').style.color = ctaBestCol;
+  document.getElementById('p2CtaArrow').style.color = ctaBestCol;
+  document.getElementById('p2BelowMedium').style.color = c.tx;
+  document.getElementById('p2BelowBold').style.color = c.tx;
+  document.getElementById('ppOk').style.background = c.ct;
 
   const rBgTx=contrast(c.tx,c.bg), rHlBt=contrast(c.bt,c.hl), rCtBt=contrast(c.bt,c.ct);
   const wBgTx=wcag(rBgTx), wHlBt=wcag(rHlBt), wCtBt=wcag(rCtBt);
@@ -558,135 +626,206 @@ function goPage1(){
   document.getElementById('page1').classList.add('active');
 }
 
-/* ── Picker ── */
-function openPicker(e, key){
-  e.stopPropagation();
-  popupKey=key;
-  const pp=document.getElementById('pickerPopup');
-  document.getElementById('ppTitle').textContent='修改：'+LABELS[key];
-  document.getElementById('ppColor').value=c[key];
-  document.getElementById('ppHex').value=c[key].toUpperCase();
-  document.getElementById('ppSw').style.background=c[key];
-  document.getElementById('ppPreview').style.background=c[key];
-  document.getElementById('ppOk').style.background=c.ct;
+/* ══════════════════════════════════════════════
+   HSB Picker open / interact
+══════════════════════════════════════════════ */
+function loadHsbFromHex(hex) {
+  const { h, s, b } = hexToHsb(hex);
+  document.getElementById('slH').value = h;
+  document.getElementById('slS').value = s;
+  document.getElementById('slB').value = b;
+  document.getElementById('valH').textContent = h;
+  document.getElementById('valS').textContent = s + '%';
+  document.getElementById('valB').textContent = b + '%';
+  updateSliderTracks();
+}
 
-  const PW=248, PH=200;
-  let x=e.clientX+14, y=e.clientY+14;
-  if(x+PW>window.innerWidth-8)  x=e.clientX-PW-8;
-  if(y+PH>window.innerHeight-8) y=e.clientY-PH-8;
-  if(x<8) x=8;
-  if(y<8) y=8;
-  pp.style.left=x+'px'; pp.style.top=y+'px';
+function onHsbSlide() {
+  const h = +document.getElementById('slH').value;
+  const s = +document.getElementById('slS').value;
+  const b = +document.getElementById('slB').value;
+  document.getElementById('valH').textContent = h;
+  document.getElementById('valS').textContent = s + '%';
+  document.getElementById('valB').textContent = b + '%';
+  const hex = hsbToHex(h, s, b);
+  document.getElementById('ppHex').value = hex.toUpperCase();
+  document.getElementById('ppStrip').style.background = hex;
+  updateSliderTracks();
+  if (popupKey) {
+    c[popupKey] = hex;
+    document.getElementById('sw-'+popupKey).style.background = hex;
+    document.getElementById('disp-'+popupKey).textContent = hex.toUpperCase();
+    // sync native color input too
+    const nativePick = document.getElementById('pick-'+popupKey);
+    if (nativePick) nativePick.value = hex;
+    syncPage2();
+  }
+}
+
+function onPopupHex(val) {
+  val = val.startsWith('#') ? val : '#' + val;
+  if (!isHex(val) || !popupKey) return;
+  c[popupKey] = val;
+  document.getElementById('ppStrip').style.background = val;
+  document.getElementById('sw-'+popupKey).style.background = val;
+  document.getElementById('disp-'+popupKey).textContent = val.toUpperCase();
+  const nativePick = document.getElementById('pick-'+popupKey);
+  if (nativePick) nativePick.value = val;
+  loadHsbFromHex(val);
+  syncPage2();
+}
+
+function positionPopup(e) {
+  const pp = document.getElementById('pickerPopup');
+  const PW = 280, PH = 320;
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + PW > window.innerWidth - 8)  x = e.clientX - PW - 8;
+  if (y + PH > window.innerHeight - 8) y = e.clientY - PH - 8;
+  if (x < 8) x = 8;
+  if (y < 8) y = 8;
+  pp.style.left = x + 'px';
+  pp.style.top  = y + 'px';
+}
+
+// Called from page-2 element clicks
+function openPicker(e, key) {
+  e.stopPropagation();
+  popupKey = key;
+  const pp = document.getElementById('pickerPopup');
+  document.getElementById('ppTitle').textContent = '修改：' + LABELS[key];
+  document.getElementById('ppHex').value = c[key].toUpperCase();
+  document.getElementById('ppStrip').style.background = c[key];
+  document.getElementById('ppOk').style.background = c.ct;
+  loadHsbFromHex(c[key]);
+  positionPopup(e);
   pp.classList.add('open');
 }
-function onPopupColor(val){
-  if(!popupKey) return;
-  c[popupKey]=val;
-  document.getElementById('ppHex').value=val.toUpperCase();
-  document.getElementById('ppSw').style.background=val;
-  document.getElementById('ppPreview').style.background=val;
-  onPick(popupKey,val); syncPage2();
+
+// Called from page-1 color rows
+function openPickerFromBtn(key, e) {
+  e.stopPropagation();
+  popupKey = key;
+  const pp = document.getElementById('pickerPopup');
+  document.getElementById('ppTitle').textContent = '修改：' + LABELS[key];
+  document.getElementById('ppHex').value = c[key].toUpperCase();
+  document.getElementById('ppStrip').style.background = c[key];
+  document.getElementById('ppOk').style.background = c.ct;
+  loadHsbFromHex(c[key]);
+
+  // Position near the clicked row
+  const rect = e.currentTarget.getBoundingClientRect();
+  const PW = 280;
+  let x = rect.right + 12;
+  let y = rect.top;
+  if (x + PW > window.innerWidth - 8) x = rect.left - PW - 12;
+  if (x < 8) x = 8;
+  if (y + 320 > window.innerHeight - 8) y = window.innerHeight - 328;
+  if (y < 8) y = 8;
+  pp.style.left = x + 'px';
+  pp.style.top  = y + 'px';
+  pp.classList.add('open');
 }
-function onPopupHex(val){
-  val=val.startsWith('#')?val:'#'+val;
-  if(!isHex(val)||!popupKey) return;
-  c[popupKey]=val;
-  document.getElementById('ppColor').value=val;
-  document.getElementById('ppSw').style.background=val;
-  document.getElementById('ppPreview').style.background=val;
-  onPick(popupKey,val); syncPage2();
-}
+
 function closePicker(){
   document.getElementById('pickerPopup').classList.remove('open');
-  popupKey=null;
+  popupKey = null;
 }
-document.addEventListener('click', e=>{
-  if(!e.target.closest('.picker-popup')&&!e.target.closest('.cb-hex-wrap')){
-    document.querySelectorAll('.cb-hex-input').forEach(inp=>inp.classList.remove('visible'));
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.picker-popup') && !e.target.closest('.color-btn')) {
     closePicker();
   }
 });
 
-/* ── Canvas-based export ── */
+/* ══════════════════════════════════════════════
+   Canvas export  ★ 修正：contrast 高度計算
+══════════════════════════════════════════════ */
 async function downloadImage(){
   closePicker();
-  const overlay=document.getElementById('dlOverlay');
+  const overlay = document.getElementById('dlOverlay');
   overlay.classList.add('show');
-  await new Promise(r=>setTimeout(r,80));
+  await new Promise(r => setTimeout(r, 80));
 
   try {
-    const DPR=2, W=900, PAD=48;
-    const fontFam=FONTS[currentFont].split(',')[0].replace(/'/g,'').trim();
+    const DPR = 2, W = 900, PAD = 48;
+    const fontFam = FONTS[currentFont].split(',')[0].replace(/'/g,'').trim();
 
-    // helpers (no canvas yet, define after)
     function buildCanvas(H){
-      const cv=document.createElement('canvas');
-      cv.width=W*DPR; cv.height=H*DPR;
-      const ctx=cv.getContext('2d');
-      ctx.scale(DPR,DPR);
+      const cv = document.createElement('canvas');
+      cv.width = W * DPR; cv.height = H * DPR;
+      const ctx = cv.getContext('2d');
+      ctx.scale(DPR, DPR);
 
-      const rr=(x,y,w,h,r)=>{
+      const rr = (x,y,w,h,r) => {
         ctx.beginPath();
         ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
         ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
         ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
         ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
       };
-      const fillRR=(x,y,w,h,r,col)=>{ ctx.fillStyle=col; rr(x,y,w,h,r); ctx.fill(); };
-      const strokeRR=(x,y,w,h,r,col,lw=1)=>{ ctx.strokeStyle=col; ctx.lineWidth=lw; rr(x,y,w,h,r); ctx.stroke(); };
-      const txt=(t,x,y,size,weight,col,align='left',fam)=>{
-        ctx.fillStyle=col;
-        ctx.font=`${weight} ${size}px '${fam||fontFam}', 'Noto Sans TC', sans-serif`;
-        ctx.textBaseline='middle'; ctx.textAlign=align; ctx.fillText(t,x,y);
+      const fillRR = (x,y,w,h,r,col) => { ctx.fillStyle=col; rr(x,y,w,h,r); ctx.fill(); };
+      const strokeRR = (x,y,w,h,r,col,lw=1) => { ctx.strokeStyle=col; ctx.lineWidth=lw; rr(x,y,w,h,r); ctx.stroke(); };
+      const txt = (t,x,y,size,weight,col,align='left',fam) => {
+        ctx.fillStyle = col;
+        ctx.font = `${weight} ${size}px '${fam||fontFam}', 'Noto Sans TC', sans-serif`;
+        ctx.textBaseline = 'middle'; ctx.textAlign = align; ctx.fillText(t,x,y);
       };
-      const dot=(x,y,r,col)=>{ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); };
+      const dot = (x,y,r,col) => { ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); };
 
-      return {cv,ctx,rr,fillRR,strokeRR,txt,dot};
+      return { cv, ctx, fillRR, strokeRR, txt, dot };
     }
 
-    // ── First pass: measure total height ──
-    const GAP=20, INNER_W=W-PAD*2;
+    const INNER_W = W - PAD * 2;
+    const GAP = 20;
 
-    // Section heights
-    const dateH   = 28;
-    const swatchH = 68;
-    const labelH  = 22;
-    // preview inner items
-    const hdH=44, subH=34, hlH=92, bodyH=30*2+12, ctaH=38, previewPad=36;
+    // Fixed section heights
+    const dateH        = 28;
+    const swatchH      = 68;
+    const labelH       = 22;
+    const previewPad   = 36;
+    const hdH          = 44;
+    const subH         = 34;
+    const hlH          = 92;
+    const bodyH        = 30 + 30 + 12;  // 2 rows + gap
+    const ctaH         = 38;
     const previewInnerH = previewPad + hdH + subH + hlH + bodyH + ctaH + previewPad;
-    // contrast row (single line)
-    const contrastH = 32;
-    const copyH     = 24;
+
+    // ★ Contrast section: 4 chips in a single row, no wrapping
+    // Each chip is 32px tall + label above (18px) = 50px total, plus padding
+    const contrastLabelH = 18;
+    const chipH          = 32;
+    const contrastRowH   = contrastLabelH + chipH; // 50px
+
+    const copyH = 24;
 
     const totalH = PAD + dateH + GAP
                  + swatchH + GAP
                  + labelH
                  + previewInnerH + GAP
-                 + contrastH + GAP
+                 + contrastRowH + GAP
                  + copyH + PAD;
 
-    // ── Draw ──
-    const {cv,fillRR,strokeRR,txt,dot} = buildCanvas(totalH);
+    const { cv, fillRR, strokeRR, txt, dot } = buildCanvas(totalH);
 
     // Card BG
-    fillRR(0,0,W,totalH,20,'#1e2530');
+    fillRR(0, 0, W, totalH, 20, '#1e2530');
 
     let y = PAD;
 
-    // Date
+    // Date header
     txt(`色票匯出 · ${new Date().toLocaleDateString('zh-TW')}`, PAD, y+dateH/2, 11, 700, 'rgba(255,255,255,0.38)', 'left', 'Noto Sans TC');
     y += dateH + GAP;
 
-    // Swatches
-    const swDefs=[{k:'bg',name:'背景色'},{k:'tx',name:'文字色'},{k:'hl',name:'色塊色'},{k:'bt',name:'色塊文字'},{k:'ct',name:'CTA'}];
-    const swW=Math.floor((INNER_W - 16*4) / 5);
-    swDefs.forEach(({k,name},i)=>{
-      const sx=PAD+i*(swW+16);
-      fillRR(sx,y,swW,swatchH,10,'rgba(255,255,255,0.07)');
-      fillRR(sx+12,y+12,36,36,8,c[k]);
-      strokeRR(sx+12,y+12,36,36,8,'rgba(255,255,255,0.15)');
-      txt(name,       sx+56, y+22, 10, 700, 'rgba(255,255,255,0.45)', 'left', 'Noto Sans TC');
-      txt(c[k].toUpperCase(), sx+56, y+42, 13, 700, '#fff', 'left', 'Noto Sans TC');
+    // Swatches row
+    const swDefs = [{k:'bg',name:'背景色'},{k:'tx',name:'文字色'},{k:'hl',name:'色塊色'},{k:'bt',name:'色塊文字'},{k:'ct',name:'CTA'}];
+    const swW = Math.floor((INNER_W - 16*4) / 5);
+    swDefs.forEach(({k,name},i) => {
+      const sx = PAD + i*(swW+16);
+      fillRR(sx, y, swW, swatchH, 10, 'rgba(255,255,255,0.07)');
+      fillRR(sx+12, y+12, 36, 36, 8, c[k]);
+      strokeRR(sx+12, y+12, 36, 36, 8, 'rgba(255,255,255,0.15)');
+      txt(name,             sx+56, y+22, 10, 700, 'rgba(255,255,255,0.45)', 'left', 'Noto Sans TC');
+      txt(c[k].toUpperCase(), sx+56, y+42, 13, 700, '#fff',                'left', 'Noto Sans TC');
     });
     y += swatchH + GAP;
 
@@ -694,125 +833,127 @@ async function downloadImage(){
     txt('預覽', PAD, y+labelH/2, 10, 700, 'rgba(255,255,255,0.32)', 'left', 'Noto Sans TC');
     y += labelH;
 
-    // Preview card BG
+    // Preview card
     const cardY = y;
     fillRR(PAD, cardY, INNER_W, previewInnerH, 14, c.bg);
 
     let iy = cardY + previewPad;
     const ix = PAD + previewPad;
-    const iw = INNER_W - previewPad*2;
+    const iw = INNER_W - previewPad * 2;
 
-    // Heading
-    txt('這裡是標題', ix, iy+22, 30, 900, c.tx);
+    txt('這裡是標題',                 ix, iy+22, 30, 900, c.tx);
     iy += hdH;
-
-    // Subtitle
-    txt('這是副標題', ix, iy+17, 22, 700, c.tx);
+    txt('這是副標題',                 ix, iy+17, 22, 700, c.tx);
     iy += subH;
-
-    // Highlight block
     fillRR(ix, iy, iw, hlH, 12, c.hl);
-    txt('請感受易讀性',        ix+24, iy+28, 18, 700, c.bt);
+    txt('請感受易讀性',       ix+24, iy+28, 18, 700, c.bt);
     txt('細一點的文字在這', ix+24, iy+62, 18, 500, c.bt);
     iy += hlH + 12;
-
-    // Body texts
     txt('這是內文小字',              ix+6, iy+15, 18, 500, c.tx);
     iy += 30;
     txt('這是稍微粗一點的內文小字', ix+6, iy+15, 18, 700, c.tx);
     iy += 30 + 12;
 
-    // CTA button — auto-pick best contrast text color
-    const ctaW=140;
+    const ctaW = 140;
     const ctaBestCol = contrast(c.bt,c.ct) >= contrast(c.tx,c.ct) ? c.bt : c.tx;
     fillRR(ix, iy, ctaW, ctaH, 9, c.ct);
     txt('閱讀更多 →', ix+ctaW/2, iy+ctaH/2, 14, 700, ctaBestCol, 'center');
-    iy += ctaH + previewPad;
 
     y = cardY + previewInnerH + GAP;
 
-    // Contrast chips
-    const pairs=[
-      {label:'背景 / 標題', r:contrast(c.tx,c.bg)},
-      {label:'背景 / 內文', r:contrast(c.tx,c.bg)},
-      {label:'色塊 / 文字', r:contrast(c.bt,c.hl)},
-      {label:'CTA / 文字',  r:contrast(c.bt,c.ct)},
+    // ★ Contrast row — 4 chips side by side, pre-measured width
+    const pairs = [
+      { label:'背景 / 標題', r:contrast(c.tx,c.bg) },
+      { label:'背景 / 內文', r:contrast(c.tx,c.bg) },
+      { label:'色塊 / 文字', r:contrast(c.bt,c.hl) },
+      { label:'CTA / 文字',  r:contrast(c.bt,c.ct) },
     ];
-    let cx=PAD;
-    pairs.forEach(({label,r})=>{
-      const w=wcag(r);
-      // measure chip width
-      const chipTxt=`${label}  ${r.toFixed(2)}:1  ${w.t}`;
-      const chipW = chipTxt.length*8.5 + 32;
-      fillRR(cx,y,chipW,contrastH,8,'rgba(255,255,255,0.08)');
-      dot(cx+14,y+contrastH/2,4,w.col);
-      txt(chipTxt, cx+26, y+contrastH/2, 11, 600, 'rgba(255,255,255,0.85)', 'left', 'Noto Sans TC');
-      cx += chipW+10;
+
+    // Measure chip widths (approx 7.5px per char + padding)
+    const chipGap = 12;
+    const chipPadH = 24; // horizontal padding inside chip
+    const CHIP_H = chipH;
+
+    // Draw section label
+    txt('對比度', PAD, y + contrastLabelH/2, 10, 700, 'rgba(255,255,255,0.32)', 'left', 'Noto Sans TC');
+    y += contrastLabelH;
+
+    // Pre-measure chip widths using a temporary canvas (unscaled, so no DPR)
+    const measCanvas = document.createElement('canvas');
+    const measCtx = measCanvas.getContext('2d');
+    measCtx.font = `500 11px 'Noto Sans TC', sans-serif`;
+
+    let cx = PAD;
+    pairs.forEach(({label,r}) => {
+      const w = wcag(r);
+      const chipContent = `${label}  ${r.toFixed(2)}:1  ${w.t}`;
+      const textW = measCtx.measureText(chipContent).width;
+      const chipW = Math.ceil(textW) + 20 + chipPadH; // 20 = dot(8) + gap(12)
+
+      fillRR(cx, y, chipW, CHIP_H, 8, 'rgba(255,255,255,0.08)');
+      dot(cx + 14, y + CHIP_H/2, 4, w.col);
+      // txt() uses the already-scaled ctx, coordinates are in logical px
+      txt(chipContent, cx + 26, y + CHIP_H/2, 11, 500, 'rgba(255,255,255,0.85)', 'left', 'Noto Sans TC');
+
+      cx += chipW + chipGap;
     });
-    y += contrastH + GAP;
+
+    y += CHIP_H + GAP;
 
     // Copyright
-    txt('© Triple.Cell_illustration 細胞日常插畫', W-PAD, y+copyH/2, 11, 400, 'rgba(255,255,255,0.28)', 'right', 'Noto Sans TC');
+    txt('© Triple.Cell_illustration 細胞日常插畫', W/2, y+copyH/2, 11, 400, 'rgba(255,255,255,0.28)', 'center', 'Noto Sans TC');
 
     // Export
     await new Promise((resolve, reject) => {
       cv.toBlob(blob => {
-        if(!blob){ reject(new Error('toBlob 失敗')); return; }
+        if (!blob){ reject(new Error('toBlob 失敗')); return; }
         try {
-          const url=URL.createObjectURL(blob);
-          const a=document.createElement('a');
-          a.download=`color-scheme-${Date.now()}.png`;
-          a.href=url;
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.download = `color-scheme-${Date.now()}.png`;
+          a.href = url;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          setTimeout(()=>URL.revokeObjectURL(url),3000);
+          setTimeout(() => URL.revokeObjectURL(url), 3000);
           resolve();
         } catch(e){ reject(e); }
-      },'image/png');
+      }, 'image/png');
     });
 
   } catch(err){
-    alert('匯出失敗：'+err.message);
+    alert('匯出失敗：' + err.message);
   } finally {
     overlay.classList.remove('show');
   }
 }
 
-/* ── Init ── */
-Object.keys(c).forEach(k=>document.getElementById('sw-'+k).style.background=c[k]);
-document.getElementById('ppOk').style.background=c.ct;
+/* ══ Init ══ */
+Object.keys(c).forEach(k => document.getElementById('sw-'+k).style.background = c[k]);
+document.getElementById('ppOk').style.background = c.ct;
+// Init hue slider gradient
+document.getElementById('slH').style.background = buildHueGrad();
 
-/* ── Lottie init ── */
+/* ══ Lottie ══ */
 async function initLottie(){
   const wrap = document.getElementById('lottieCellWrap');
   if(!wrap) return;
-  // Wait for lottie library (CDN may be slow)
   let tries = 0;
   while(typeof lottie === 'undefined' && tries++ < 20){
     await new Promise(r => setTimeout(r, 150));
   }
   if(typeof lottie === 'undefined'){ wrap.style.display='none'; return; }
-
   try {
     const res = await fetch('data.json');
     if(!res.ok) throw new Error('data.json not found');
     const animData = await res.json();
-    lottie.loadAnimation({
-      container: wrap,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      animationData: animData
-    });
+    lottie.loadAnimation({ container: wrap, renderer: 'svg', loop: true, autoplay: true, animationData: animData });
   } catch(e){
-    console.warn('Lottie load failed:', e);
     wrap.style.display = 'none';
   }
 }
 initLottie();
 
-/* ── Service Worker ── */
 if('serviceWorker' in navigator && location.protocol !== 'file:'){
   navigator.serviceWorker.register('sw.js')
     .then(reg => console.log('SW ok, scope:', reg.scope))
