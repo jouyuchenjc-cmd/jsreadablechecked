@@ -25,8 +25,8 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   position: relative; margin-bottom: 24px;
 }
 #lottieCellWrap {
-  position: absolute; top: -36px; right: -8px;
-  width: 64px; height: 64px; pointer-events: none; z-index: 1;
+  position: absolute; top: -51px; right: 15px;
+  width: 128px; height: 128px; pointer-events: none; z-index: 1;
 }
 
 /* Font selector */
@@ -84,10 +84,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 .p1-footer { margin-top: 28px; display: flex; gap: 10px; justify-content: center; }
 .p1-copyright { margin-top: 16px; font-size: 11px; color: #9AABB8; letter-spacing: 0.04em; text-align: center; }
 
-/* Lottie — page 1, natural colors */
-#lottieCellWrap {
-  width: 40px; height: 40px; flex-shrink: 0;
-}
 .btn {
   font-family: 'Noto Sans TC', sans-serif; font-size: 14px; font-weight: 600;
   border-radius: 10px; border: none; cursor: pointer; padding: 11px 22px;
@@ -601,158 +597,168 @@ document.addEventListener('click', e=>{
   }
 });
 
-/* ── Canvas-based export (no html2canvas) ── */
+/* ── Canvas-based export ── */
 async function downloadImage(){
   closePicker();
   const overlay=document.getElementById('dlOverlay');
   overlay.classList.add('show');
-
   await new Promise(r=>setTimeout(r,80));
 
   try {
-    const DPR=2;
-    const W=900, PAD=48;
-    // measure approx height
-    const SWATCH_H=56, PREVIEW_H=420, CONTRAST_H=70, INFO_H=36, COPY_H=28, GAP=20;
-    const H=PAD*2+INFO_H+GAP+SWATCH_H+GAP+PREVIEW_H+GAP+CONTRAST_H+GAP+COPY_H;
-
-    const cv=document.createElement('canvas');
-    cv.width=W*DPR; cv.height=H*DPR;
-    const ctx=cv.getContext('2d');
-    ctx.scale(DPR,DPR);
-
-    // helpers
-    const rr=(x,y,w,h,r)=>{
-      ctx.beginPath();
-      ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
-      ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-      ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-      ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-      ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
-      ctx.closePath();
-    };
-    const fillRR=(x,y,w,h,r,col)=>{ ctx.fillStyle=col; rr(x,y,w,h,r); ctx.fill(); };
-    const txt=(t,x,y,size,weight,col,align='left',fam='Noto Sans TC')=>{
-      ctx.fillStyle=col; ctx.font=`${weight} ${size}px '${fam}', sans-serif`;
-      ctx.textBaseline='middle'; ctx.textAlign=align; ctx.fillText(t,x,y);
-    };
-    const dot=(x,y,r,col)=>{ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); };
-
-    // BG
-    fillRR(0,0,W,H,20,'#1e2530');
-
-    let y=PAD;
-
-    // Date header
-    const dateStr=new Date().toLocaleDateString('zh-TW');
-    txt(`色票匯出 · ${dateStr}`,PAD,y+8,11,700,'rgba(255,255,255,0.38)');
-    y+=INFO_H+GAP;
-
-    // Swatches row
-    const swDefs=[
-      {k:'bg',name:'背景色'},{k:'tx',name:'文字色'},{k:'hl',name:'色塊色'},
-      {k:'bt',name:'色塊文字'},{k:'ct',name:'CTA'}
-    ];
-    const swW=Math.floor((W-PAD*2-16*4)/5), swH=SWATCH_H;
-    swDefs.forEach(({k,name},i)=>{
-      const sx=PAD+i*(swW+16);
-      fillRR(sx,y,swW,swH,10,'rgba(255,255,255,0.07)');
-      fillRR(sx+10,y+10,32,32,7,c[k]);
-      // border
-      ctx.strokeStyle='rgba(255,255,255,0.12)'; ctx.lineWidth=1;
-      rr(sx+10,y+10,32,32,7); ctx.stroke();
-      txt(name,sx+50,y+20,10,700,'rgba(255,255,255,0.4)');
-      txt(c[k].toUpperCase(),sx+50,y+36,13,700,'#fff');
-    });
-    y+=swH+GAP;
-
-    // Preview area label
-    txt('預覽',PAD,y+6,10,700,'rgba(255,255,255,0.32)');
-    y+=18;
-
-    // Preview bg card
-    const PBG_PAD=36, PBG_Y=y, INNER_W=W-PAD*2;
-    let iy=PBG_Y+PBG_PAD; // inner y tracker
-
-    // We'll draw the card background after measuring, so collect draw calls
-    const draws=[];
-
+    const DPR=2, W=900, PAD=48;
     const fontFam=FONTS[currentFont].split(',')[0].replace(/'/g,'').trim();
 
-    // Heading
-    ctx.font=`900 30px '${fontFam}', 'Noto Sans TC', sans-serif`;
-    draws.push(()=>{ txt('這裡是標題',PAD+PBG_PAD,iy+15,30,900,c.tx,'left',fontFam); });
-    iy+=44;
-    // Subtitle
-    draws.push(()=>{ txt('這是副標題',PAD+PBG_PAD,iy+13,22,700,c.tx,'left',fontFam); });
-    iy+=34+12;
-    // Highlight block
-    const HL_X=PAD+PBG_PAD, HL_W=INNER_W-PBG_PAD*2, HL_H=90;
-    draws.push(()=>{
-      fillRR(HL_X,iy,HL_W,HL_H,12,c.hl);
-      txt('請感受易讀性',HL_X+24,iy+26,18,700,c.bt,'left',fontFam);
-      txt('細一點的文字在這',HL_X+24,iy+56,18,500,c.bt,'left',fontFam);
-    });
-    iy+=HL_H+12;
-    // Below texts
-    draws.push(()=>{
-      txt('這是內文小字',PAD+PBG_PAD+6,iy+12,18,500,c.tx,'left',fontFam);
-    });
-    iy+=30;
-    draws.push(()=>{
-      txt('這是稍微粗一點的內文小字',PAD+PBG_PAD+6,iy+12,18,700,c.tx,'left',fontFam);
-    });
-    iy+=30+12;
-    // CTA button
-    const CTA_W=120, CTA_H=36;
-    draws.push(()=>{
-      fillRR(PAD+PBG_PAD,iy,CTA_W,CTA_H,9,c.ct);
-      txt('閱讀更多 →',PAD+PBG_PAD+CTA_W/2,iy+CTA_H/2,14,700,c.bt,'center',fontFam);
-    });
-    iy+=CTA_H+PBG_PAD;
+    // helpers (no canvas yet, define after)
+    function buildCanvas(H){
+      const cv=document.createElement('canvas');
+      cv.width=W*DPR; cv.height=H*DPR;
+      const ctx=cv.getContext('2d');
+      ctx.scale(DPR,DPR);
 
-    // Draw preview card bg
-    fillRR(PAD,PBG_Y,INNER_W,iy-PBG_Y,14,c.bg);
-    draws.forEach(fn=>fn());
-    y=iy+GAP;
+      const rr=(x,y,w,h,r)=>{
+        ctx.beginPath();
+        ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+        ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+        ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+        ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
+      };
+      const fillRR=(x,y,w,h,r,col)=>{ ctx.fillStyle=col; rr(x,y,w,h,r); ctx.fill(); };
+      const strokeRR=(x,y,w,h,r,col,lw=1)=>{ ctx.strokeStyle=col; ctx.lineWidth=lw; rr(x,y,w,h,r); ctx.stroke(); };
+      const txt=(t,x,y,size,weight,col,align='left',fam)=>{
+        ctx.fillStyle=col;
+        ctx.font=`${weight} ${size}px '${fam||fontFam}', 'Noto Sans TC', sans-serif`;
+        ctx.textBaseline='middle'; ctx.textAlign=align; ctx.fillText(t,x,y);
+      };
+      const dot=(x,y,r,col)=>{ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); };
+
+      return {cv,ctx,rr,fillRR,strokeRR,txt,dot};
+    }
+
+    // ── First pass: measure total height ──
+    const GAP=20, INNER_W=W-PAD*2;
+
+    // Section heights
+    const dateH   = 28;
+    const swatchH = 68;
+    const labelH  = 22;
+    // preview inner items
+    const hdH=44, subH=34, hlH=92, bodyH=30*2+12, ctaH=38, previewPad=36;
+    const previewInnerH = previewPad + hdH + subH + hlH + bodyH + ctaH + previewPad;
+    // contrast row (single line)
+    const contrastH = 32;
+    const copyH     = 24;
+
+    const totalH = PAD + dateH + GAP
+                 + swatchH + GAP
+                 + labelH
+                 + previewInnerH + GAP
+                 + contrastH + GAP
+                 + copyH + PAD;
+
+    // ── Draw ──
+    const {cv,fillRR,strokeRR,txt,dot} = buildCanvas(totalH);
+
+    // Card BG
+    fillRR(0,0,W,totalH,20,'#1e2530');
+
+    let y = PAD;
+
+    // Date
+    txt(`色票匯出 · ${new Date().toLocaleDateString('zh-TW')}`, PAD, y+dateH/2, 11, 700, 'rgba(255,255,255,0.38)', 'left', 'Noto Sans TC');
+    y += dateH + GAP;
+
+    // Swatches
+    const swDefs=[{k:'bg',name:'背景色'},{k:'tx',name:'文字色'},{k:'hl',name:'色塊色'},{k:'bt',name:'色塊文字'},{k:'ct',name:'CTA'}];
+    const swW=Math.floor((INNER_W - 16*4) / 5);
+    swDefs.forEach(({k,name},i)=>{
+      const sx=PAD+i*(swW+16);
+      fillRR(sx,y,swW,swatchH,10,'rgba(255,255,255,0.07)');
+      fillRR(sx+12,y+12,36,36,8,c[k]);
+      strokeRR(sx+12,y+12,36,36,8,'rgba(255,255,255,0.15)');
+      txt(name,       sx+56, y+22, 10, 700, 'rgba(255,255,255,0.45)', 'left', 'Noto Sans TC');
+      txt(c[k].toUpperCase(), sx+56, y+42, 13, 700, '#fff', 'left', 'Noto Sans TC');
+    });
+    y += swatchH + GAP;
+
+    // Preview label
+    txt('預覽', PAD, y+labelH/2, 10, 700, 'rgba(255,255,255,0.32)', 'left', 'Noto Sans TC');
+    y += labelH;
+
+    // Preview card BG
+    const cardY = y;
+    fillRR(PAD, cardY, INNER_W, previewInnerH, 14, c.bg);
+
+    let iy = cardY + previewPad;
+    const ix = PAD + previewPad;
+    const iw = INNER_W - previewPad*2;
+
+    // Heading
+    txt('這裡是標題', ix, iy+22, 30, 900, c.tx);
+    iy += hdH;
+
+    // Subtitle
+    txt('這是副標題', ix, iy+17, 22, 700, c.tx);
+    iy += subH;
+
+    // Highlight block
+    fillRR(ix, iy, iw, hlH, 12, c.hl);
+    txt('請感受易讀性',        ix+24, iy+28, 18, 700, c.bt);
+    txt('細一點的文字在這', ix+24, iy+62, 18, 500, c.bt);
+    iy += hlH + 12;
+
+    // Body texts
+    txt('這是內文小字',              ix+6, iy+15, 18, 500, c.tx);
+    iy += 30;
+    txt('這是稍微粗一點的內文小字', ix+6, iy+15, 18, 700, c.tx);
+    iy += 30 + 12;
+
+    // CTA button
+    const ctaW=140;
+    fillRR(ix, iy, ctaW, ctaH, 9, c.ct);
+    txt('閱讀更多 →', ix+ctaW/2, iy+ctaH/2, 14, 700, c.bt, 'center');
+    iy += ctaH + previewPad;
+
+    y = cardY + previewInnerH + GAP;
 
     // Contrast chips
     const pairs=[
-      {label:'背景 / 標題',  r:contrast(c.tx,c.bg)},
-      {label:'背景 / 內文',  r:contrast(c.tx,c.bg)},
-      {label:'色塊 / 文字',  r:contrast(c.bt,c.hl)},
-      {label:'CTA / 文字',   r:contrast(c.bt,c.ct)},
+      {label:'背景 / 標題', r:contrast(c.tx,c.bg)},
+      {label:'背景 / 內文', r:contrast(c.tx,c.bg)},
+      {label:'色塊 / 文字', r:contrast(c.bt,c.hl)},
+      {label:'CTA / 文字',  r:contrast(c.bt,c.ct)},
     ];
     let cx=PAD;
     pairs.forEach(({label,r})=>{
       const w=wcag(r);
-      const chipW=label.length*13+80;
-      fillRR(cx,y,chipW,26,7,'rgba(255,255,255,0.08)');
-      dot(cx+14,y+13,4,w.col);
-      txt(`${label}  ${r.toFixed(2)}:1  ${w.t}`,cx+24,y+13,11,600,'rgba(255,255,255,0.85)');
-      cx+=chipW+10;
+      // measure chip width
+      const chipTxt=`${label}  ${r.toFixed(2)}:1  ${w.t}`;
+      const chipW = chipTxt.length*8.5 + 32;
+      fillRR(cx,y,chipW,contrastH,8,'rgba(255,255,255,0.08)');
+      dot(cx+14,y+contrastH/2,4,w.col);
+      txt(chipTxt, cx+26, y+contrastH/2, 11, 600, 'rgba(255,255,255,0.85)', 'left', 'Noto Sans TC');
+      cx += chipW+10;
     });
-    y+=26+GAP;
+    y += contrastH + GAP;
 
     // Copyright
-    txt('© Triple.Cell_illustration 細胞日常插畫',W-PAD,y+6,11,400,'rgba(255,255,255,0.28)','right');
+    txt('© Triple.Cell_illustration 細胞日常插畫', W-PAD, y+copyH/2, 11, 400, 'rgba(255,255,255,0.28)', 'right', 'Noto Sans TC');
 
-    // Export — wrap toBlob in Promise so overlay stays until done
+    // Export
     await new Promise((resolve, reject) => {
       cv.toBlob(blob => {
-        if (!blob) { reject(new Error('toBlob 失敗')); return; }
+        if(!blob){ reject(new Error('toBlob 失敗')); return; }
         try {
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.download = `color-scheme-${Date.now()}.png`;
-          a.href = url;
+          const url=URL.createObjectURL(blob);
+          const a=document.createElement('a');
+          a.download=`color-scheme-${Date.now()}.png`;
+          a.href=url;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          setTimeout(() => URL.revokeObjectURL(url), 3000);
+          setTimeout(()=>URL.revokeObjectURL(url),3000);
           resolve();
         } catch(e){ reject(e); }
-      }, 'image/png');
+      },'image/png');
     });
 
   } catch(err){
