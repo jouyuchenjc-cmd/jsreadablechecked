@@ -71,17 +71,17 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 .cb-hex-input:focus { border-color: #548EB8; }
 .cb-hex-input.visible { display: block; }
 
+/* Page 1 title row */
+.p1-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+
 /* Page 1 footer */
 .p1-footer { margin-top: 28px; display: flex; gap: 10px; justify-content: center; }
 .p1-copyright { margin-top: 16px; font-size: 11px; color: #9AABB8; letter-spacing: 0.04em; text-align: center; }
 
-/* Lottie in topbar */
+/* Lottie — page 1, natural colors */
 #lottieCellWrap {
-  width: 36px; height: 36px; flex-shrink: 0; cursor: pointer;
-  filter: brightness(0) invert(1); opacity: 0.7;
-  transition: opacity 0.2s;
+  width: 40px; height: 40px; flex-shrink: 0;
 }
-#lottieCellWrap:hover { opacity: 1; }
 .btn {
   font-family: 'Noto Sans TC', sans-serif; font-size: 14px; font-weight: 600;
   border-radius: 10px; border: none; cursor: pointer; padding: 11px 22px;
@@ -252,7 +252,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 <div class="page active" id="page1">
 <div class="p1-wrap">
 
-  <div class="p1-title">Color Compare</div>
+  <div class="p1-title-row">
+    <div class="p1-title">Color Compare</div>
+    <div id="lottieCellWrap" title="Triple.Cell"></div>
+  </div>
   <div class="p1-sub">設定五個顏色，預覽組合的可讀性</div>
 
   <div class="font-selector-row">
@@ -369,12 +372,9 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <span class="p2-hint">點擊元素可即時修改顏色</span>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <button class="btn-download" onclick="downloadImage()" title="匯出圖片">
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2v9M4 8l4 4 4-4M2 14h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div id="lottieCellWrap" title="Triple.Cell"></div>
-    </div>
+    <button class="btn-download" onclick="downloadImage()" title="匯出圖片">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2v9M4 8l4 4 4-4M2 14h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
   </div>
 
   <div class="p2-content" id="p2Content">
