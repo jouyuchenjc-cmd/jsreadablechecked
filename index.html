@@ -589,12 +589,8 @@ function copyAIPrompt() {
   const dark=adjustBrightness(c.bg,-3);
   const bgStr=on?`bg:linear-gradient(165deg,${c.bg},${dark})`:`bg:${c.bg}`;
   const fontName = FONT_NAMES[currentFont] || '預設字體';
-  
   const prompt=`Colour scheme — ${bgStr} tx:${c.tx} hl:${c.hl} bt:${c.bt} ct:${c.ct} | Font: ${fontName}`;
-  
-  if(navigator.clipboard?.writeText){
-    navigator.clipboard.writeText(prompt);
-  }
+  if(navigator.clipboard?.writeText) navigator.clipboard.writeText(prompt);
   _showToast('已複製 → '+prompt);
 }
 function _showToast(msg) { const t=document.getElementById('aiToast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
@@ -603,17 +599,22 @@ function _showToast(msg) { const t=document.getElementById('aiToast'); t.textCon
 async function downloadImage() {
   closePicker();
   const overlay=document.getElementById('dlOverlay'); overlay.classList.add('show');
-  await new Promise(r=>setTimeout(r,80));
+  await new Promise(r=>setTimeout(r,100)); // 讓 UI 有時間顯示
   
   try {
     const DPR=2, W=900, PAD=48, IW=W-PAD*2;
     const fontFam=FONTS[currentFont].split(',')[0].replace(/'/g,'').trim();
     
+    // 內容排版常數
     const STEP_GAP = 35, pp = 40;
     const hdH=30, divH=2, subH=24, hlH=96, bodyH=50, ctaH=40;
     const contentTotalH = pp + hdH + STEP_GAP + divH + STEP_GAP + subH + STEP_GAP + hlH + STEP_GAP + bodyH + STEP_GAP + ctaH + pp;
     
-    const contentY = 200; 
+    // 確保色票與色塊之間至少 15px
+    const SW_Y = 88;
+    const SW_BOX_H = 85; 
+    const VERT_MARGIN = 25; // 距離大色塊的間距
+    const contentY = SW_Y + SW_BOX_H + VERT_MARGIN; 
     const totalH = contentY + contentTotalH + 100;
 
     const cv=document.createElement('canvas');
@@ -625,30 +626,56 @@ async function downloadImage() {
     const strokeRR=(x,y,w,h,r,col,lw=1)=>{ctx.strokeStyle=col;ctx.lineWidth=lw;rrPath(x,y,w,h,r);ctx.stroke();};
     const txt=(t,x,y,size,weight,col,align='left',fam)=>{ctx.fillStyle=col;ctx.font=`${weight} ${size}px '${fam||fontFam}','Noto Sans TC',sans-serif`;ctx.letterSpacing='0.05em';ctx.textBaseline='middle';ctx.textAlign=align;ctx.fillText(t,x,y);};
 
+    // 背景
     fillRR(0,0,W,totalH,20,'#1E2530');
     
-    let y=48;
-    txt(`色票匯出 · ${new Date().toLocaleDateString('zh-TW')}`,PAD,y,11,700,'rgba(255,255,255,0.38)');
-    y+=40;
-    const swDefs=[{k:'bg',n:'背景色',t:c.tx},{k:'tx',n:'文字色',t:c.bg},{k:'hl',n:'色塊色',t:c.bt},{k:'bt',n:'色塊文字',t:c.hl},{k:'ct',n:'CTA',t:c.bt}];
+    // 頂部標題
+    txt(`色票匯出 · ${new Date().toLocaleDateString('zh-TW')}`,PAD,48,11,700,'rgba(255,255,255,0.38)');
+    
+    // 繪製頂部五個色票與易讀性標示
+    const swDefs=[
+      {k:'bg',n:'背景色',t:c.tx},
+      {k:'hl',n:'色塊底色',t:c.bt},
+      {k:'tx',n:'背景文字',t:c.bg},
+      {k:'bt',n:'色塊文字',t:c.hl},
+      {k:'ct',n:'CTA按鈕',t:c.bt}
+    ];
     const swW=Math.floor((IW-16*4)/5);
     swDefs.forEach(({k,n,t},i)=>{
-      const sx=PAD+i*(swW+16); fillRR(sx,y,swW,68,10,'rgba(255,255,255,0.07)');
-      fillRR(sx+12,y+12,36,36,8,c[k]); strokeRR(sx+12,y+12,36,36,8,'rgba(255,255,255,0.15)');
-      txt(n,sx+56,y+22,10,700,'rgba(255,255,255,0.45)'); txt(c[k],sx+56,y+42,13,700,'#FFFFFF');
+      const sx=PAD+i*(swW+16);
+      const sy=SW_Y;
+      // 底部暗色容器
+      fillRR(sx,sy,swW,SW_BOX_H,10,'rgba(255,255,255,0.07)');
+      // 色塊
+      fillRR(sx+12,sy+12,36,36,8,c[k]); 
+      strokeRR(sx+12,sy+12,36,36,8,'rgba(255,255,255,0.15)');
+      // 文字資訊
+      txt(n,sx+56,sy+22,10,700,'rgba(255,255,255,0.45)');
+      txt(c[k],sx+56,sy+40,13,700,'#FFFFFF');
       
+      // 易讀性 Chip
       const ratio = contrastRatio(c[k], t);
       const level = wcagLevel(ratio);
-      fillRR(sx+12, y+58, 40, 16, 4, level.col);
-      txt(level.t, sx+32, y+66, 9, 800, '#FFFFFF', 'center', 'Noto Sans TC');
-      txt(ratio.toFixed(1), sx+56, y+66, 10, 500, 'rgba(255,255,255,0.3)');
+      const chipY = sy + 62;
+      fillRR(sx+12, chipY, 42, 14, 4, level.col);
+      txt(level.t, sx+33, chipY+7, 8, 900, '#FFFFFF', 'center', 'Noto Sans TC');
+      txt(ratio.toFixed(1), sx+58, chipY+7, 9, 600, 'rgba(255,255,255,0.35)');
     });
 
+    // 預覽大背景
     const py = contentY;
     const bgOn=document.getElementById('bgStyleToggle').checked;
-    if(bgOn){ const dark=adjustBrightness(c.bg,-3); const g=ctx.createLinearGradient(PAD,py,PAD+IW,py+contentTotalH); g.addColorStop(0,c.bg); g.addColorStop(1,dark); ctx.fillStyle=g; rrPath(PAD,py,IW,contentTotalH,14); ctx.fill(); }
-    else fillRR(PAD,py,IW,contentTotalH,14,c.bg);
+    if(bgOn){ 
+      const dark=adjustBrightness(c.bg,-3); 
+      const g=ctx.createLinearGradient(PAD,py,PAD+IW,py+contentTotalH); 
+      g.addColorStop(0,c.bg); g.addColorStop(1,dark); 
+      ctx.fillStyle=g; 
+      rrPath(PAD,py,IW,contentTotalH,14); ctx.fill(); 
+    } else {
+      fillRR(PAD,py,IW,contentTotalH,14,c.bg);
+    }
 
+    // 內部預覽文字與元件
     let currY = py + pp;
     const ix = PAD+pp, iw = IW-pp*2;
 
@@ -679,14 +706,18 @@ async function downloadImage() {
     fillRR(ix,currY,140,ctaH,9,c.ct);
     txt('閱讀更多 →',ix+70,currY+ctaH/2,14,700,ctaTC,'center');
 
-    txt('© Triple.Cell_illustration 細胞日常插畫',W/2,totalH-40,11,400,'rgba(255,255,255,0.28)','center','Noto Sans TC');
+    // 版權文字與字體提示
+    const fontName = FONT_NAMES[currentFont] || '預設字體';
+    txt(`選用字體：${fontName}`, W/2, totalH-65, 11, 400, 'rgba(255,255,255,0.2)', 'center', 'Noto Sans TC');
+    txt('© Triple.Cell_illustration 細胞日常插畫',W/2,totalH-45,11,400,'rgba(255,255,255,0.28)','center','Noto Sans TC');
 
     cv.toBlob(blob=>{
       const url=URL.createObjectURL(blob);
       const a=Object.assign(document.createElement('a'),{download:`color-scheme-${Date.now()}.png`,href:url});
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
     },'image/png');
-  } catch(e){ console.error(e); } finally { overlay.classList.remove('show'); }
+  } catch(e){ console.error(e); alert('產生圖片失敗，請檢查瀏覽器限制'); } finally { overlay.classList.remove('show'); }
 }
 
 (function init(){
