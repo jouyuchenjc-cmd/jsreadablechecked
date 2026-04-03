@@ -497,6 +497,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 
 <script>
 const LABELS = { bg:'背景色', hl:'Highlight', tx:'文字色', bt:'色塊文字', ct:'CTA' };
+const FONT_NAMES = { sans: '思源黑體', serif: '思源宋體', zen: '圓體' };
 let c = { bg:'#EDE8DF', hl:'#548EB8', tx:'#2C3A4A', bt:'#FFFFFF', ct:'#C66240' };
 let popupKey = null;
 let currentFont = 'sans';
@@ -584,8 +585,17 @@ function closePicker() { document.getElementById('pickerPopup').classList.remove
 
 /* ── AI Prompt ── */
 function copyAIPrompt() {
-  const on=document.getElementById('bgStyleToggle').checked; const dark=adjustBrightness(c.bg,-3); const bgStr=on?`bg:linear-gradient(165deg,${c.bg},${dark})`:`bg:${c.bg}`; const prompt=`Colour scheme — ${bgStr} tx:${c.tx} hl:${c.hl} bt:${c.bt} ct:${c.ct}`;
-  if(navigator.clipboard?.writeText){ navigator.clipboard.writeText(prompt); } _showToast('已複製 → '+prompt);
+  const on=document.getElementById('bgStyleToggle').checked;
+  const dark=adjustBrightness(c.bg,-3);
+  const bgStr=on?`bg:linear-gradient(165deg,${c.bg},${dark})`:`bg:${c.bg}`;
+  const fontName = FONT_NAMES[currentFont] || '預設字體';
+  
+  const prompt=`Colour scheme — ${bgStr} tx:${c.tx} hl:${c.hl} bt:${c.bt} ct:${c.ct} | Font: ${fontName}`;
+  
+  if(navigator.clipboard?.writeText){
+    navigator.clipboard.writeText(prompt);
+  }
+  _showToast('已複製 → '+prompt);
 }
 function _showToast(msg) { const t=document.getElementById('aiToast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
 
@@ -599,12 +609,10 @@ async function downloadImage() {
     const DPR=2, W=900, PAD=48, IW=W-PAD*2;
     const fontFam=FONTS[currentFont].split(',')[0].replace(/'/g,'').trim();
     
-    // 定義等距參數
     const STEP_GAP = 35, pp = 40;
     const hdH=30, divH=2, subH=24, hlH=96, bodyH=50, ctaH=40;
     const contentTotalH = pp + hdH + STEP_GAP + divH + STEP_GAP + subH + STEP_GAP + hlH + STEP_GAP + bodyH + STEP_GAP + ctaH + pp;
     
-    // 拉開與上方色票的間距：原 160 改為 200
     const contentY = 200; 
     const totalH = contentY + contentTotalH + 100;
 
@@ -617,10 +625,8 @@ async function downloadImage() {
     const strokeRR=(x,y,w,h,r,col,lw=1)=>{ctx.strokeStyle=col;ctx.lineWidth=lw;rrPath(x,y,w,h,r);ctx.stroke();};
     const txt=(t,x,y,size,weight,col,align='left',fam)=>{ctx.fillStyle=col;ctx.font=`${weight} ${size}px '${fam||fontFam}','Noto Sans TC',sans-serif`;ctx.letterSpacing='0.05em';ctx.textBaseline='middle';ctx.textAlign=align;ctx.fillText(t,x,y);};
 
-    // 底背景
     fillRR(0,0,W,totalH,20,'#1E2530');
     
-    // 頂部色票區
     let y=48;
     txt(`色票匯出 · ${new Date().toLocaleDateString('zh-TW')}`,PAD,y,11,700,'rgba(255,255,255,0.38)');
     y+=40;
@@ -631,7 +637,6 @@ async function downloadImage() {
       fillRR(sx+12,y+12,36,36,8,c[k]); strokeRR(sx+12,y+12,36,36,8,'rgba(255,255,255,0.15)');
       txt(n,sx+56,y+22,10,700,'rgba(255,255,255,0.45)'); txt(c[k],sx+56,y+42,13,700,'#FFFFFF');
       
-      // 繪製易讀性標籤 (對比度)
       const ratio = contrastRatio(c[k], t);
       const level = wcagLevel(ratio);
       fillRR(sx+12, y+58, 40, 16, 4, level.col);
@@ -639,7 +644,6 @@ async function downloadImage() {
       txt(ratio.toFixed(1), sx+56, y+66, 10, 500, 'rgba(255,255,255,0.3)');
     });
 
-    // 預覽主體背景
     const py = contentY;
     const bgOn=document.getElementById('bgStyleToggle').checked;
     if(bgOn){ const dark=adjustBrightness(c.bg,-3); const g=ctx.createLinearGradient(PAD,py,PAD+IW,py+contentTotalH); g.addColorStop(0,c.bg); g.addColorStop(1,dark); ctx.fillStyle=g; rrPath(PAD,py,IW,contentTotalH,14); ctx.fill(); }
@@ -648,26 +652,21 @@ async function downloadImage() {
     let currY = py + pp;
     const ix = PAD+pp, iw = IW-pp*2;
 
-    // 1. 標題
     txt('這裡是標題',ix,currY+hdH/2,30,900,c.tx);
     currY += hdH + STEP_GAP;
 
-    // 2. 虛線
     ctx.save(); ctx.strokeStyle=c.tx; ctx.lineWidth=2; ctx.globalAlpha=0.38; ctx.setLineDash([6,5]);
     ctx.beginPath(); ctx.moveTo(ix,currY); ctx.lineTo(ix+iw,currY); ctx.stroke(); ctx.restore();
     currY += STEP_GAP;
 
-    // 3. 副標題
     txt('這是副標題',ix,currY+subH/2,22,700,c.tx);
     currY += subH + STEP_GAP;
 
-    // 4. Highlight 色塊
     fillRR(ix,currY,iw,hlH,12,c.hl);
     txt('請感受易讀性',ix+24,currY+30,18,700,c.bt);
     txt('細一點的文字在這',ix+24,currY+64,18,500,c.bt);
     currY += hlH + STEP_GAP;
 
-    // 5. 內文
     txt('這是內文小字',ix,currY+10,18,500,c.tx);
     const seg1='這是', seg2='稍微粗一點', seg3='的內文小字';
     ctx.font=`700 18px '${fontFam}','Noto Sans TC',sans-serif`; ctx.fillStyle=c.tx;
@@ -676,7 +675,6 @@ async function downloadImage() {
     ctx.fillStyle=c.tx; ctx.fillText(seg3,ix+w1+w2,currY+35);
     currY += bodyH + STEP_GAP;
 
-    // 6. CTA
     const ctaTC=contrastRatio(c.bt,c.ct)>=contrastRatio(c.tx,c.ct)?c.bt:c.tx;
     fillRR(ix,currY,140,ctaH,9,c.ct);
     txt('閱讀更多 →',ix+70,currY+ctaH/2,14,700,ctaTC,'center');
