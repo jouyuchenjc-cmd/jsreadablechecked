@@ -175,13 +175,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .p2-block-text-medium:hover { outline: 2px dashed rgba(255,255,255,0.45); }
 
-.p2-block-bold {
-  font-size: 18px; font-weight: 700; line-height: 1.7; letter-spacing: 0.04em;
-  cursor: pointer; padding: 4px 8px; border-radius: 8px;
-  display: inline-block; transition: outline 0.12s;
-}
-.p2-block-bold:hover { outline: 2px dashed rgba(0,0,0,0.18); }
-
 .p2-below-texts { display: flex; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px 8px; border-radius: 8px; display: inline-flex; }
 .p2-below-texts:hover { outline: 2px dashed rgba(0,0,0,0.15); }
 .p2-below-medium { font-size: 18px; font-weight: 500; line-height: 1.6; letter-spacing: 0.05em; }
@@ -528,13 +521,15 @@ function relativeLum(hex){ const [r,g,b]=hexToRgbArr(hex); return 0.2126*srgbLin
 function contrastRatio(h1,h2){ const a=relativeLum(h1),b=relativeLum(h2); return (Math.max(a,b)+0.05)/(Math.min(a,b)+0.05); }
 function wcagLevel(r){ return r>=7?{t:'AAA',col:'#4A7A65'}:r>=4.5?{t:'AA',col:'#548EB8'}:r>=3?{t:'AA大字',col:'#9A7845'}:{t:'不通過',col:'#D28187'}; }
 
-/* ── Slider tracks ── */
-function buildHueGrad() { return 'linear-gradient(to right,'+Array.from({length:7},(_,i)=>`hsl(${i*60},100%,50%) ${(i/6*100).toFixed(1)}%`).join(',')+')'; }
+/* ── UI Logic ── */
+function setFont(type) {
+  currentFont=type;
+  document.querySelectorAll('.font-btn').forEach(b=>b.classList.toggle('active',b.dataset.font===type));
+  P2_FONT_ELS.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.fontFamily=FONTS[type]; });
+}
 function updateSliderTracks() {
-  const h=+document.getElementById('slH').value;
-  const s=+document.getElementById('slS').value;
-  const bv=+document.getElementById('slB').value;
-  document.getElementById('slH').style.background=buildHueGrad();
+  const h=+document.getElementById('slH').value, s=+document.getElementById('slS').value, bv=+document.getElementById('slB').value;
+  document.getElementById('slH').style.background='linear-gradient(to right,'+Array.from({length:7},(_,i)=>`hsl(${i*60},100%,50%) ${(i/6*100).toFixed(1)}%`).join(',')+')';
   document.getElementById('slS').style.background=`linear-gradient(to right,${hsbToHex(h,0,bv)},${hsbToHex(h,100,bv)})`;
   document.getElementById('slB').style.background=`linear-gradient(to right,#000000,${hsbToHex(h,s,100)})`;
 }
@@ -543,13 +538,6 @@ function loadHsbFromHex(hex) {
   document.getElementById('slH').value=h; document.getElementById('slS').value=s; document.getElementById('slB').value=b;
   document.getElementById('valH').textContent=h; document.getElementById('valS').textContent=s+'%'; document.getElementById('valB').textContent=b+'%';
   updateSliderTracks();
-}
-
-/* ── UI Logic ── */
-function setFont(type) {
-  currentFont=type;
-  document.querySelectorAll('.font-btn').forEach(b=>b.classList.toggle('active',b.dataset.font===type));
-  P2_FONT_ELS.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.fontFamily=FONTS[type]; });
 }
 function onPick(k,val) { if(!isValidHex(val)) return; c[k]=val.toUpperCase(); document.getElementById('sw-'+k).style.background=c[k]; document.getElementById('disp-'+k).textContent=c[k]; if(document.getElementById('page2').classList.contains('active')) syncPage2(); }
 function applyBgStyle() {
@@ -601,58 +589,63 @@ function copyAIPrompt() {
 }
 function _showToast(msg) { const t=document.getElementById('aiToast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
 
-/* ── Canvas Export (等距邏輯) ── */
+/* ── Canvas Export ── */
 async function downloadImage() {
   closePicker();
-  const overlay=document.getElementById('dlOverlay');
-  overlay.classList.add('show');
+  const overlay=document.getElementById('dlOverlay'); overlay.classList.add('show');
   await new Promise(r=>setTimeout(r,80));
   
   try {
     const DPR=2, W=900, PAD=48, IW=W-PAD*2;
     const fontFam=FONTS[currentFont].split(',')[0].replace(/'/g,'').trim();
     
-    // 設定等距參數
-    const STEP_GAP = 35; // 每個元素間的固定距離
-    const pp = 40;       // 預覽框內邊距
-    
-    // 高度計算
+    // 定義等距參數
+    const STEP_GAP = 35, pp = 40;
     const hdH=30, divH=2, subH=24, hlH=96, bodyH=50, ctaH=40;
     const contentTotalH = pp + hdH + STEP_GAP + divH + STEP_GAP + subH + STEP_GAP + hlH + STEP_GAP + bodyH + STEP_GAP + ctaH + pp;
-    const totalH = 140 + contentTotalH + 100; // 頂部資訊+預覽區+底部
+    
+    // 拉開與上方色票的間距：原 160 改為 200
+    const contentY = 200; 
+    const totalH = contentY + contentTotalH + 100;
 
     const cv=document.createElement('canvas');
     cv.width=W*DPR; cv.height=totalH*DPR;
-    const ctx=cv.getContext('2d');
-    ctx.scale(DPR,DPR);
+    const ctx=cv.getContext('2d'); ctx.scale(DPR,DPR);
 
     const rrPath=(x,y,w,h,r)=>{ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();};
     const fillRR=(x,y,w,h,r,col)=>{ctx.fillStyle=col;rrPath(x,y,w,h,r);ctx.fill();};
     const strokeRR=(x,y,w,h,r,col,lw=1)=>{ctx.strokeStyle=col;ctx.lineWidth=lw;rrPath(x,y,w,h,r);ctx.stroke();};
     const txt=(t,x,y,size,weight,col,align='left',fam)=>{ctx.fillStyle=col;ctx.font=`${weight} ${size}px '${fam||fontFam}','Noto Sans TC',sans-serif`;ctx.letterSpacing='0.05em';ctx.textBaseline='middle';ctx.textAlign=align;ctx.fillText(t,x,y);};
 
-    // 底色
+    // 底背景
     fillRR(0,0,W,totalH,20,'#1E2530');
     
-    // 頂部色票資訊
+    // 頂部色票區
     let y=48;
     txt(`色票匯出 · ${new Date().toLocaleDateString('zh-TW')}`,PAD,y,11,700,'rgba(255,255,255,0.38)');
     y+=40;
-    const swDefs=[{k:'bg',n:'背景色'},{k:'tx',n:'文字色'},{k:'hl',n:'色塊色'},{k:'bt',n:'色塊文字'},{k:'ct',n:'CTA'}];
+    const swDefs=[{k:'bg',n:'背景色',t:c.tx},{k:'tx',n:'文字色',t:c.bg},{k:'hl',n:'色塊色',t:c.bt},{k:'bt',n:'色塊文字',t:c.hl},{k:'ct',n:'CTA',t:c.bt}];
     const swW=Math.floor((IW-16*4)/5);
-    swDefs.forEach(({k,n},i)=>{
+    swDefs.forEach(({k,n,t},i)=>{
       const sx=PAD+i*(swW+16); fillRR(sx,y,swW,68,10,'rgba(255,255,255,0.07)');
       fillRR(sx+12,y+12,36,36,8,c[k]); strokeRR(sx+12,y+12,36,36,8,'rgba(255,255,255,0.15)');
       txt(n,sx+56,y+22,10,700,'rgba(255,255,255,0.45)'); txt(c[k],sx+56,y+42,13,700,'#FFFFFF');
+      
+      // 繪製易讀性標籤 (對比度)
+      const ratio = contrastRatio(c[k], t);
+      const level = wcagLevel(ratio);
+      fillRR(sx+12, y+58, 40, 16, 4, level.col);
+      txt(level.t, sx+32, y+66, 9, 800, '#FFFFFF', 'center', 'Noto Sans TC');
+      txt(ratio.toFixed(1), sx+56, y+66, 10, 500, 'rgba(255,255,255,0.3)');
     });
 
-    // 預覽框
-    y = 160;
+    // 預覽主體背景
+    const py = contentY;
     const bgOn=document.getElementById('bgStyleToggle').checked;
-    if(bgOn){ const dark=adjustBrightness(c.bg,-3); const g=ctx.createLinearGradient(PAD,y,PAD+IW,y+contentTotalH); g.addColorStop(0,c.bg); g.addColorStop(1,dark); ctx.fillStyle=g; rrPath(PAD,y,IW,contentTotalH,14); ctx.fill(); }
-    else fillRR(PAD,y,IW,contentTotalH,14,c.bg);
+    if(bgOn){ const dark=adjustBrightness(c.bg,-3); const g=ctx.createLinearGradient(PAD,py,PAD+IW,py+contentTotalH); g.addColorStop(0,c.bg); g.addColorStop(1,dark); ctx.fillStyle=g; rrPath(PAD,py,IW,contentTotalH,14); ctx.fill(); }
+    else fillRR(PAD,py,IW,contentTotalH,14,c.bg);
 
-    let currY = y + pp;
+    let currY = py + pp;
     const ix = PAD+pp, iw = IW-pp*2;
 
     // 1. 標題
@@ -677,11 +670,9 @@ async function downloadImage() {
     // 5. 內文
     txt('這是內文小字',ix,currY+10,18,500,c.tx);
     const seg1='這是', seg2='稍微粗一點', seg3='的內文小字';
-    ctx.font=`700 18px '${fontFam}','Noto Sans TC',sans-serif`;
-    ctx.fillStyle=c.tx; ctx.fillText(seg1,ix,currY+35);
-    let w1=ctx.measureText(seg1).width;
-    ctx.fillStyle=c.hl; ctx.fillText(seg2,ix+w1,currY+35);
-    let w2=ctx.measureText(seg2).width;
+    ctx.font=`700 18px '${fontFam}','Noto Sans TC',sans-serif`; ctx.fillStyle=c.tx;
+    ctx.fillText(seg1,ix,currY+35); let w1=ctx.measureText(seg1).width;
+    ctx.fillStyle=c.hl; ctx.fillText(seg2,ix+w1,currY+35); let w2=ctx.measureText(seg2).width;
     ctx.fillStyle=c.tx; ctx.fillText(seg3,ix+w1+w2,currY+35);
     currY += bodyH + STEP_GAP;
 
@@ -690,7 +681,6 @@ async function downloadImage() {
     fillRR(ix,currY,140,ctaH,9,c.ct);
     txt('閱讀更多 →',ix+70,currY+ctaH/2,14,700,ctaTC,'center');
 
-    // 底部版權
     txt('© Triple.Cell_illustration 細胞日常插畫',W/2,totalH-40,11,400,'rgba(255,255,255,0.28)','center','Noto Sans TC');
 
     cv.toBlob(blob=>{
@@ -701,13 +691,11 @@ async function downloadImage() {
   } catch(e){ console.error(e); } finally { overlay.classList.remove('show'); }
 }
 
-/* ── Init ── */
 (function init(){
   Object.keys(c).forEach(k=>document.getElementById('sw-'+k).style.background=c[k]);
   updateSliderTracks();
 })();
 
-/* ── Lottie ── */
 (async function initLottie(){
   const wrap=document.getElementById('lottieCellWrap'); if(!wrap) return;
   for(let i=0;i<20;i++){ if(typeof lottie!=='undefined') break; await new Promise(r=>setTimeout(r,150)); }
