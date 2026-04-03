@@ -53,10 +53,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   border: 1.5px solid rgba(44,58,74,0.15); flex-shrink: 0;
   position: relative; overflow: hidden; cursor: pointer;
 }
-.cb-swatch input[type=color] {
-  position: absolute; inset: -6px; opacity: 0;
-  width: 200%; height: 200%; cursor: pointer;
-}
 .cb-info { flex: 1; }
 .cb-num  { font-size: 11px; font-weight: 700; color: #9AABB8; letter-spacing: 0.07em; margin-bottom: 2px; }
 .cb-name { font-size: 14px; font-weight: 600; color: #2C3A4A; }
@@ -111,7 +107,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .btn-ai-prompt:hover { background: rgba(255,255,255,0.18); color: #fff; }
 
-/* bgStyle toggle */
 .bg-toggle-wrap { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
 .bg-toggle-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.5); white-space: nowrap; }
 .toggle-switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
@@ -127,7 +122,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 .toggle-switch input:checked + .toggle-track { background: #548EB8; }
 .toggle-switch input:checked + .toggle-track::after { transform: translateX(16px); }
 
-/* Page 2 content */
 .p2-content {
   flex: 1; display: flex; flex-direction: column;
   padding: 44px 56px; gap: 14px;
@@ -135,13 +129,11 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   cursor: default;
 }
 
-/* 小標提示 */
 .p2-hint-label {
   font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
   opacity: 0.4; margin-bottom: -4px;
 }
 
-/* 標題 */
 .p2-above-text {
   font-size: 30px; font-weight: 900; line-height: 1.35; letter-spacing: 0.05em;
   display: inline-block; cursor: pointer; padding: 4px 8px; border-radius: 8px;
@@ -149,7 +141,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .p2-above-text:hover { outline: 2px dashed rgba(0,0,0,0.2); }
 
-/* 虛線 — width matches block via align-self stretch */
 .p2-divider {
   height: 0; border: none;
   border-top: 2px dashed currentColor;
@@ -157,7 +148,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   display: block; align-self: stretch;
 }
 
-/* 副標題 */
 .p2-subtitle {
   font-size: 22px; font-weight: 700; line-height: 1.5; letter-spacing: 0.05em;
   display: inline-block; cursor: pointer; padding: 4px 8px; border-radius: 8px;
@@ -165,7 +155,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .p2-subtitle:hover { outline: 2px dashed rgba(0,0,0,0.2); }
 
-/* Highlight 色塊 */
 .p2-block {
   border-radius: 16px; padding: 32px 40px;
   cursor: pointer;
@@ -186,7 +175,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .p2-block-text-medium:hover { outline: 2px dashed rgba(255,255,255,0.45); }
 
-/* 內文 */
 .p2-block-bold {
   font-size: 18px; font-weight: 700; line-height: 1.7; letter-spacing: 0.04em;
   cursor: pointer; padding: 4px 8px; border-radius: 8px;
@@ -194,13 +182,11 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .p2-block-bold:hover { outline: 2px dashed rgba(0,0,0,0.18); }
 
-/* 內文兩排 */
 .p2-below-texts { display: flex; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px 8px; border-radius: 8px; display: inline-flex; }
 .p2-below-texts:hover { outline: 2px dashed rgba(0,0,0,0.15); }
 .p2-below-medium { font-size: 18px; font-weight: 500; line-height: 1.6; letter-spacing: 0.05em; }
 .p2-below-bold   { font-size: 18px; font-weight: 700; line-height: 1.6; letter-spacing: 0.05em; }
 
-/* CTA */
 .p2-cta-btn {
   display: inline-flex; align-items: center; gap: 8px; border-radius: 10px;
   padding: 10px 22px; cursor: pointer; font-size: 14px; font-weight: 700;
@@ -211,7 +197,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .p2-cta-btn:hover { filter: brightness(1.08); }
 
-/* Contrast bar */
 .p2-contrast {
   padding: 12px 28px 8px; display: flex; gap: 16px; flex-wrap: wrap;
   background: #4f586d; flex-shrink: 0; align-items: flex-start;
@@ -308,7 +293,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .pp-ok:hover { filter: brightness(0.88); }
 
-/* Download overlay */
 .dl-overlay {
   display: none; position: fixed; inset: 0; z-index: 99999;
   background: rgba(44,58,74,0.5); align-items: center; justify-content: center;
@@ -326,7 +310,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* AI toast */
 .ai-toast {
   position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
   background: #2C3A4A; color: #fff; font-size: 12px; font-weight: 500;
@@ -339,7 +322,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 </head>
 <body>
 
-<!-- ═══════════════════ PAGE 1 ═══════════════════ -->
 <div class="page active" id="page1">
 <div class="p1-wrap">
 
@@ -360,9 +342,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 
   <div class="color-btn-list">
     <div class="color-btn" onclick="openPickerFromBtn('bg',event)">
-      <div class="cb-swatch" id="sw-bg">
-        <input type="color" id="pick-bg" value="#EDE8DF" oninput="onPick('bg',this.value)" onclick="event.stopPropagation()">
-      </div>
+      <div class="cb-swatch" id="sw-bg"></div>
       <div class="cb-info">
         <div class="cb-num">01</div>
         <div class="cb-name">背景色</div>
@@ -372,9 +352,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
     </div>
 
     <div class="color-btn" onclick="openPickerFromBtn('hl',event)">
-      <div class="cb-swatch" id="sw-hl">
-        <input type="color" id="pick-hl" value="#548EB8" oninput="onPick('hl',this.value)" onclick="event.stopPropagation()">
-      </div>
+      <div class="cb-swatch" id="sw-hl"></div>
       <div class="cb-info">
         <div class="cb-num">02</div>
         <div class="cb-name">Highlight 色塊</div>
@@ -384,9 +362,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
     </div>
 
     <div class="color-btn" onclick="openPickerFromBtn('tx',event)">
-      <div class="cb-swatch" id="sw-tx">
-        <input type="color" id="pick-tx" value="#2C3A4A" oninput="onPick('tx',this.value)" onclick="event.stopPropagation()">
-      </div>
+      <div class="cb-swatch" id="sw-tx"></div>
       <div class="cb-info">
         <div class="cb-num">03</div>
         <div class="cb-name">背景文字色</div>
@@ -396,9 +372,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
     </div>
 
     <div class="color-btn" onclick="openPickerFromBtn('bt',event)">
-      <div class="cb-swatch" id="sw-bt">
-        <input type="color" id="pick-bt" value="#FFFFFF" oninput="onPick('bt',this.value)" onclick="event.stopPropagation()">
-      </div>
+      <div class="cb-swatch" id="sw-bt"></div>
       <div class="cb-info">
         <div class="cb-num">04</div>
         <div class="cb-name">色塊文字色</div>
@@ -408,9 +382,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
     </div>
 
     <div class="color-btn" onclick="openPickerFromBtn('ct',event)">
-      <div class="cb-swatch" id="sw-ct">
-        <input type="color" id="pick-ct" value="#C66240" oninput="onPick('ct',this.value)" onclick="event.stopPropagation()">
-      </div>
+      <div class="cb-swatch" id="sw-ct"></div>
       <div class="cb-info">
         <div class="cb-num">05</div>
         <div class="cb-name">CTA 按鈕色</div>
@@ -432,7 +404,6 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 </div>
 </div>
 
-<!-- ═══════════════════ PAGE 2 ═══════════════════ -->
 <div class="page" id="page2">
 <div class="p2-bg" id="p2bg" onclick="openPickerFromBtn('bg',event)">
 
@@ -467,61 +438,32 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   </div>
 
   <div class="p2-content" id="p2Content" onclick="event.stopPropagation()">
-
-    <!-- 小標提示 -->
     <div id="p2HintLabel" class="p2-hint-label">點元素可改顏色</div>
-
-    <!-- 標題 -->
-    <div id="p2AboveText" class="p2-above-text" onclick="openPickerFromBtn('tx',event)">
-      這裡是標題
-    </div>
-
-    <!-- 虛線：寬度由 JS 設定，與色塊同寬 +10px -->
+    <div id="p2AboveText" class="p2-above-text" onclick="openPickerFromBtn('tx',event)">這裡是標題</div>
     <hr id="p2Divider" class="p2-divider">
-
-    <!-- 副標題 -->
-    <div id="p2Subtitle" class="p2-subtitle" onclick="openPickerFromBtn('tx',event)">
-      這是副標題
-    </div>
-
-    <!-- Highlight 色塊 -->
+    <div id="p2Subtitle" class="p2-subtitle" onclick="openPickerFromBtn('tx',event)">這是副標題</div>
     <div id="p2Block" class="p2-block" onclick="openPickerFromBtn('hl',event)">
-      <div id="p2BlockBoldText" class="p2-block-text-bold"
-           onclick="event.stopPropagation(); openPickerFromBtn('bt',event)">
-        請感受易讀性
-      </div>
-      <div id="p2BlockMediumText" class="p2-block-text-medium"
-           onclick="event.stopPropagation(); openPickerFromBtn('bt',event)">
-        細一點的文字在這
-      </div>
+      <div id="p2BlockBoldText" class="p2-block-text-bold" onclick="event.stopPropagation(); openPickerFromBtn('bt',event)">請感受易讀性</div>
+      <div id="p2BlockMediumText" class="p2-block-text-medium" onclick="event.stopPropagation(); openPickerFromBtn('bt',event)">細一點的文字在這</div>
     </div>
-
-    <!-- 內文兩排：一細一粗，粗的用 hl 色 -->
     <div class="p2-below-texts" onclick="openPickerFromBtn('tx',event)">
       <div id="p2BelowMedium" class="p2-below-medium">這是內文小字</div>
-      <div id="p2BelowBold" class="p2-below-bold">
-        這是<span id="hlTextSpan" onclick="event.stopPropagation(); openPickerFromBtn('hl',event)">稍微粗一點</span>的內文小字
-      </div>
+      <div id="p2BelowBold" class="p2-below-bold">這是<span id="hlTextSpan" onclick="event.stopPropagation(); openPickerFromBtn('hl',event)">稍微粗一點</span>的內文小字</div>
     </div>
-
-    <!-- CTA -->
     <div>
       <button id="p2CtaBtn" class="p2-cta-btn" onclick="openPickerFromBtn('ct',event)">
         <span id="p2CtaText">閱讀更多</span>
         <span id="p2CtaArrow">→</span>
       </button>
     </div>
-
   </div>
 
   <div class="p2-contrast" id="p2Contrast" onclick="event.stopPropagation()"></div>
   <div class="p2-copyright" onclick="event.stopPropagation()">© Triple.Cell_illustration 細胞日常插畫</div>
-
 </div>
 </div>
 
 <div id="pickerOverlay" onclick="closePicker()"></div>
-
 <div id="pickerPopup">
   <div class="pp-title" id="ppTitle">修改顏色</div>
   <div class="pp-preview-strip" id="ppStrip"></div>
@@ -544,8 +486,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   </div>
   <div class="pp-hex-row">
     <span class="pp-hex-label">HEX</span>
-    <input id="ppHex" type="text" maxlength="7" placeholder="#000000"
-           autocomplete="off" spellcheck="false" oninput="onPopupHex(this.value)">
+    <input id="ppHex" type="text" maxlength="7" placeholder="#000000" autocomplete="off" spellcheck="false" oninput="onPopupHex(this.value)">
   </div>
   <div class="pp-btns">
     <button class="pp-cancel" onclick="closePicker()">取消</button>
@@ -559,12 +500,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
     正在產生圖片…
   </div>
 </div>
-
 <div class="ai-toast" id="aiToast"></div>
 
 <script>
 const LABELS = { bg:'背景色', hl:'Highlight', tx:'文字色', bt:'色塊文字', ct:'CTA' };
-
 let c = { bg:'#EDE8DF', hl:'#548EB8', tx:'#2C3A4A', bt:'#FFFFFF', ct:'#C66240' };
 let popupKey = null;
 let currentFont = 'sans';
@@ -577,51 +516,20 @@ const FONTS = {
 const P2_FONT_ELS = ['p2AboveText','p2Subtitle','p2BlockBoldText','p2BlockMediumText','p2BelowMedium','p2BelowBold','p2CtaBtn'];
 
 /* ── Color utils ── */
-function normHex(h) {
-  h = h.replace('#','');
-  if (h.length===3) h = h.split('').map(x=>x+x).join('');
-  return '#'+h.padEnd(6,'0').slice(0,6).toUpperCase();
-}
+function normHex(h) { h = h.replace('#',''); if (h.length===3) h = h.split('').map(x=>x+x).join(''); return '#'+h.padEnd(6,'0').slice(0,6).toUpperCase(); }
 function isValidHex(h) { return /^#[0-9A-Fa-f]{6}$/.test(h); }
-function hexToRgbArr(hex) {
-  const h=hex.replace('#','');
-  return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];
-}
-function rgbArrToHex(arr) {
-  return '#'+arr.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('').toUpperCase();
-}
-function adjustBrightness(hex,pct) {
-  const delta=Math.round(255*pct/100);
-  const [r,g,b]=hexToRgbArr(hex);
-  return rgbArrToHex([r+delta,g+delta,b+delta]);
-}
-function hexToHsb(hex) {
-  const [R,G,B]=hexToRgbArr(hex).map(v=>v/255);
-  const max=Math.max(R,G,B),min=Math.min(R,G,B),d=max-min;
-  let h=0;
-  if(d>0){
-    if(max===R) h=((G-B)/d%6+6)%6;
-    else if(max===G) h=(B-R)/d+2;
-    else h=(R-G)/d+4;
-    h*=60;
-  }
-  return {h:Math.round(h),s:Math.round(max===0?0:(d/max)*100),b:Math.round(max*100)};
-}
-function hsbToHex(h,s,bv) {
-  s/=100; bv/=100;
-  const k=n=>(n+h/60)%6;
-  const f=n=>bv-bv*s*Math.max(0,Math.min(k(n),4-k(n),1));
-  return rgbArrToHex([f(5)*255,f(3)*255,f(1)*255]);
-}
+function hexToRgbArr(hex) { const h=hex.replace('#',''); return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]; }
+function rgbArrToHex(arr) { return '#'+arr.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('').toUpperCase(); }
+function adjustBrightness(hex,pct) { const delta=Math.round(255*pct/100); const [r,g,b]=hexToRgbArr(hex); return rgbArrToHex([r+delta,g+delta,b+delta]); }
+function hexToHsb(hex) { const [R,G,B]=hexToRgbArr(hex).map(v=>v/255); const max=Math.max(R,G,B),min=Math.min(R,G,B),d=max-min; let h=0; if(d>0){ if(max===R) h=((G-B)/d%6+6)%6; else if(max===G) h=(B-R)/d+2; else h=(R-G)/d+4; h*=60; } return {h:Math.round(h),s:Math.round(max===0?0:(d/max)*100),b:Math.round(max*100)}; }
+function hsbToHex(h,s,bv) { s/=100; bv/=100; const k=n=>(n+h/60)%6; const f=n=>bv-bv*s*Math.max(0,Math.min(k(n),4-k(n),1)); return rgbArrToHex([f(5)*255,f(3)*255,f(1)*255]); }
 function srgbLin(v){ v/=255; return v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4; }
 function relativeLum(hex){ const [r,g,b]=hexToRgbArr(hex); return 0.2126*srgbLin(r)+0.7152*srgbLin(g)+0.0722*srgbLin(b); }
 function contrastRatio(h1,h2){ const a=relativeLum(h1),b=relativeLum(h2); return (Math.max(a,b)+0.05)/(Math.min(a,b)+0.05); }
 function wcagLevel(r){ return r>=7?{t:'AAA',col:'#4A7A65'}:r>=4.5?{t:'AA',col:'#548EB8'}:r>=3?{t:'AA大字',col:'#9A7845'}:{t:'不通過',col:'#D28187'}; }
 
 /* ── Slider tracks ── */
-function buildHueGrad() {
-  return 'linear-gradient(to right,'+Array.from({length:7},(_,i)=>`hsl(${i*60},100%,50%) ${(i/6*100).toFixed(1)}%`).join(',')+')';
-}
+function buildHueGrad() { return 'linear-gradient(to right,'+Array.from({length:7},(_,i)=>`hsl(${i*60},100%,50%) ${(i/6*100).toFixed(1)}%`).join(',')+')'; }
 function updateSliderTracks() {
   const h=+document.getElementById('slH').value;
   const s=+document.getElementById('slS').value;
@@ -632,345 +540,179 @@ function updateSliderTracks() {
 }
 function loadHsbFromHex(hex) {
   const {h,s,b}=hexToHsb(hex);
-  document.getElementById('slH').value=h;
-  document.getElementById('slS').value=s;
-  document.getElementById('slB').value=b;
-  document.getElementById('valH').textContent=h;
-  document.getElementById('valS').textContent=s+'%';
-  document.getElementById('valB').textContent=b+'%';
+  document.getElementById('slH').value=h; document.getElementById('slS').value=s; document.getElementById('slB').value=b;
+  document.getElementById('valH').textContent=h; document.getElementById('valS').textContent=s+'%'; document.getElementById('valB').textContent=b+'%';
   updateSliderTracks();
 }
 
-/* ── Page 1 ── */
+/* ── UI Logic ── */
 function setFont(type) {
   currentFont=type;
   document.querySelectorAll('.font-btn').forEach(b=>b.classList.toggle('active',b.dataset.font===type));
   P2_FONT_ELS.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.fontFamily=FONTS[type]; });
 }
-function onPick(k,val) {
-  if(!isValidHex(val)) return;
-  c[k]=val.toUpperCase();
-  document.getElementById('sw-'+k).style.background=c[k];
-  document.getElementById('disp-'+k).textContent=c[k];
-  if(document.getElementById('page2').classList.contains('active')) syncPage2();
-}
-
-/* ── BG style ── */
+function onPick(k,val) { if(!isValidHex(val)) return; c[k]=val.toUpperCase(); document.getElementById('sw-'+k).style.background=c[k]; document.getElementById('disp-'+k).textContent=c[k]; if(document.getElementById('page2').classList.contains('active')) syncPage2(); }
 function applyBgStyle() {
-  const on=document.getElementById('bgStyleToggle').checked;
-  const el=document.getElementById('p2bg');
+  const on=document.getElementById('bgStyleToggle').checked; const el=document.getElementById('p2bg');
   if(on){ const dark=adjustBrightness(c.bg,-3); el.style.background=`linear-gradient(165deg,${c.bg},${dark})`; }
   else el.style.background=c.bg;
 }
-
-/* ── Page 2 sync ── */
 function syncPage2() {
   applyBgStyle();
-  // Hint label
   document.getElementById('p2HintLabel').style.color=c.tx;
-
   document.getElementById('p2AboveText').style.color=c.tx;
-  // Divider colour only — width handled by CSS align-self: stretch
   document.getElementById('p2Divider').style.borderTopColor=c.tx;
-
   document.getElementById('p2Subtitle').style.color=c.tx;
-
-  // Highlight block
   document.getElementById('p2Block').style.background=c.hl;
   document.getElementById('p2BlockBoldText').style.color=c.bt;
   document.getElementById('p2BlockMediumText').style.color=c.bt;
-
-  // 內文兩排
   document.getElementById('p2BelowMedium').style.color=c.tx;
   document.getElementById('p2BelowBold').style.color=c.tx;
-  const hlSpan=document.getElementById('hlTextSpan');
-  hlSpan.style.color=c.hl;
-  hlSpan.style.fontWeight='900';
-  hlSpan.style.background='transparent';
-
-  // CTA
+  const hlSpan=document.getElementById('hlTextSpan'); hlSpan.style.color=c.hl; hlSpan.style.fontWeight='900';
   document.getElementById('p2CtaBtn').style.background=c.ct;
   const ctaCol=contrastRatio(c.bt,c.ct)>=contrastRatio(c.tx,c.ct)?c.bt:c.tx;
-  document.getElementById('p2CtaText').style.color=ctaCol;
-  document.getElementById('p2CtaArrow').style.color=ctaCol;
+  document.getElementById('p2CtaText').style.color=ctaCol; document.getElementById('p2CtaArrow').style.color=ctaCol;
   document.getElementById('ppOk').style.background=c.ct;
-
-  // Contrast bar
-  const rBgTx=contrastRatio(c.tx,c.bg);
-  const rHlBt=contrastRatio(c.bt,c.hl);
-  const rCtBt=contrastRatio(c.bt,c.ct);
+  const rBgTx=contrastRatio(c.tx,c.bg), rHlBt=contrastRatio(c.bt,c.hl), rCtBt=contrastRatio(c.bt,c.ct);
   const wBgTx=wcagLevel(rBgTx),wHlBt=wcagLevel(rHlBt),wCtBt=wcagLevel(rCtBt);
-  document.getElementById('p2Contrast').innerHTML=`
-    <div class="contrast-group">
-      <div class="contrast-group-label">背景 / 文字</div>
-      <div class="c-chip"><div class="cdot" style="background:${wBgTx.col}"></div>標題 <strong>${rBgTx.toFixed(2)}:1</strong>&nbsp;<span style="opacity:.7;font-size:11px;">${wBgTx.t}</span></div>
-    </div>
-    <div class="contrast-group">
-      <div class="contrast-group-label">Highlight / 文字</div>
-      <div class="c-chip"><div class="cdot" style="background:${wHlBt.col}"></div>色塊文字 <strong>${rHlBt.toFixed(2)}:1</strong>&nbsp;<span style="opacity:.7;font-size:11px;">${wHlBt.t}</span></div>
-    </div>
-    <div class="contrast-group">
-      <div class="contrast-group-label">CTA / 文字</div>
-      <div class="c-chip"><div class="cdot" style="background:${wCtBt.col}"></div>CTA <strong>${rCtBt.toFixed(2)}:1</strong>&nbsp;<span style="opacity:.7;font-size:11px;">${wCtBt.t}</span></div>
-    </div>`;
+  document.getElementById('p2Contrast').innerHTML=`<div class="contrast-group"><div class="contrast-group-label">背景 / 文字</div><div class="c-chip"><div class="cdot" style="background:${wBgTx.col}"></div>標題 <strong>${rBgTx.toFixed(2)}:1</strong>&nbsp;<span>${wBgTx.t}</span></div></div><div class="contrast-group"><div class="contrast-group-label">Highlight / 文字</div><div class="c-chip"><div class="cdot" style="background:${wHlBt.col}"></div>色塊文字 <strong>${rHlBt.toFixed(2)}:1</strong>&nbsp;<span>${wHlBt.t}</span></div></div><div class="contrast-group"><div class="contrast-group-label">CTA / 文字</div><div class="c-chip"><div class="cdot" style="background:${wCtBt.col}"></div>CTA <strong>${rCtBt.toFixed(2)}:1</strong>&nbsp;<span>${wCtBt.t}</span></div></div>`;
 }
 
-/* ── Navigation ── */
-function goPage2() {
-  document.getElementById('page1').classList.remove('active');
-  document.getElementById('page2').classList.add('active');
-  setFont(currentFont);
-  syncPage2();
-}
-function goPage1() {
-  closePicker();
-  document.getElementById('page2').classList.remove('active');
-  document.getElementById('page1').classList.add('active');
-}
+function goPage2() { document.getElementById('page1').classList.remove('active'); document.getElementById('page2').classList.add('active'); setFont(currentFont); syncPage2(); }
+function goPage1() { closePicker(); document.getElementById('page2').classList.remove('active'); document.getElementById('page1').classList.add('active'); }
 
 /* ── Picker ── */
-function _openCore(key) {
-  popupKey=key;
-  document.getElementById('ppTitle').textContent='修改：'+(LABELS[key]||key);
-  document.getElementById('ppStrip').style.background=c[key];
-  document.getElementById('ppHex').value=c[key];
-  document.getElementById('ppOk').style.background=c.ct;
-  loadHsbFromHex(c[key]);
-  document.getElementById('pickerOverlay').classList.add('show');
-  document.getElementById('pickerPopup').classList.add('open');
-}
+function _openCore(key) { popupKey=key; document.getElementById('ppTitle').textContent='修改：'+(LABELS[key]||key); document.getElementById('ppStrip').style.background=c[key]; document.getElementById('ppHex').value=c[key]; document.getElementById('ppOk').style.background=c.ct; loadHsbFromHex(c[key]); document.getElementById('pickerOverlay').classList.add('show'); document.getElementById('pickerPopup').classList.add('open'); }
 function openPickerFromBtn(key,e) { if(e) e.stopPropagation(); _openCore(key); }
-function openPicker(e,key) { if(e) e.stopPropagation(); _openCore(key); }
-
 function onHsbSlide() {
-  const h=+document.getElementById('slH').value;
-  const s=+document.getElementById('slS').value;
-  const bv=+document.getElementById('slB').value;
-  document.getElementById('valH').textContent=h;
-  document.getElementById('valS').textContent=s+'%';
-  document.getElementById('valB').textContent=bv+'%';
-  const hex=hsbToHex(h,s,bv);
-  document.getElementById('ppHex').value=hex;
-  document.getElementById('ppStrip').style.background=hex;
-  updateSliderTracks();
-  if(!popupKey) return;
-  c[popupKey]=hex;
-  _reflectChange(popupKey,hex);
+  const h=+document.getElementById('slH').value, s=+document.getElementById('slS').value, bv=+document.getElementById('slB').value;
+  document.getElementById('valH').textContent=h; document.getElementById('valS').textContent=s+'%'; document.getElementById('valB').textContent=bv+'%';
+  const hex=hsbToHex(h,s,bv); document.getElementById('ppHex').value=hex; document.getElementById('ppStrip').style.background=hex;
+  updateSliderTracks(); if(!popupKey) return; c[popupKey]=hex; _reflectChange(popupKey,hex);
 }
-function onPopupHex(raw) {
-  let val=raw.trim();
-  if(!val.startsWith('#')) val='#'+val;
-  if(!isValidHex(val)) return;
-  val=val.toUpperCase();
-  document.getElementById('ppStrip').style.background=val;
-  loadHsbFromHex(val);
-  if(!popupKey) return;
-  c[popupKey]=val;
-  _reflectChange(popupKey,val);
-}
-function _reflectChange(key,hex) {
-  const sw=document.getElementById('sw-'+key);
-  const dp=document.getElementById('disp-'+key);
-  const ni=document.getElementById('pick-'+key);
-  if(sw) sw.style.background=hex;
-  if(dp) dp.textContent=hex;
-  if(ni) ni.value=hex;
-  if(document.getElementById('page2').classList.contains('active')) syncPage2();
-}
-function closePicker() {
-  document.getElementById('pickerPopup').classList.remove('open');
-  document.getElementById('pickerOverlay').classList.remove('show');
-  popupKey=null;
-}
+function onPopupHex(raw) { let val=raw.trim(); if(!val.startsWith('#')) val='#'+val; if(!isValidHex(val)) return; val=val.toUpperCase(); document.getElementById('ppStrip').style.background=val; loadHsbFromHex(val); if(!popupKey) return; c[popupKey]=val; _reflectChange(popupKey,val); }
+function _reflectChange(key,hex) { const sw=document.getElementById('sw-'+key), dp=document.getElementById('disp-'+key); if(sw) sw.style.background=hex; if(dp) dp.textContent=hex; if(document.getElementById('page2').classList.contains('active')) syncPage2(); }
+function closePicker() { document.getElementById('pickerPopup').classList.remove('open'); document.getElementById('pickerOverlay').classList.remove('show'); popupKey=null; }
 
 /* ── AI Prompt ── */
 function copyAIPrompt() {
-  const on=document.getElementById('bgStyleToggle').checked;
-  const dark=adjustBrightness(c.bg,-3);
-  const bgStr=on?`bg:linear-gradient(165deg,${c.bg},${dark})`:`bg:${c.bg}`;
-  const prompt=`Colour scheme — ${bgStr} tx:${c.tx} hl:${c.hl} bt:${c.bt} ct:${c.ct}`;
-  if(navigator.clipboard?.writeText){ navigator.clipboard.writeText(prompt).catch(()=>_fallbackCopy(prompt)); }
-  else _fallbackCopy(prompt);
-  _showToast('已複製 → '+prompt);
+  const on=document.getElementById('bgStyleToggle').checked; const dark=adjustBrightness(c.bg,-3); const bgStr=on?`bg:linear-gradient(165deg,${c.bg},${dark})`:`bg:${c.bg}`; const prompt=`Colour scheme — ${bgStr} tx:${c.tx} hl:${c.hl} bt:${c.bt} ct:${c.ct}`;
+  if(navigator.clipboard?.writeText){ navigator.clipboard.writeText(prompt); } _showToast('已複製 → '+prompt);
 }
-function _fallbackCopy(text) {
-  const ta=Object.assign(document.createElement('textarea'),{value:text,style:'position:fixed;opacity:0;top:0;left:0;'});
-  document.body.appendChild(ta); ta.focus(); ta.select();
-  try{ document.execCommand('copy'); }catch(_){}
-  document.body.removeChild(ta);
-}
-function _showToast(msg) {
-  const t=document.getElementById('aiToast');
-  t.textContent=msg; t.classList.add('show');
-  clearTimeout(t._tid); t._tid=setTimeout(()=>t.classList.remove('show'),3000);
-}
+function _showToast(msg) { const t=document.getElementById('aiToast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
 
-/* ── Canvas Export ── */
+/* ── Canvas Export (等距邏輯) ── */
 async function downloadImage() {
   closePicker();
   const overlay=document.getElementById('dlOverlay');
   overlay.classList.add('show');
   await new Promise(r=>setTimeout(r,80));
+  
   try {
-    const DPR=2,W=900,PAD=48,IW=W-PAD*2,GAP=20;
+    const DPR=2, W=900, PAD=48, IW=W-PAD*2;
     const fontFam=FONTS[currentFont].split(',')[0].replace(/'/g,'').trim();
-    const dateH=28,swH=68,lblH=22,pp=36;
-    const hdH=44, divH=14, subH=34, hlH=92, bodyH=72, ctaH=38;
-    const prevH=pp+hdH+divH+subH+hlH+bodyH+ctaH+pp;
-    const cLblH=18,chipH=32,copyH=24;
-    const totalH=PAD+dateH+GAP+swH+GAP+lblH+prevH+GAP+cLblH+chipH+GAP+copyH+PAD;
+    
+    // 設定等距參數
+    const STEP_GAP = 35; // 每個元素間的固定距離
+    const pp = 40;       // 預覽框內邊距
+    
+    // 高度計算
+    const hdH=30, divH=2, subH=24, hlH=96, bodyH=50, ctaH=40;
+    const contentTotalH = pp + hdH + STEP_GAP + divH + STEP_GAP + subH + STEP_GAP + hlH + STEP_GAP + bodyH + STEP_GAP + ctaH + pp;
+    const totalH = 140 + contentTotalH + 100; // 頂部資訊+預覽區+底部
 
     const cv=document.createElement('canvas');
     cv.width=W*DPR; cv.height=totalH*DPR;
     const ctx=cv.getContext('2d');
     ctx.scale(DPR,DPR);
 
-    const rrPath=(x,y,w,h,r)=>{
-      ctx.beginPath();
-      ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-      ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-      ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-      ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
-    };
-    const fillRR=(x,y,w,h,r,col)=>{ ctx.fillStyle=col; rrPath(x,y,w,h,r); ctx.fill(); };
-    const strokeRR=(x,y,w,h,r,col,lw=1)=>{ ctx.strokeStyle=col; ctx.lineWidth=lw; rrPath(x,y,w,h,r); ctx.stroke(); };
-    const txt=(t,x,y,size,weight,col,align='left',fam)=>{
-      ctx.fillStyle=col;
-      ctx.font=`${weight} ${size}px '${fam||fontFam}','Noto Sans TC',sans-serif`;
-      ctx.letterSpacing='0.05em';
-      ctx.textBaseline='middle'; ctx.textAlign=align; ctx.fillText(t,x,y);
-    };
-    const dot=(x,y,r,col)=>{ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); };
+    const rrPath=(x,y,w,h,r)=>{ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();};
+    const fillRR=(x,y,w,h,r,col)=>{ctx.fillStyle=col;rrPath(x,y,w,h,r);ctx.fill();};
+    const strokeRR=(x,y,w,h,r,col,lw=1)=>{ctx.strokeStyle=col;ctx.lineWidth=lw;rrPath(x,y,w,h,r);ctx.stroke();};
+    const txt=(t,x,y,size,weight,col,align='left',fam)=>{ctx.fillStyle=col;ctx.font=`${weight} ${size}px '${fam||fontFam}','Noto Sans TC',sans-serif`;ctx.letterSpacing='0.05em';ctx.textBaseline='middle';ctx.textAlign=align;ctx.fillText(t,x,y);};
 
+    // 底色
     fillRR(0,0,W,totalH,20,'#1E2530');
-    let y=PAD;
-
-    // letterSpacing reset for non-preview text
-    ctx.letterSpacing='0em';
-    txt(`色票匯出 · ${new Date().toLocaleDateString('zh-TW')}`,PAD,y+dateH/2,11,700,'rgba(255,255,255,0.38)','left','Noto Sans TC');
-    y+=dateH+GAP;
-
+    
+    // 頂部色票資訊
+    let y=48;
+    txt(`色票匯出 · ${new Date().toLocaleDateString('zh-TW')}`,PAD,y,11,700,'rgba(255,255,255,0.38)');
+    y+=40;
     const swDefs=[{k:'bg',n:'背景色'},{k:'tx',n:'文字色'},{k:'hl',n:'色塊色'},{k:'bt',n:'色塊文字'},{k:'ct',n:'CTA'}];
     const swW=Math.floor((IW-16*4)/5);
     swDefs.forEach(({k,n},i)=>{
-      const sx=PAD+i*(swW+16);
-      fillRR(sx,y,swW,swH,10,'rgba(255,255,255,0.07)');
-      fillRR(sx+12,y+12,36,36,8,c[k]);
-      strokeRR(sx+12,y+12,36,36,8,'rgba(255,255,255,0.15)');
-      ctx.letterSpacing='0em';
-      txt(n,sx+56,y+22,10,700,'rgba(255,255,255,0.45)','left','Noto Sans TC');
-      txt(c[k],sx+56,y+42,13,700,'#FFFFFF','left','Noto Sans TC');
+      const sx=PAD+i*(swW+16); fillRR(sx,y,swW,68,10,'rgba(255,255,255,0.07)');
+      fillRR(sx+12,y+12,36,36,8,c[k]); strokeRR(sx+12,y+12,36,36,8,'rgba(255,255,255,0.15)');
+      txt(n,sx+56,y+22,10,700,'rgba(255,255,255,0.45)'); txt(c[k],sx+56,y+42,13,700,'#FFFFFF');
     });
-    y+=swH+GAP;
 
-    ctx.letterSpacing='0em';
-    txt('預覽',PAD,y+lblH/2,10,700,'rgba(255,255,255,0.32)','left','Noto Sans TC');
-    y+=lblH;
-
+    // 預覽框
+    y = 160;
     const bgOn=document.getElementById('bgStyleToggle').checked;
-    if(bgOn){ const dark=adjustBrightness(c.bg,-3); const g=ctx.createLinearGradient(PAD,y,PAD+IW,y+prevH); g.addColorStop(0,c.bg); g.addColorStop(1,dark); ctx.fillStyle=g; rrPath(PAD,y,IW,prevH,14); ctx.fill(); }
-    else fillRR(PAD,y,IW,prevH,14,c.bg);
+    if(bgOn){ const dark=adjustBrightness(c.bg,-3); const g=ctx.createLinearGradient(PAD,y,PAD+IW,y+contentTotalH); g.addColorStop(0,c.bg); g.addColorStop(1,dark); ctx.fillStyle=g; rrPath(PAD,y,IW,contentTotalH,14); ctx.fill(); }
+    else fillRR(PAD,y,IW,contentTotalH,14,c.bg);
 
-    let iy=y+pp;
-    const ix=PAD+pp, iw=IW-pp*2;
+    let currY = y + pp;
+    const ix = PAD+pp, iw = IW-pp*2;
 
-    // ① 標題
-    txt('這裡是標題',ix,iy+22,30,900,c.tx); iy+=hdH;
+    // 1. 標題
+    txt('這裡是標題',ix,currY+hdH/2,30,900,c.tx);
+    currY += hdH + STEP_GAP;
 
-    // ② 虛線
-    ctx.save();
-    ctx.strokeStyle=c.tx; ctx.lineWidth=2; ctx.globalAlpha=0.38;
-    ctx.setLineDash([6,5]);
-    ctx.beginPath(); ctx.moveTo(ix,iy); ctx.lineTo(ix+iw,iy); ctx.stroke();
-    ctx.setLineDash([]); ctx.restore();
-    iy+=14;
+    // 2. 虛線
+    ctx.save(); ctx.strokeStyle=c.tx; ctx.lineWidth=2; ctx.globalAlpha=0.38; ctx.setLineDash([6,5]);
+    ctx.beginPath(); ctx.moveTo(ix,currY); ctx.lineTo(ix+iw,currY); ctx.stroke(); ctx.restore();
+    currY += STEP_GAP;
 
-    // ③ 副標題
-    txt('這是副標題',ix,iy+17,22,700,c.tx); iy+=subH;
+    // 3. 副標題
+    txt('這是副標題',ix,currY+subH/2,22,700,c.tx);
+    currY += subH + STEP_GAP;
 
-    // ④ 色塊
-    fillRR(ix,iy,iw,hlH,12,c.hl);
-    txt('請感受易讀性',   ix+24,iy+28,18,700,c.bt);
-    txt('細一點的文字在這',ix+24,iy+62,18,500,c.bt);
-    iy+=hlH+12;
+    // 4. Highlight 色塊
+    fillRR(ix,currY,iw,hlH,12,c.hl);
+    txt('請感受易讀性',ix+24,currY+30,18,700,c.bt);
+    txt('細一點的文字在這',ix+24,currY+64,18,500,c.bt);
+    currY += hlH + STEP_GAP;
 
-    // ⑤ 內文兩排 — medium + bold（粗那排「稍微粗一點」用 c.hl 色）
-    txt('這是內文小字',ix+6,iy+15,18,500,c.tx); iy+=30;
-    ctx.letterSpacing='0.05em'; ctx.textBaseline='middle'; ctx.textAlign='left';
+    // 5. 內文
+    txt('這是內文小字',ix,currY+10,18,500,c.tx);
     const seg1='這是', seg2='稍微粗一點', seg3='的內文小字';
     ctx.font=`700 18px '${fontFam}','Noto Sans TC',sans-serif`;
-    ctx.fillStyle=c.tx;  ctx.fillText(seg1,ix+6,iy+15);
-    const w1=ctx.measureText(seg1).width;
-    ctx.fillStyle=c.hl; ctx.fillText(seg2,ix+6+w1,iy+15);
-    const w2=ctx.measureText(seg2).width;
-    ctx.fillStyle=c.tx;  ctx.fillText(seg3,ix+6+w1+w2,iy+15);
-    iy+=30+12;
+    ctx.fillStyle=c.tx; ctx.fillText(seg1,ix,currY+35);
+    let w1=ctx.measureText(seg1).width;
+    ctx.fillStyle=c.hl; ctx.fillText(seg2,ix+w1,currY+35);
+    let w2=ctx.measureText(seg2).width;
+    ctx.fillStyle=c.tx; ctx.fillText(seg3,ix+w1+w2,currY+35);
+    currY += bodyH + STEP_GAP;
 
-    // ⑥ CTA
+    // 6. CTA
     const ctaTC=contrastRatio(c.bt,c.ct)>=contrastRatio(c.tx,c.ct)?c.bt:c.tx;
-    fillRR(ix,iy,140,ctaH,9,c.ct);
-    txt('閱讀更多 →',ix+70,iy+ctaH/2,14,700,ctaTC,'center');
+    fillRR(ix,currY,140,ctaH,9,c.ct);
+    txt('閱讀更多 →',ix+70,currY+ctaH/2,14,700,ctaTC,'center');
 
-    y+=prevH+GAP;
+    // 底部版權
+    txt('© Triple.Cell_illustration 細胞日常插畫',W/2,totalH-40,11,400,'rgba(255,255,255,0.28)','center','Noto Sans TC');
 
-    const pairs=[{lbl:'背景/文字',r:contrastRatio(c.tx,c.bg)},{lbl:'hl/文字',r:contrastRatio(c.bt,c.hl)},{lbl:'CTA/文字',r:contrastRatio(c.bt,c.ct)}];
-    txt('對比度',PAD,y+cLblH/2,10,700,'rgba(255,255,255,0.32)','left','Noto Sans TC');
-    y+=cLblH;
-    const meas=document.createElement('canvas').getContext('2d');
-    meas.font=`500 11px 'Noto Sans TC',sans-serif`;
-    let cx=PAD;
-    pairs.forEach(({lbl,r})=>{
-      const w=wcagLevel(r);
-      const str=`${lbl}  ${r.toFixed(2)}:1  ${w.t}`;
-      const cw=Math.ceil(meas.measureText(str).width)+44;
-      fillRR(cx,y,cw,chipH,8,'rgba(255,255,255,0.08)');
-      dot(cx+14,y+chipH/2,4,w.col);
-      txt(str,cx+26,y+chipH/2,11,500,'rgba(255,255,255,0.85)','left','Noto Sans TC');
-      cx+=cw+12;
-    });
-    y+=chipH+GAP;
-
-    txt('© Triple.Cell_illustration 細胞日常插畫',W/2,y+copyH/2,11,400,'rgba(255,255,255,0.28)','center','Noto Sans TC');
-
-    await new Promise((res,rej)=>{
-      cv.toBlob(blob=>{
-        if(!blob){ rej(new Error('toBlob 失敗')); return; }
-        const url=URL.createObjectURL(blob);
-        const a=Object.assign(document.createElement('a'),{download:`color-scheme-${Date.now()}.png`,href:url});
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-        setTimeout(()=>URL.revokeObjectURL(url),3000); res();
-      },'image/png');
-    });
-  } catch(err){ alert('匯出失敗：'+err.message); }
-  finally { overlay.classList.remove('show'); }
+    cv.toBlob(blob=>{
+      const url=URL.createObjectURL(blob);
+      const a=Object.assign(document.createElement('a'),{download:`color-scheme-${Date.now()}.png`,href:url});
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    },'image/png');
+  } catch(e){ console.error(e); } finally { overlay.classList.remove('show'); }
 }
 
 /* ── Init ── */
 (function init(){
   Object.keys(c).forEach(k=>document.getElementById('sw-'+k).style.background=c[k]);
-  document.getElementById('ppOk').style.background=c.ct;
-  document.getElementById('slH').style.background=buildHueGrad();
-  document.getElementById('slS').style.background=`linear-gradient(to right,${hsbToHex(0,0,100)},${hsbToHex(0,100,100)})`;
-  document.getElementById('slB').style.background=`linear-gradient(to right,#000000,${hsbToHex(0,0,100)})`;
+  updateSliderTracks();
 })();
 
 /* ── Lottie ── */
 (async function initLottie(){
-  const wrap=document.getElementById('lottieCellWrap');
-  if(!wrap) return;
+  const wrap=document.getElementById('lottieCellWrap'); if(!wrap) return;
   for(let i=0;i<20;i++){ if(typeof lottie!=='undefined') break; await new Promise(r=>setTimeout(r,150)); }
-  if(typeof lottie==='undefined'){ wrap.style.display='none'; return; }
-  try{
-    const res=await fetch('data.json');
-    if(!res.ok) throw 0;
-    lottie.loadAnimation({container:wrap,renderer:'svg',loop:true,autoplay:true,animationData:await res.json()});
-  } catch(_){ wrap.style.display='none'; }
+  try{ const res=await fetch('data.json'); if(res.ok) lottie.loadAnimation({container:wrap,renderer:'svg',loop:true,autoplay:true,animationData:await res.json()}); } catch(_){}
 })();
-
-/* ── SW ── */
-if('serviceWorker' in navigator && location.protocol!=='file:'){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
 </script>
 </body>
 </html>
