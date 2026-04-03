@@ -8,13 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Noto+Serif+TC:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
-
 .page { display: none; min-height: 100vh; flex-direction: column; }
 .page.active { display: flex; }
 
-/* ═══════════════════════════ PAGE 1 ═══════════════════════════ */
+/* ══════════ PAGE 1 ══════════ */
 #page1 { background: #EDE8DF; align-items: center; justify-content: center; padding: 40px 20px; }
 .p1-wrap { width: min(480px, 100%); display: flex; flex-direction: column; }
 .p1-title { font-size: 22px; font-weight: 600; color: #2C3A4A; margin-bottom: 4px; }
@@ -25,13 +24,13 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   position: absolute; top: -100px; right: 15px;
   width: 100px; height: 100px; pointer-events: none; z-index: 1;
 }
-
 .font-selector-row {
   display: flex; align-items: center; gap: 10px;
-  background: #F5F2EC; border: 1.5px solid #D9D3C7; border-radius: 12px; padding: 12px 16px;
+  background: #F5F2EC; border: 1.5px solid #D9D3C7;
+  border-radius: 12px; padding: 12px 16px;
 }
 .font-selector-label { font-size: 12px; font-weight: 600; color: #9AABB8; white-space: nowrap; }
-.font-selector-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.font-selector-btns  { display: flex; gap: 6px; flex-wrap: wrap; }
 .font-btn {
   font-size: 12px; font-weight: 600; padding: 5px 12px;
   border-radius: 8px; border: 1.5px solid #D9D3C7;
@@ -55,35 +54,20 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   position: relative; overflow: hidden; cursor: pointer;
 }
 .cb-swatch input[type=color] {
-  position: absolute; 
-  inset: -6px; 
-  opacity: 0; 
-  width: 200%; 
-  height: 200%; 
-  cursor: pointer;
-  pointer-events: none; /* 關鍵修改 */
+  position: absolute; inset: -6px; opacity: 0;
+  width: 200%; height: 200%; cursor: pointer;
 }
 .cb-info { flex: 1; }
 .cb-num  { font-size: 11px; font-weight: 700; color: #9AABB8; letter-spacing: 0.07em; margin-bottom: 2px; }
 .cb-name { font-size: 14px; font-weight: 600; color: #2C3A4A; }
 .cb-desc { font-size: 12px; color: #5A6A7A; margin-top: 1px; }
-.cb-hex-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
-.cb-hex {
+.cb-hex  {
   font-size: 13px; font-weight: 600; color: #548EB8;
-  background: #EDE8DF; border-radius: 7px; padding: 4px 10px; letter-spacing: 0.04em;
+  background: #EDE8DF; border-radius: 7px;
+  padding: 4px 10px; letter-spacing: 0.04em; flex-shrink: 0;
 }
-.cb-hex-input {
-  font-size: 12px; font-weight: 500; color: #2C3A4A;
-  background: #EDE8DF; border: 1.5px solid #D9D3C7; border-radius: 7px;
-  padding: 3px 8px; width: 88px; letter-spacing: 0.04em;
-  font-family: 'Noto Sans TC', sans-serif; outline: none; display: none;
-}
-.cb-hex-input:focus { border-color: #548EB8; }
-.cb-hex-input.visible { display: block; }
-
-.p1-footer { margin-top: 28px; display: flex; gap: 10px; justify-content: center; }
+.p1-footer    { margin-top: 28px; display: flex; gap: 10px; justify-content: center; }
 .p1-copyright { margin-top: 16px; font-size: 11px; color: #9AABB8; letter-spacing: 0.04em; text-align: center; }
-
 .btn {
   font-family: 'Noto Sans TC', sans-serif; font-size: 14px; font-weight: 600;
   border-radius: 10px; border: none; cursor: pointer; padding: 11px 22px;
@@ -92,13 +76,15 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 .btn-next { background: #C66240; color: #fff; }
 .btn-next:hover { background: #b05535; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(198,98,64,0.25); }
 
-/* ═══════════════════════════ PAGE 2 ═══════════════════════════ */
+/* ══════════ PAGE 2 ══════════ */
 #page2 { position: relative; }
-.p2-bg { flex: 1; display: flex; flex-direction: column; transition: background 0.25s; }
+.p2-bg { flex: 1; display: flex; flex-direction: column; cursor: pointer; }
 
 .p2-topbar {
-  padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;
-  background: #4f586d; flex-shrink: 0; gap: 12px;
+  padding: 10px 20px; display: flex; align-items: center;
+  justify-content: space-between; background: #4f586d;
+  flex-shrink: 0; gap: 10px; flex-wrap: wrap;
+  cursor: default;
 }
 .btn-back {
   border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.3);
@@ -111,64 +97,130 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.25);
   background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.75);
   cursor: pointer; padding: 7px 10px;
-  display: inline-flex; align-items: center; transition: all 0.13s; flex-shrink: 0;
+  display: inline-flex; align-items: center;
+  transition: all 0.13s; flex-shrink: 0;
 }
 .btn-download:hover { background: rgba(255,255,255,0.2); color: #fff; }
-.p2-hint { font-size: 12px; color: rgba(255,255,255,0.5); flex: 1; text-align: center; }
-
-.p2-content { flex: 1; display: flex; flex-direction: column; padding: 48px 56px; gap: 18px; }
-
-.p2-above-text {
-  font-size: 30px; font-weight: 900; line-height: 1.4; letter-spacing: 0.05em;
-  display: inline-block; cursor: pointer; padding: 6px 10px; border-radius: 8px; transition: outline 0.12s;
+.btn-ai-prompt {
+  border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.65);
+  cursor: pointer; padding: 7px 10px; font-size: 11px; font-weight: 600;
+  font-family: 'Noto Sans TC', sans-serif;
+  display: inline-flex; align-items: center; gap: 5px;
+  transition: all 0.13s; flex-shrink: 0;
 }
-.p2-above-text:hover { outline: 2px dashed rgba(0,0,0,0.18); }
+.btn-ai-prompt:hover { background: rgba(255,255,255,0.18); color: #fff; }
 
+/* bgStyle toggle */
+.bg-toggle-wrap { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+.bg-toggle-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.5); white-space: nowrap; }
+.toggle-switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-track {
+  position: absolute; inset: 0; border-radius: 20px;
+  background: rgba(255,255,255,0.2); cursor: pointer; transition: background 0.2s;
+}
+.toggle-track::after {
+  content: ''; position: absolute; width: 14px; height: 14px; border-radius: 50%;
+  background: #fff; top: 3px; left: 3px; transition: transform 0.2s;
+}
+.toggle-switch input:checked + .toggle-track { background: #548EB8; }
+.toggle-switch input:checked + .toggle-track::after { transform: translateX(16px); }
+
+/* Page 2 content */
+.p2-content {
+  flex: 1; display: flex; flex-direction: column;
+  padding: 44px 56px; gap: 14px;
+  align-items: flex-start;
+  cursor: default;
+}
+
+/* 小標提示 */
+.p2-hint-label {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.06em;
+  opacity: 0.4; margin-bottom: -4px;
+}
+
+/* 標題 */
+.p2-above-text {
+  font-size: 30px; font-weight: 900; line-height: 1.35; letter-spacing: 0.05em;
+  display: inline-block; cursor: pointer; padding: 4px 8px; border-radius: 8px;
+  transition: outline 0.12s;
+}
+.p2-above-text:hover { outline: 2px dashed rgba(0,0,0,0.2); }
+
+/* 虛線 — width matches block via align-self stretch */
+.p2-divider {
+  height: 0; border: none;
+  border-top: 2px dashed currentColor;
+  opacity: 0.38;
+  display: block; align-self: stretch;
+}
+
+/* 副標題 */
 .p2-subtitle {
   font-size: 22px; font-weight: 700; line-height: 1.5; letter-spacing: 0.05em;
-  display: inline-block; cursor: pointer; padding: 4px 10px; border-radius: 8px;
-  transition: outline 0.12s; margin-top: -6px;
+  display: inline-block; cursor: pointer; padding: 4px 8px; border-radius: 8px;
+  transition: outline 0.12s;
 }
-.p2-subtitle:hover { outline: 2px dashed rgba(0,0,0,0.18); }
+.p2-subtitle:hover { outline: 2px dashed rgba(0,0,0,0.2); }
 
+/* Highlight 色塊 */
 .p2-block {
-  display: inline-flex; flex-direction: column; border-radius: 16px; padding: 32px 40px;
-  max-width: 560px; cursor: pointer; box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-  transition: background 0.25s, outline 0.12s; gap: 8px;
+  border-radius: 16px; padding: 32px 40px;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  transition: background 0.25s, outline 0.12s;
+  display: flex; flex-direction: column; gap: 8px;
+  align-self: stretch; min-width: 0;
 }
 .p2-block:hover { outline: 2.5px dashed rgba(255,255,255,0.4); }
-
 .p2-block-text-bold {
-  font-size: 18px; font-weight: 700; line-height: 1.6; letter-spacing: 0.05em; cursor: pointer;
-  padding: 4px 6px; border-radius: 6px; transition: outline 0.12s;
+  font-size: 18px; font-weight: 700; line-height: 1.6; letter-spacing: 0.05em;
+  cursor: pointer; padding: 2px 4px; border-radius: 4px;
 }
 .p2-block-text-bold:hover { outline: 2px dashed rgba(255,255,255,0.45); }
-
 .p2-block-text-medium {
-  font-size: 18px; font-weight: 500; line-height: 1.6; letter-spacing: 0.05em; cursor: pointer;
-  padding: 4px 6px; border-radius: 6px; transition: outline 0.12s;
+  font-size: 18px; font-weight: 500; line-height: 1.6; letter-spacing: 0.05em;
+  cursor: pointer; padding: 2px 4px; border-radius: 4px;
 }
 .p2-block-text-medium:hover { outline: 2px dashed rgba(255,255,255,0.45); }
 
-.p2-below-texts { display: flex; flex-direction: column; gap: 4px; max-width: 560px; padding: 0 6px; }
+/* 內文 */
+.p2-block-bold {
+  font-size: 18px; font-weight: 700; line-height: 1.7; letter-spacing: 0.04em;
+  cursor: pointer; padding: 4px 8px; border-radius: 8px;
+  display: inline-block; transition: outline 0.12s;
+}
+.p2-block-bold:hover { outline: 2px dashed rgba(0,0,0,0.18); }
+
+/* 內文兩排 */
+.p2-below-texts { display: flex; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px 8px; border-radius: 8px; display: inline-flex; }
+.p2-below-texts:hover { outline: 2px dashed rgba(0,0,0,0.15); }
 .p2-below-medium { font-size: 18px; font-weight: 500; line-height: 1.6; letter-spacing: 0.05em; }
 .p2-below-bold   { font-size: 18px; font-weight: 700; line-height: 1.6; letter-spacing: 0.05em; }
 
+/* CTA */
 .p2-cta-btn {
   display: inline-flex; align-items: center; gap: 8px; border-radius: 10px;
-  padding: 10px 20px; cursor: pointer; font-size: 14px; font-weight: 700;
-  letter-spacing: 0.05em; line-height: 1; box-shadow: 0 3px 12px rgba(0,0,0,0.12);
-  transition: background 0.2s, outline 0.12s; border: none; outline: none;
+  padding: 10px 22px; cursor: pointer; font-size: 14px; font-weight: 700;
+  letter-spacing: 0.05em; line-height: 1;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.14);
+  transition: filter 0.15s, outline 0.12s; border: none; outline: none;
+  font-family: 'Noto Sans TC', sans-serif;
 }
-.p2-cta-btn:hover { outline: 2px dashed rgba(255,255,255,0.5) !important; }
+.p2-cta-btn:hover { filter: brightness(1.08); }
 
 /* Contrast bar */
 .p2-contrast {
   padding: 12px 28px 8px; display: flex; gap: 16px; flex-wrap: wrap;
   background: #4f586d; flex-shrink: 0; align-items: flex-start;
+  cursor: default;
 }
 .contrast-group { display: flex; flex-direction: column; gap: 5px; }
-.contrast-group-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; }
+.contrast-group-label {
+  font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.08em;
+}
 .c-chip {
   display: inline-flex; align-items: center; gap: 6px;
   background: rgba(0,0,0,0.28); border-radius: 8px;
@@ -176,140 +228,85 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 }
 .cdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-/* ★ 版權置中 */
 .p2-copyright {
-  background: #4f586d; padding: 0 28px 12px;
+  background: #4f586d; padding: 5px 28px 12px;
   font-size: 11px; color: rgba(255,255,255,0.28);
   letter-spacing: 0.04em; text-align: center; flex-shrink: 0;
+  cursor: default;
 }
 
-/* ══════════════════════════════════════════════════
-   HSB PICKER POPUP
-══════════════════════════════════════════════════ */
-/* ════════ 彈窗中央定位修正 ════════ */
-.picker-popup {
-  position: fixed; 
-  z-index: 9999;
-  /* 讓彈窗基準點在螢幕正中央 */
-  left: 50% !important; 
-  top: 50% !important;
-  transform: translate(-50%, -50%) scale(0.93); /* 初始縮小一點做動畫 */
-  
-  background: #F5F2EC; 
-  border-radius: 16px;
-  box-shadow: 0 12px 60px rgba(44,58,74,0.35); /* 加深陰影，讓中央彈窗更立體 */
+/* ══════════ OVERLAY ══════════ */
+#pickerOverlay {
+  display: none; position: fixed; inset: 0; z-index: 8000;
+  background: rgba(10,25,47,0.15);
+}
+#pickerOverlay.show { display: block; }
+
+/* ══════════ PICKER POPUP ══════════ */
+#pickerPopup {
+  display: none; position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9000; width: 288px;
+  background: #F5F2EC; border-radius: 16px;
   border: 1px solid #D9D3C7;
-  padding: 18px 18px 14px; 
-  width: 280px; /* 稍微寬一點點，視覺更平衡 */
-  display: none;
-  opacity: 0;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 16px 48px rgba(44,58,74,0.32);
+  padding: 20px; overflow: hidden;
 }
-
-.picker-popup.open { 
-  display: block; 
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1); /* 恢復原大小 */
-}
-
-/* 移除原本的 popIn 動畫以免衝突，改用上面的 transition */
+#pickerPopup.open { display: block; animation: popIn 0.15s ease; }
 @keyframes popIn {
-  from { opacity:0; transform: translate(-50%, -52%) scale(0.93); }
-  to   { opacity:1; transform: translate(-50%, -50%) scale(1); }
+  from { opacity:0; transform:translate(-50%,-50%) scale(0.92); }
+  to   { opacity:1; transform:translate(-50%,-50%) scale(1); }
 }
-
 .pp-title {
-  font-size: 11px; font-weight: 700; color: #9AABB8; letter-spacing: 0.07em;
-  margin-bottom: 12px; text-transform: uppercase;
-}
-
-/* Color preview strip */
-.pp-preview-strip {
-  width: 100%; height: 40px; border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.10); margin-bottom: 14px;
-  transition: background 0.1s;
-}
-
-/* HSB sliders */
-.hsb-sliders { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-.hsb-row { display: flex; align-items: center; gap: 8px; }
-.hsb-label {
   font-size: 11px; font-weight: 700; color: #9AABB8;
-  width: 14px; flex-shrink: 0; letter-spacing: 0.04em;
+  letter-spacing: 0.07em; margin-bottom: 12px; text-transform: uppercase;
 }
-.hsb-slider {
-  flex: 1; 
-  height: 8px; 
-  border-radius: 4px;
-  -webkit-appearance: none; 
-  appearance: none;
-  outline: none; 
-  cursor: pointer;
-  border: 1px solid rgba(0,0,0,0.05); 
+.pp-preview-strip {
+  width: 100%; height: 38px; border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.10); margin-bottom: 14px;
 }
-  
-.hsb-slider::-webkit-slider-thumb {
+.hsb-sliders { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.hsb-row     { display: flex; align-items: center; gap: 8px; }
+.hsb-label   { font-size: 11px; font-weight: 700; color: #9AABB8; width: 13px; flex-shrink: 0; }
+.hsb-slider  {
+  flex: 1; min-width: 0; height: 6px; border-radius: 3px;
   -webkit-appearance: none; appearance: none;
-  width: 18px; height: 18px; border-radius: 50%;
-  background: #fff; border: 2px solid rgba(44,58,74,0.25);
+  outline: none; cursor: pointer; border: none;
+}
+.hsb-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; border: 2px solid rgba(44,58,74,0.28);
   box-shadow: 0 1px 4px rgba(44,58,74,0.2); cursor: pointer;
 }
 .hsb-slider::-moz-range-thumb {
   width: 18px; height: 18px; border-radius: 50%;
-  background: #fff; border: 2px solid rgba(44,58,74,0.25);
-  box-shadow: 0 1px 4px rgba(44,58,74,0.2); cursor: pointer; border: 2px solid rgba(44,58,74,0.25);
+  background: #fff; border: 2px solid rgba(44,58,74,0.28);
+  box-shadow: 0 1px 4px rgba(44,58,74,0.2); cursor: pointer;
 }
-.hsb-val {
-  font-size: 12px; font-weight: 600; color: #2C3A4A;
-  width: 32px; text-align: right; flex-shrink: 0;
+.hsb-val { font-size: 12px; font-weight: 600; color: #2C3A4A; width: 36px; text-align: right; flex-shrink: 0; }
+.pp-hex-row  { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+.pp-hex-label { font-size: 11px; font-weight: 700; color: #9AABB8; letter-spacing: 0.05em; }
+#ppHex {
+  width: 100%; box-sizing: border-box;
+  background: #EDE8DF; border: 1.5px solid #D9D3C7; border-radius: 8px;
+  padding: 8px 12px; font-size: 14px; font-weight: 600; color: #2C3A4A;
+  font-family: 'Noto Sans TC', monospace; outline: none; letter-spacing: 0.1em;
 }
-
-/* Hex row */
-/* 修正後的樣子 */
-.pp-hex-row {
-  display: flex; 
-  align-items: center; 
-  gap: 12px; 
-  margin-bottom: 16px;
-  width: 100%; 
-}
-.pp-hex-label { 
-  font-size: 11px; 
-  font-weight: 700; 
-  color: #9AABB8; 
-  width: 35px; 
-  flex-shrink: 0; 
-}
-.pp-hex-in {
-  flex: 1; 
-  max-width: 105px;         /* 關鍵修改：限制寬度，防止撞到右邊邊緣 */
-  background: #EDE8DF; 
-  border: 1.5px solid #D9D3C7; 
-  border-radius: 8px;
-  padding: 6px 10px; 
-  font-size: 13px; 
-  font-weight: 600; 
-  color: #2C3A4A;
-  font-family: 'Noto Sans TC', sans-serif; 
-  outline: none; 
-  letter-spacing: 0.06em;
-  transition: border-color 0.2s; /* 額外加的小細節：讓邊框變化更順滑 */
-}
-.pp-hex-in:focus { border-color: #548EB8; }
-
+#ppHex:focus { border-color: #548EB8; }
 .pp-btns { display: flex; gap: 8px; }
 .pp-cancel {
   flex: 1; font-family: 'Noto Sans TC', sans-serif; font-size: 13px; font-weight: 600;
-  border-radius: 8px; padding: 8px; background: transparent; color: #5A6A7A;
+  border-radius: 8px; padding: 9px; background: transparent; color: #5A6A7A;
   border: 1.5px solid #D9D3C7; cursor: pointer;
 }
 .pp-cancel:hover { background: #EDE8DF; }
 .pp-ok {
   flex: 1; font-family: 'Noto Sans TC', sans-serif; font-size: 13px; font-weight: 600;
-  border-radius: 8px; padding: 8px; color: #fff; border: none; cursor: pointer;
+  border-radius: 8px; padding: 9px; color: #fff; border: none; cursor: pointer;
   transition: filter 0.13s;
 }
-.pp-ok:hover { filter: brightness(0.9); }
+.pp-ok:hover { filter: brightness(0.88); }
 
 /* Download overlay */
 .dl-overlay {
@@ -328,11 +325,21 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* AI toast */
+.ai-toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  background: #2C3A4A; color: #fff; font-size: 12px; font-weight: 500;
+  padding: 10px 18px; border-radius: 10px; z-index: 99998;
+  opacity: 0; transition: opacity 0.2s; pointer-events: none;
+  white-space: nowrap; max-width: 90vw; overflow: hidden; text-overflow: ellipsis;
+}
+.ai-toast.show { opacity: 1; }
 </style>
 </head>
 <body>
 
-<!-- ═══════════ PAGE 1 ═══════════ -->
+<!-- ═══════════════════ PAGE 1 ═══════════════════ -->
 <div class="page active" id="page1">
 <div class="p1-wrap">
 
@@ -352,8 +359,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   </div>
 
   <div class="color-btn-list">
-
-    <div class="color-btn" onclick="openPickerFromBtn('bg', event)">
+    <div class="color-btn" onclick="openPickerFromBtn('bg',event)">
       <div class="cb-swatch" id="sw-bg">
         <input type="color" id="pick-bg" value="#EDE8DF" oninput="onPick('bg',this.value)" onclick="event.stopPropagation()">
       </div>
@@ -362,12 +368,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
         <div class="cb-name">背景色</div>
         <div class="cb-desc">整體頁面的底色</div>
       </div>
-      <div class="cb-hex-wrap">
-        <div class="cb-hex" id="disp-bg">#EDE8DF</div>
-      </div>
+      <div class="cb-hex" id="disp-bg">#EDE8DF</div>
     </div>
 
-    <div class="color-btn" onclick="openPickerFromBtn('hl', event)">
+    <div class="color-btn" onclick="openPickerFromBtn('hl',event)">
       <div class="cb-swatch" id="sw-hl">
         <input type="color" id="pick-hl" value="#548EB8" oninput="onPick('hl',this.value)" onclick="event.stopPropagation()">
       </div>
@@ -376,12 +380,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
         <div class="cb-name">Highlight 色塊</div>
         <div class="cb-desc">強調區塊的底色</div>
       </div>
-      <div class="cb-hex-wrap">
-        <div class="cb-hex" id="disp-hl">#548EB8</div>
-      </div>
+      <div class="cb-hex" id="disp-hl">#548EB8</div>
     </div>
 
-    <div class="color-btn" onclick="openPickerFromBtn('tx', event)">
+    <div class="color-btn" onclick="openPickerFromBtn('tx',event)">
       <div class="cb-swatch" id="sw-tx">
         <input type="color" id="pick-tx" value="#2C3A4A" oninput="onPick('tx',this.value)" onclick="event.stopPropagation()">
       </div>
@@ -390,12 +392,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
         <div class="cb-name">背景文字色</div>
         <div class="cb-desc">直接疊在背景上的文字</div>
       </div>
-      <div class="cb-hex-wrap">
-        <div class="cb-hex" id="disp-tx">#2C3A4A</div>
-      </div>
+      <div class="cb-hex" id="disp-tx">#2C3A4A</div>
     </div>
 
-    <div class="color-btn" onclick="openPickerFromBtn('bt', event)">
+    <div class="color-btn" onclick="openPickerFromBtn('bt',event)">
       <div class="cb-swatch" id="sw-bt">
         <input type="color" id="pick-bt" value="#FFFFFF" oninput="onPick('bt',this.value)" onclick="event.stopPropagation()">
       </div>
@@ -404,12 +404,10 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
         <div class="cb-name">色塊文字色</div>
         <div class="cb-desc">放在色塊與 CTA 上的文字</div>
       </div>
-      <div class="cb-hex-wrap">
-        <div class="cb-hex" id="disp-bt">#FFFFFF</div>
-      </div>
+      <div class="cb-hex" id="disp-bt">#FFFFFF</div>
     </div>
 
-    <div class="color-btn" onclick="openPickerFromBtn('ct', event)">
+    <div class="color-btn" onclick="openPickerFromBtn('ct',event)">
       <div class="cb-swatch" id="sw-ct">
         <input type="color" id="pick-ct" value="#C66240" oninput="onPick('ct',this.value)" onclick="event.stopPropagation()">
       </div>
@@ -418,67 +416,97 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
         <div class="cb-name">CTA 按鈕色</div>
         <div class="cb-desc">行動呼籲按鈕的底色</div>
       </div>
-      <div class="cb-hex-wrap">
-        <div class="cb-hex" id="disp-ct">#C66240</div>
-      </div>
+      <div class="cb-hex" id="disp-ct">#C66240</div>
     </div>
-
   </div>
 
   <div class="p1-footer">
     <button class="btn btn-next" onclick="goPage2()">
       預覽結果
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </button>
   </div>
-
   <div class="p1-copyright">© Triple.Cell_illustration 細胞日常插畫</div>
-
 </div>
 </div>
 
-<!-- ═══════════ PAGE 2 ═══════════ -->
+<!-- ═══════════════════ PAGE 2 ═══════════════════ -->
 <div class="page" id="page2">
-<div class="p2-bg" id="p2bg">
+<div class="p2-bg" id="p2bg" onclick="openPickerFromBtn('bg',event)">
 
   <div class="p2-topbar">
-    <button class="btn-back" onclick="goPage1()" title="返回設定">
-      <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <button class="btn-back" onclick="goPage1(); event.stopPropagation();" title="返回設定">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+        <path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </button>
-    <span class="p2-hint">點擊元素可即時修改顏色</span>
-    <button class="btn-download" onclick="downloadImage()" title="匯出圖片">
-      <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2v9M4 8l4 4 4-4M2 14h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+    <div class="bg-toggle-wrap" onclick="event.stopPropagation()">
+      <span class="bg-toggle-label">漸層背景</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="bgStyleToggle" onchange="applyBgStyle()">
+        <span class="toggle-track"></span>
+      </label>
+    </div>
+
+    <button class="btn-ai-prompt" onclick="copyAIPrompt(); event.stopPropagation();">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+        <rect x="3" y="5" width="10" height="9" rx="2" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M6 5V4a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      AI Prompt
+    </button>
+
+    <button class="btn-download" onclick="downloadImage(); event.stopPropagation();" title="匯出圖片">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+        <path d="M8 2v9M4 8l4 4 4-4M2 14h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </button>
   </div>
 
-  <div class="p2-content" id="p2Content">
+  <div class="p2-content" id="p2Content" onclick="event.stopPropagation()">
 
-    <div id="p2AboveText" class="p2-above-text" title="點擊修改背景文字色" onclick="openPicker(event,'tx')">
+    <!-- 小標提示 -->
+    <div id="p2HintLabel" class="p2-hint-label">點元素可改顏色</div>
+
+    <!-- 標題 -->
+    <div id="p2AboveText" class="p2-above-text" onclick="openPickerFromBtn('tx',event)">
       這裡是標題
     </div>
 
-    <div id="p2Subtitle" class="p2-subtitle" title="點擊修改背景文字色" onclick="openPicker(event,'tx')">
+    <!-- 虛線：寬度由 JS 設定，與色塊同寬 +10px -->
+    <hr id="p2Divider" class="p2-divider">
+
+    <!-- 副標題 -->
+    <div id="p2Subtitle" class="p2-subtitle" onclick="openPickerFromBtn('tx',event)">
       這是副標題
     </div>
 
-    <div id="p2Block" class="p2-block" title="點擊修改色塊色" onclick="openPicker(event,'hl')">
-      <div id="p2BlockBold" class="p2-block-text-bold"
-           title="點擊修改色塊文字色" onclick="event.stopPropagation(); openPicker(event,'bt')">
+    <!-- Highlight 色塊 -->
+    <div id="p2Block" class="p2-block" onclick="openPickerFromBtn('hl',event)">
+      <div id="p2BlockBoldText" class="p2-block-text-bold"
+           onclick="event.stopPropagation(); openPickerFromBtn('bt',event)">
         請感受易讀性
       </div>
-      <div id="p2BlockMedium" class="p2-block-text-medium"
-           title="點擊修改色塊文字色" onclick="event.stopPropagation(); openPicker(event,'bt')">
+      <div id="p2BlockMediumText" class="p2-block-text-medium"
+           onclick="event.stopPropagation(); openPickerFromBtn('bt',event)">
         細一點的文字在這
       </div>
     </div>
 
-    <div class="p2-below-texts">
-      <div class="p2-below-medium" id="p2BelowMedium">這是內文小字</div>
-      <div class="p2-below-bold"   id="p2BelowBold">這是稍微粗一點的內文小字</div>
+    <!-- 內文兩排：一細一粗，粗的用 hl 色 -->
+    <div class="p2-below-texts" onclick="openPickerFromBtn('tx',event)">
+      <div id="p2BelowMedium" class="p2-below-medium">這是內文小字</div>
+      <div id="p2BelowBold" class="p2-below-bold">
+        這是<span id="hlTextSpan" onclick="event.stopPropagation(); openPickerFromBtn('hl',event)">稍微粗一點</span>的內文小字
+      </div>
     </div>
 
+    <!-- CTA -->
     <div>
-      <button id="p2CtaBtn" class="p2-cta-btn" title="點擊修改 CTA 顏色" onclick="openPicker(event,'ct')">
+      <button id="p2CtaBtn" class="p2-cta-btn" onclick="openPickerFromBtn('ct',event)">
         <span id="p2CtaText">閱讀更多</span>
         <span id="p2CtaArrow">→</span>
       </button>
@@ -486,49 +514,39 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 
   </div>
 
-  <div class="p2-contrast" id="p2Contrast"></div>
-  <!-- ★ 版權置中 -->
-  <div class="p2-copyright">© Triple.Cell_illustration 細胞日常插畫</div>
+  <div class="p2-contrast" id="p2Contrast" onclick="event.stopPropagation()"></div>
+  <div class="p2-copyright" onclick="event.stopPropagation()">© Triple.Cell_illustration 細胞日常插畫</div>
 
 </div>
 </div>
 
-<!-- ══ HSB Picker Popup ══ -->
-<div class="picker-popup" id="pickerPopup">
+<div id="pickerOverlay" onclick="closePicker()"></div>
+
+<div id="pickerPopup">
   <div class="pp-title" id="ppTitle">修改顏色</div>
-
   <div class="pp-preview-strip" id="ppStrip"></div>
-
   <div class="hsb-sliders">
-    <!-- Hue -->
     <div class="hsb-row">
       <span class="hsb-label">H</span>
-      <input class="hsb-slider" id="slH" type="range" min="0" max="359" step="1" value="0"
-             oninput="onHsbSlide()">
+      <input class="hsb-slider" id="slH" type="range" min="0" max="359" step="1" oninput="onHsbSlide()">
       <span class="hsb-val" id="valH">0</span>
     </div>
-    <!-- Saturation -->
     <div class="hsb-row">
       <span class="hsb-label">S</span>
-      <input class="hsb-slider" id="slS" type="range" min="0" max="100" step="1" value="0"
-             oninput="onHsbSlide()">
+      <input class="hsb-slider" id="slS" type="range" min="0" max="100" step="1" oninput="onHsbSlide()">
       <span class="hsb-val" id="valS">0%</span>
     </div>
-    <!-- Brightness -->
     <div class="hsb-row">
       <span class="hsb-label">B</span>
-      <input class="hsb-slider" id="slB" type="range" min="0" max="100" step="1" value="100"
-             oninput="onHsbSlide()">
+      <input class="hsb-slider" id="slB" type="range" min="0" max="100" step="1" oninput="onHsbSlide()">
       <span class="hsb-val" id="valB">100%</span>
     </div>
   </div>
-
   <div class="pp-hex-row">
     <span class="pp-hex-label">HEX</span>
-    <input class="pp-hex-in" id="ppHex" type="text" maxlength="7" placeholder="#000000"
-           oninput="onPopupHex(this.value)">
+    <input id="ppHex" type="text" maxlength="7" placeholder="#000000"
+           autocomplete="off" spellcheck="false" oninput="onPopupHex(this.value)">
   </div>
-
   <div class="pp-btns">
     <button class="pp-cancel" onclick="closePicker()">取消</button>
     <button class="pp-ok" id="ppOk" onclick="closePicker()">完成</button>
@@ -542,542 +560,416 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   </div>
 </div>
 
+<div class="ai-toast" id="aiToast"></div>
+
 <script>
-/* ════ 核心轉換邏輯：HSB 轉 HEX ════ */
-function hsbToHex(h, s, b) {
-  s /= 100; 
-  b /= 100;
-  const k = n => (n + h / 60) % 6;
-  const f = n => b * (1 - s * Math.max(0, Math.min(k(n), 4 - k(n), 1)));
-  const toHex = x => Math.round(x * 255).toString(16).padStart(2, '0');
-  return '#' + toHex(f(5)) + toHex(f(3)) + toHex(f(1));
-}
+const LABELS = { bg:'背景色', hl:'Highlight', tx:'文字色', bt:'色塊文字', ct:'CTA' };
 
-/* ════ 核心邏輯：HEX 轉 HSB (用於點擊元素時反向回傳給滑桿) ════ */
-function hexToHsb(hex) {
-  let r = parseInt(hex.slice(1,3), 16) / 255;
-  let g = parseInt(hex.slice(3,5), 16) / 255;
-  let b = parseInt(hex.slice(5,7), 16) / 255;
-  const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
-  let h = 0, s = max === 0 ? 0 : d / max, v = max;
-  if (d !== 0) {
-    if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
-    else if (max === g) h = (b - r) / d + 2;
-    else h = (r - g) / d + 4;
-    h /= 6;
-  }
-  return { h: Math.round(h * 360), s: Math.round(s * 100), b: Math.round(v * 100) };
-}
-
-/* ════ 當滑桿拖動時的執行動作 ════ */
-function onHsbSlide() {
-  const h = +document.getElementById('slH').value;
-  const s = +document.getElementById('slS').value;
-  const b = +document.getElementById('slB').value;
-  
-  document.getElementById('valH').textContent = h;
-  document.getElementById('valS').textContent = s + '%';
-  document.getElementById('valB').textContent = b + '%';
-  
-  const hex = hsbToHex(h, s, b);
-  document.getElementById('ppHex').value = hex.toUpperCase();
-  document.getElementById('ppStrip').style.background = hex;
-  
-  // --- 務必確認這行有在裡面 ---
-  updateSliderTracks(); 
-  
-  if (popupKey) {
-    c[popupKey] = hex;
-    document.getElementById('sw-' + popupKey).style.background = hex;
-    document.getElementById('disp-' + popupKey).textContent = hex.toUpperCase();
-    
-    // 如果你有原生 input 也要同步
-    const nativePick = document.getElementById('pick-'+popupKey);
-    if (nativePick) nativePick.value = hex;
-    
-    syncPage2(); // 同步到你的第二頁預覽區
-  }
-}
-
-// 修正：確保滑桿背景也會跟著變色
-function updateSliderTracks() {
-  // 取得目前滑桿的數值
-  const h = +document.getElementById('slH').value;
-  const s = +document.getElementById('slS').value;
-  const b = +document.getElementById('slB').value;
-
-  // 1. 色相滑桿 (H): 固定的彩虹漸層
-  const hBtn = document.getElementById('slH');
-  hBtn.style.background = `linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)`;
-
-  // 2. 飽和度滑桿 (S): 從「灰色」到「目前的純色」
-  const sBtn = document.getElementById('slS');
-  const sStart = hsbToHex(h, 0, b);   
-  const sEnd   = hsbToHex(h, 100, b); 
-  sBtn.style.background = `linear-gradient(to right, ${sStart}, ${sEnd})`;
-
-  // 3. 亮度滑桿 (B): 從「全黑」到「目前的最高亮度」
-  const bBtn = document.getElementById('slB');
-  const bStart = "#000000";           
-  const bEnd   = hsbToHex(h, s, 100); 
-  bBtn.style.background = `linear-gradient(to right, ${bStart}, ${bEnd})`;
-}
-
-/* ══════════════════════════════════════════════
-   App state
-══════════════════════════════════════════════ */
-const LABELS = { bg:'背景色', hl:'Highlight 色塊', tx:'背景文字色', bt:'色塊文字色', ct:'CTA 按鈕色' };
 let c = { bg:'#EDE8DF', hl:'#548EB8', tx:'#2C3A4A', bt:'#FFFFFF', ct:'#C66240' };
 let popupKey = null;
 let currentFont = 'sans';
+
 const FONTS = {
   sans:  "'Noto Sans TC', sans-serif",
   serif: "'Noto Serif TC', serif",
   zen:   "'Zen Maru Gothic', sans-serif"
 };
-const P2_TEXT_IDS = ['p2AboveText','p2Subtitle','p2BlockBold','p2BlockMedium','p2CtaText','p2BelowMedium','p2BelowBold'];
+const P2_FONT_ELS = ['p2AboveText','p2Subtitle','p2BlockBoldText','p2BlockMediumText','p2BelowMedium','p2BelowBold','p2CtaBtn'];
 
-function hexRgb(h){ return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]; }
-function lum([r,g,b]){ const s=v=>{v/=255;return v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4;}; return 0.2126*s(r)+0.7152*s(g)+0.0722*s(b); }
-function contrast(h1,h2){ const a=lum(hexRgb(h1)),b=lum(hexRgb(h2)); return (Math.max(a,b)+0.05)/(Math.min(a,b)+0.05); }
-function wcag(r){ return r>=7?{t:'AAA',col:'#4A7A65'}: r>=4.5?{t:'AA',col:'#548EB8'}: r>=3?{t:'AA 大字',col:'#9A7845'}: {t:'不通過',col:'#D28187'}; }
+/* ── Color utils ── */
+function normHex(h) {
+  h = h.replace('#','');
+  if (h.length===3) h = h.split('').map(x=>x+x).join('');
+  return '#'+h.padEnd(6,'0').slice(0,6).toUpperCase();
+}
+function isValidHex(h) { return /^#[0-9A-Fa-f]{6}$/.test(h); }
+function hexToRgbArr(hex) {
+  const h=hex.replace('#','');
+  return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];
+}
+function rgbArrToHex(arr) {
+  return '#'+arr.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('').toUpperCase();
+}
+function adjustBrightness(hex,pct) {
+  const delta=Math.round(255*pct/100);
+  const [r,g,b]=hexToRgbArr(hex);
+  return rgbArrToHex([r+delta,g+delta,b+delta]);
+}
+function hexToHsb(hex) {
+  const [R,G,B]=hexToRgbArr(hex).map(v=>v/255);
+  const max=Math.max(R,G,B),min=Math.min(R,G,B),d=max-min;
+  let h=0;
+  if(d>0){
+    if(max===R) h=((G-B)/d%6+6)%6;
+    else if(max===G) h=(B-R)/d+2;
+    else h=(R-G)/d+4;
+    h*=60;
+  }
+  return {h:Math.round(h),s:Math.round(max===0?0:(d/max)*100),b:Math.round(max*100)};
+}
+function hsbToHex(h,s,bv) {
+  s/=100; bv/=100;
+  const k=n=>(n+h/60)%6;
+  const f=n=>bv-bv*s*Math.max(0,Math.min(k(n),4-k(n),1));
+  return rgbArrToHex([f(5)*255,f(3)*255,f(1)*255]);
+}
+function srgbLin(v){ v/=255; return v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4; }
+function relativeLum(hex){ const [r,g,b]=hexToRgbArr(hex); return 0.2126*srgbLin(r)+0.7152*srgbLin(g)+0.0722*srgbLin(b); }
+function contrastRatio(h1,h2){ const a=relativeLum(h1),b=relativeLum(h2); return (Math.max(a,b)+0.05)/(Math.min(a,b)+0.05); }
+function wcagLevel(r){ return r>=7?{t:'AAA',col:'#4A7A65'}:r>=4.5?{t:'AA',col:'#548EB8'}:r>=3?{t:'AA大字',col:'#9A7845'}:{t:'不通過',col:'#D28187'}; }
 
+/* ── Slider tracks ── */
+function buildHueGrad() {
+  return 'linear-gradient(to right,'+Array.from({length:7},(_,i)=>`hsl(${i*60},100%,50%) ${(i/6*100).toFixed(1)}%`).join(',')+')';
+}
+function updateSliderTracks() {
+  const h=+document.getElementById('slH').value;
+  const s=+document.getElementById('slS').value;
+  const bv=+document.getElementById('slB').value;
+  document.getElementById('slH').style.background=buildHueGrad();
+  document.getElementById('slS').style.background=`linear-gradient(to right,${hsbToHex(h,0,bv)},${hsbToHex(h,100,bv)})`;
+  document.getElementById('slB').style.background=`linear-gradient(to right,#000000,${hsbToHex(h,s,100)})`;
+}
+function loadHsbFromHex(hex) {
+  const {h,s,b}=hexToHsb(hex);
+  document.getElementById('slH').value=h;
+  document.getElementById('slS').value=s;
+  document.getElementById('slB').value=b;
+  document.getElementById('valH').textContent=h;
+  document.getElementById('valS').textContent=s+'%';
+  document.getElementById('valB').textContent=b+'%';
+  updateSliderTracks();
+}
+
+/* ── Page 1 ── */
 function setFont(type) {
-  currentFont = type;
-  document.querySelectorAll('.font-btn').forEach(b => b.classList.toggle('active', b.dataset.font === type));
-  const f = FONTS[type];
-  P2_TEXT_IDS.forEach(id => { const el=document.getElementById(id); if(el) el.style.fontFamily=f; });
+  currentFont=type;
+  document.querySelectorAll('.font-btn').forEach(b=>b.classList.toggle('active',b.dataset.font===type));
+  P2_FONT_ELS.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.fontFamily=FONTS[type]; });
+}
+function onPick(k,val) {
+  if(!isValidHex(val)) return;
+  c[k]=val.toUpperCase();
+  document.getElementById('sw-'+k).style.background=c[k];
+  document.getElementById('disp-'+k).textContent=c[k];
+  if(document.getElementById('page2').classList.contains('active')) syncPage2();
 }
 
-function onPick(k, val){
-  c[k] = val;
-  document.getElementById('sw-'+k).style.background = val;
-  document.getElementById('disp-'+k).textContent = val.toUpperCase();
+/* ── BG style ── */
+function applyBgStyle() {
+  const on=document.getElementById('bgStyleToggle').checked;
+  const el=document.getElementById('p2bg');
+  if(on){ const dark=adjustBrightness(c.bg,-3); el.style.background=`linear-gradient(165deg,${c.bg},${dark})`; }
+  else el.style.background=c.bg;
 }
 
-function syncPage2(){
-  document.getElementById('p2bg').style.background = c.bg;
-  document.getElementById('p2AboveText').style.color = c.tx;
-  document.getElementById('p2Subtitle').style.color = c.tx;
-  document.getElementById('p2Block').style.background = c.hl;
-  document.getElementById('p2BlockBold').style.color = c.bt;
-  document.getElementById('p2BlockMedium').style.color = c.bt;
-  document.getElementById('p2CtaBtn').style.background = c.ct;
-  const ctaBestCol = contrast(c.bt,c.ct) >= contrast(c.tx,c.ct) ? c.bt : c.tx;
-  document.getElementById('p2CtaText').style.color = ctaBestCol;
-  document.getElementById('p2CtaArrow').style.color = ctaBestCol;
-  document.getElementById('p2BelowMedium').style.color = c.tx;
-  document.getElementById('p2BelowBold').style.color = c.tx;
-  document.getElementById('ppOk').style.background = c.ct;
+/* ── Page 2 sync ── */
+function syncPage2() {
+  applyBgStyle();
+  // Hint label
+  document.getElementById('p2HintLabel').style.color=c.tx;
 
-  const rBgTx=contrast(c.tx,c.bg), rHlBt=contrast(c.bt,c.hl), rCtBt=contrast(c.bt,c.ct);
-  const wBgTx=wcag(rBgTx), wHlBt=wcag(rHlBt), wCtBt=wcag(rCtBt);
+  document.getElementById('p2AboveText').style.color=c.tx;
+  // Divider colour only — width handled by CSS align-self: stretch
+  document.getElementById('p2Divider').style.borderTopColor=c.tx;
 
-  document.getElementById('p2Contrast').innerHTML = `
+  document.getElementById('p2Subtitle').style.color=c.tx;
+
+  // Highlight block
+  document.getElementById('p2Block').style.background=c.hl;
+  document.getElementById('p2BlockBoldText').style.color=c.bt;
+  document.getElementById('p2BlockMediumText').style.color=c.bt;
+
+  // 內文兩排
+  document.getElementById('p2BelowMedium').style.color=c.tx;
+  document.getElementById('p2BelowBold').style.color=c.tx;
+  const hlSpan=document.getElementById('hlTextSpan');
+  hlSpan.style.color=c.hl;
+  hlSpan.style.fontWeight='900';
+  hlSpan.style.background='transparent';
+
+  // CTA
+  document.getElementById('p2CtaBtn').style.background=c.ct;
+  const ctaCol=contrastRatio(c.bt,c.ct)>=contrastRatio(c.tx,c.ct)?c.bt:c.tx;
+  document.getElementById('p2CtaText').style.color=ctaCol;
+  document.getElementById('p2CtaArrow').style.color=ctaCol;
+  document.getElementById('ppOk').style.background=c.ct;
+
+  // Contrast bar
+  const rBgTx=contrastRatio(c.tx,c.bg);
+  const rHlBt=contrastRatio(c.bt,c.hl);
+  const rCtBt=contrastRatio(c.bt,c.ct);
+  const wBgTx=wcagLevel(rBgTx),wHlBt=wcagLevel(rHlBt),wCtBt=wcagLevel(rCtBt);
+  document.getElementById('p2Contrast').innerHTML=`
     <div class="contrast-group">
       <div class="contrast-group-label">背景 / 文字</div>
       <div class="c-chip"><div class="cdot" style="background:${wBgTx.col}"></div>標題 <strong>${rBgTx.toFixed(2)}:1</strong>&nbsp;<span style="opacity:.7;font-size:11px;">${wBgTx.t}</span></div>
-      <div class="c-chip"><div class="cdot" style="background:${wBgTx.col}"></div>內文 <strong>${rBgTx.toFixed(2)}:1</strong>&nbsp;<span style="opacity:.7;font-size:11px;">${wBgTx.t}</span></div>
     </div>
     <div class="contrast-group">
-      <div class="contrast-group-label">色塊 / 文字</div>
+      <div class="contrast-group-label">Highlight / 文字</div>
       <div class="c-chip"><div class="cdot" style="background:${wHlBt.col}"></div>色塊文字 <strong>${rHlBt.toFixed(2)}:1</strong>&nbsp;<span style="opacity:.7;font-size:11px;">${wHlBt.t}</span></div>
     </div>
     <div class="contrast-group">
       <div class="contrast-group-label">CTA / 文字</div>
-      <div class="c-chip"><div class="cdot" style="background:${wCtBt.col}"></div>CTA 文字 <strong>${rCtBt.toFixed(2)}:1</strong>&nbsp;<span style="opacity:.7;font-size:11px;">${wCtBt.t}</span></div>
-    </div>
-  `;
+      <div class="c-chip"><div class="cdot" style="background:${wCtBt.col}"></div>CTA <strong>${rCtBt.toFixed(2)}:1</strong>&nbsp;<span style="opacity:.7;font-size:11px;">${wCtBt.t}</span></div>
+    </div>`;
 }
 
-function goPage2(){
+/* ── Navigation ── */
+function goPage2() {
   document.getElementById('page1').classList.remove('active');
   document.getElementById('page2').classList.add('active');
   setFont(currentFont);
   syncPage2();
 }
-function goPage1(){
+function goPage1() {
   closePicker();
   document.getElementById('page2').classList.remove('active');
   document.getElementById('page1').classList.add('active');
 }
 
-/* ══════════════════════════════════════════════
-   HSB Picker open / interact
-══════════════════════════════════════════════ */
-function loadHsbFromHex(hex) {
-  const { h, s, b } = hexToHsb(hex);
-  document.getElementById('slH').value = h;
-  document.getElementById('slS').value = s;
-  document.getElementById('slB').value = b;
-  document.getElementById('valH').textContent = h;
-  document.getElementById('valS').textContent = s + '%';
-  document.getElementById('valB').textContent = b + '%';
-  updateSliderTracks();
+/* ── Picker ── */
+function _openCore(key) {
+  popupKey=key;
+  document.getElementById('ppTitle').textContent='修改：'+(LABELS[key]||key);
+  document.getElementById('ppStrip').style.background=c[key];
+  document.getElementById('ppHex').value=c[key];
+  document.getElementById('ppOk').style.background=c.ct;
+  loadHsbFromHex(c[key]);
+  document.getElementById('pickerOverlay').classList.add('show');
+  document.getElementById('pickerPopup').classList.add('open');
 }
+function openPickerFromBtn(key,e) { if(e) e.stopPropagation(); _openCore(key); }
+function openPicker(e,key) { if(e) e.stopPropagation(); _openCore(key); }
 
 function onHsbSlide() {
-  const h = +document.getElementById('slH').value;
-  const s = +document.getElementById('slS').value;
-  const b = +document.getElementById('slB').value;
-  document.getElementById('valH').textContent = h;
-  document.getElementById('valS').textContent = s + '%';
-  document.getElementById('valB').textContent = b + '%';
-  const hex = hsbToHex(h, s, b);
-  document.getElementById('ppHex').value = hex.toUpperCase();
-  document.getElementById('ppStrip').style.background = hex;
+  const h=+document.getElementById('slH').value;
+  const s=+document.getElementById('slS').value;
+  const bv=+document.getElementById('slB').value;
+  document.getElementById('valH').textContent=h;
+  document.getElementById('valS').textContent=s+'%';
+  document.getElementById('valB').textContent=bv+'%';
+  const hex=hsbToHex(h,s,bv);
+  document.getElementById('ppHex').value=hex;
+  document.getElementById('ppStrip').style.background=hex;
   updateSliderTracks();
-  if (popupKey) {
-    c[popupKey] = hex;
-    document.getElementById('sw-'+popupKey).style.background = hex;
-    document.getElementById('disp-'+popupKey).textContent = hex.toUpperCase();
-    // sync native color input too
-    const nativePick = document.getElementById('pick-'+popupKey);
-    if (nativePick) nativePick.value = hex;
-    syncPage2();
-  }
+  if(!popupKey) return;
+  c[popupKey]=hex;
+  _reflectChange(popupKey,hex);
 }
-
-function onPopupHex(val) {
-  val = val.startsWith('#') ? val : '#' + val;
-  if (!isHex(val) || !popupKey) return;
-  c[popupKey] = val;
-  document.getElementById('ppStrip').style.background = val;
-  document.getElementById('sw-'+popupKey).style.background = val;
-  document.getElementById('disp-'+popupKey).textContent = val.toUpperCase();
-  const nativePick = document.getElementById('pick-'+popupKey);
-  if (nativePick) nativePick.value = val;
+function onPopupHex(raw) {
+  let val=raw.trim();
+  if(!val.startsWith('#')) val='#'+val;
+  if(!isValidHex(val)) return;
+  val=val.toUpperCase();
+  document.getElementById('ppStrip').style.background=val;
   loadHsbFromHex(val);
-  syncPage2();
+  if(!popupKey) return;
+  c[popupKey]=val;
+  _reflectChange(popupKey,val);
 }
-
-function positionPopup(e) {
-  const pp = document.getElementById('pickerPopup');
-  const PW = 280, PH = 320;
-  let x = e.clientX + 14, y = e.clientY + 14;
-  if (x + PW > window.innerWidth - 8)  x = e.clientX - PW - 8;
-  if (y + PH > window.innerHeight - 8) y = e.clientY - PH - 8;
-  if (x < 8) x = 8;
-  if (y < 8) y = 8;
-  pp.style.left = x + 'px';
-  pp.style.top  = y + 'px';
+function _reflectChange(key,hex) {
+  const sw=document.getElementById('sw-'+key);
+  const dp=document.getElementById('disp-'+key);
+  const ni=document.getElementById('pick-'+key);
+  if(sw) sw.style.background=hex;
+  if(dp) dp.textContent=hex;
+  if(ni) ni.value=hex;
+  if(document.getElementById('page2').classList.contains('active')) syncPage2();
 }
-
-// Called from page-2 element clicks
-function openPicker(e, key) {
-  e.stopPropagation();
-  popupKey = key;
-  const pp = document.getElementById('pickerPopup');
-  document.getElementById('ppTitle').textContent = '修改：' + LABELS[key];
-  document.getElementById('ppHex').value = c[key].toUpperCase();
-  document.getElementById('ppStrip').style.background = c[key];
-  document.getElementById('ppOk').style.background = c.ct;
-  loadHsbFromHex(c[key]);
-  positionPopup(e);
-  pp.classList.add('open');
-}
-
-/* ══════════════ 修正後的彈窗邏輯 ══════════════ */
-
-// 1. 第一頁：點擊列表列觸發
-function openPickerFromBtn(key, e) {
-  if(e) e.stopPropagation();
-  popupKey = key;
-  const pp = document.getElementById('pickerPopup');
-  
-  // 更新標題與基礎數值
-  document.getElementById('ppTitle').textContent = '修改：' + LABELS[key];
-  document.getElementById('ppHex').value = c[key].toUpperCase();
-  document.getElementById('ppStrip').style.background = c[key];
-  document.getElementById('ppOk').style.background = c.ct;
-  
-  // 同步 HSB 數值並「立即」更新滑桿漸層背景
-  loadHsbFromHex(c[key]); 
-  updateSliderTracks(); 
-
-  // 清除舊的 inline style (原本的 x, y 定位)，確保 CSS 的 50% 居中生效
-  pp.style.left = '';
-  pp.style.top = '';
-  
-  pp.classList.add('open');
-}
-
-// 2. 第二頁：點擊預覽元素觸發
-function openPicker(e, key) {
-  // 邏輯與上方一致，直接呼叫即可，保持程式碼簡潔
-  openPickerFromBtn(key, e);
-}
-
-// 3. 關閉彈窗
-function closePicker(){
+function closePicker() {
   document.getElementById('pickerPopup').classList.remove('open');
-  popupKey = null;
+  document.getElementById('pickerOverlay').classList.remove('show');
+  popupKey=null;
 }
 
-// 4. 滑桿漸層背景更新 (解決盲滑問題)
-function updateSliderTracks() {
-  const h = +document.getElementById('slH').value;
-  const s = +document.getElementById('slS').value;
-  const b = +document.getElementById('slB').value;
-
-  // H: 彩虹
-  document.getElementById('slH').style.background = `linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)`;
-  // S: 灰 -> 當前色相
-  document.getElementById('slS').style.background = `linear-gradient(to right, ${hsbToHex(h, 0, b)}, ${hsbToHex(h, 100, b)})`;
-  // B: 黑色 -> 當前亮度
-  document.getElementById('slB').style.background = `linear-gradient(to right, #000000, ${hsbToHex(h, s, 100)})`;
+/* ── AI Prompt ── */
+function copyAIPrompt() {
+  const on=document.getElementById('bgStyleToggle').checked;
+  const dark=adjustBrightness(c.bg,-3);
+  const bgStr=on?`bg:linear-gradient(165deg,${c.bg},${dark})`:`bg:${c.bg}`;
+  const prompt=`Colour scheme — ${bgStr} tx:${c.tx} hl:${c.hl} bt:${c.bt} ct:${c.ct}`;
+  if(navigator.clipboard?.writeText){ navigator.clipboard.writeText(prompt).catch(()=>_fallbackCopy(prompt)); }
+  else _fallbackCopy(prompt);
+  _showToast('已複製 → '+prompt);
+}
+function _fallbackCopy(text) {
+  const ta=Object.assign(document.createElement('textarea'),{value:text,style:'position:fixed;opacity:0;top:0;left:0;'});
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{ document.execCommand('copy'); }catch(_){}
+  document.body.removeChild(ta);
+}
+function _showToast(msg) {
+  const t=document.getElementById('aiToast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._tid); t._tid=setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-// 5. 點擊空白處關閉 (判斷 Page 1 與 Page 2 的觸發源)
-document.addEventListener('click', e => {
-  // 如果點擊的不是彈窗內，也不是 Page 1 的按鈕，也不是 Page 2 的可點擊元素，就關閉
-  if (!e.target.closest('.picker-popup') && 
-      !e.target.closest('.color-btn') && 
-      !e.target.hasAttribute('onclick')) {
-    closePicker();
-  }
-});
-/* ════ 核心視覺優化：讓滑桿背景顯示顏色 ════ */
-function updateSliderTracks() {
-  const h = +document.getElementById('slH').value;
-  const s = +document.getElementById('slS').value;
-  const b = +document.getElementById('slB').value;
-
-  // 1. 色相 (H): 彩虹漸層
-  document.getElementById('slH').style.background = `linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)`;
-
-  // 2. 飽和度 (S): 灰色 -> 純色
-  const sStart = hsbToHex(h, 0, b);   
-  const sEnd   = hsbToHex(h, 100, b); 
-  document.getElementById('slS').style.background = `linear-gradient(to right, ${sStart}, ${sEnd})`;
-
-  // 3. 亮度 (B): 全黑 -> 最高亮度
-  const bStart = "#000000";           
-  const bEnd   = hsbToHex(h, s, 100); 
-  document.getElementById('slB').style.background = `linear-gradient(to right, ${bStart}, ${bEnd})`;
-}
-
-/* ══════════════════════════════════════════════
-   Canvas export  ★ 修正：contrast 高度計算
-══════════════════════════════════════════════ */
-async function downloadImage(){
+/* ── Canvas Export ── */
+async function downloadImage() {
   closePicker();
-  const overlay = document.getElementById('dlOverlay');
+  const overlay=document.getElementById('dlOverlay');
   overlay.classList.add('show');
-  await new Promise(r => setTimeout(r, 80));
-
+  await new Promise(r=>setTimeout(r,80));
   try {
-    const DPR = 2, W = 900, PAD = 48;
-    const fontFam = FONTS[currentFont].split(',')[0].replace(/'/g,'').trim();
+    const DPR=2,W=900,PAD=48,IW=W-PAD*2,GAP=20;
+    const fontFam=FONTS[currentFont].split(',')[0].replace(/'/g,'').trim();
+    const dateH=28,swH=68,lblH=22,pp=36;
+    const hdH=44, divH=14, subH=34, hlH=92, bodyH=72, ctaH=38;
+    const prevH=pp+hdH+divH+subH+hlH+bodyH+ctaH+pp;
+    const cLblH=18,chipH=32,copyH=24;
+    const totalH=PAD+dateH+GAP+swH+GAP+lblH+prevH+GAP+cLblH+chipH+GAP+copyH+PAD;
 
-    function buildCanvas(H){
-      const cv = document.createElement('canvas');
-      cv.width = W * DPR; cv.height = H * DPR;
-      const ctx = cv.getContext('2d');
-      ctx.scale(DPR, DPR);
+    const cv=document.createElement('canvas');
+    cv.width=W*DPR; cv.height=totalH*DPR;
+    const ctx=cv.getContext('2d');
+    ctx.scale(DPR,DPR);
 
-      const rr = (x,y,w,h,r) => {
-        ctx.beginPath();
-        ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-        ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-        ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-        ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
-      };
-      const fillRR = (x,y,w,h,r,col) => { ctx.fillStyle=col; rr(x,y,w,h,r); ctx.fill(); };
-      const strokeRR = (x,y,w,h,r,col,lw=1) => { ctx.strokeStyle=col; ctx.lineWidth=lw; rr(x,y,w,h,r); ctx.stroke(); };
-      const txt = (t,x,y,size,weight,col,align='left',fam) => {
-        ctx.fillStyle = col;
-        ctx.font = `${weight} ${size}px '${fam||fontFam}', 'Noto Sans TC', sans-serif`;
-        ctx.textBaseline = 'middle'; ctx.textAlign = align; ctx.fillText(t,x,y);
-      };
-      const dot = (x,y,r,col) => { ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); };
+    const rrPath=(x,y,w,h,r)=>{
+      ctx.beginPath();
+      ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+      ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+      ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+      ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
+    };
+    const fillRR=(x,y,w,h,r,col)=>{ ctx.fillStyle=col; rrPath(x,y,w,h,r); ctx.fill(); };
+    const strokeRR=(x,y,w,h,r,col,lw=1)=>{ ctx.strokeStyle=col; ctx.lineWidth=lw; rrPath(x,y,w,h,r); ctx.stroke(); };
+    const txt=(t,x,y,size,weight,col,align='left',fam)=>{
+      ctx.fillStyle=col;
+      ctx.font=`${weight} ${size}px '${fam||fontFam}','Noto Sans TC',sans-serif`;
+      ctx.letterSpacing='0.05em';
+      ctx.textBaseline='middle'; ctx.textAlign=align; ctx.fillText(t,x,y);
+    };
+    const dot=(x,y,r,col)=>{ ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); };
 
-      return { cv, ctx, fillRR, strokeRR, txt, dot };
-    }
+    fillRR(0,0,W,totalH,20,'#1E2530');
+    let y=PAD;
 
-    const INNER_W = W - PAD * 2;
-    const GAP = 20;
+    // letterSpacing reset for non-preview text
+    ctx.letterSpacing='0em';
+    txt(`色票匯出 · ${new Date().toLocaleDateString('zh-TW')}`,PAD,y+dateH/2,11,700,'rgba(255,255,255,0.38)','left','Noto Sans TC');
+    y+=dateH+GAP;
 
-    // Fixed section heights
-    const dateH        = 28;
-    const swatchH      = 68;
-    const labelH       = 22;
-    const previewPad   = 36;
-    const hdH          = 44;
-    const subH         = 34;
-    const hlH          = 92;
-    const bodyH        = 30 + 30 + 12;  // 2 rows + gap
-    const ctaH         = 38;
-    const previewInnerH = previewPad + hdH + subH + hlH + bodyH + ctaH + previewPad;
-
-    // ★ Contrast section: 4 chips in a single row, no wrapping
-    // Each chip is 32px tall + label above (18px) = 50px total, plus padding
-    const contrastLabelH = 18;
-    const chipH          = 32;
-    const contrastRowH   = contrastLabelH + chipH; // 50px
-
-    const copyH = 24;
-
-    const totalH = PAD + dateH + GAP
-                 + swatchH + GAP
-                 + labelH
-                 + previewInnerH + GAP
-                 + contrastRowH + GAP
-                 + copyH + PAD;
-
-    const { cv, fillRR, strokeRR, txt, dot } = buildCanvas(totalH);
-
-    // Card BG
-    fillRR(0, 0, W, totalH, 20, '#1e2530');
-
-    let y = PAD;
-
-    // Date header
-    txt(`色票匯出 · ${new Date().toLocaleDateString('zh-TW')}`, PAD, y+dateH/2, 11, 700, 'rgba(255,255,255,0.38)', 'left', 'Noto Sans TC');
-    y += dateH + GAP;
-
-    // Swatches row
-    const swDefs = [{k:'bg',name:'背景色'},{k:'tx',name:'文字色'},{k:'hl',name:'色塊色'},{k:'bt',name:'色塊文字'},{k:'ct',name:'CTA'}];
-    const swW = Math.floor((INNER_W - 16*4) / 5);
-    swDefs.forEach(({k,name},i) => {
-      const sx = PAD + i*(swW+16);
-      fillRR(sx, y, swW, swatchH, 10, 'rgba(255,255,255,0.07)');
-      fillRR(sx+12, y+12, 36, 36, 8, c[k]);
-      strokeRR(sx+12, y+12, 36, 36, 8, 'rgba(255,255,255,0.15)');
-      txt(name,             sx+56, y+22, 10, 700, 'rgba(255,255,255,0.45)', 'left', 'Noto Sans TC');
-      txt(c[k].toUpperCase(), sx+56, y+42, 13, 700, '#fff',                'left', 'Noto Sans TC');
+    const swDefs=[{k:'bg',n:'背景色'},{k:'tx',n:'文字色'},{k:'hl',n:'色塊色'},{k:'bt',n:'色塊文字'},{k:'ct',n:'CTA'}];
+    const swW=Math.floor((IW-16*4)/5);
+    swDefs.forEach(({k,n},i)=>{
+      const sx=PAD+i*(swW+16);
+      fillRR(sx,y,swW,swH,10,'rgba(255,255,255,0.07)');
+      fillRR(sx+12,y+12,36,36,8,c[k]);
+      strokeRR(sx+12,y+12,36,36,8,'rgba(255,255,255,0.15)');
+      ctx.letterSpacing='0em';
+      txt(n,sx+56,y+22,10,700,'rgba(255,255,255,0.45)','left','Noto Sans TC');
+      txt(c[k],sx+56,y+42,13,700,'#FFFFFF','left','Noto Sans TC');
     });
-    y += swatchH + GAP;
+    y+=swH+GAP;
 
-    // Preview label
-    txt('預覽', PAD, y+labelH/2, 10, 700, 'rgba(255,255,255,0.32)', 'left', 'Noto Sans TC');
-    y += labelH;
+    ctx.letterSpacing='0em';
+    txt('預覽',PAD,y+lblH/2,10,700,'rgba(255,255,255,0.32)','left','Noto Sans TC');
+    y+=lblH;
 
-    // Preview card
-    const cardY = y;
-    fillRR(PAD, cardY, INNER_W, previewInnerH, 14, c.bg);
+    const bgOn=document.getElementById('bgStyleToggle').checked;
+    if(bgOn){ const dark=adjustBrightness(c.bg,-3); const g=ctx.createLinearGradient(PAD,y,PAD+IW,y+prevH); g.addColorStop(0,c.bg); g.addColorStop(1,dark); ctx.fillStyle=g; rrPath(PAD,y,IW,prevH,14); ctx.fill(); }
+    else fillRR(PAD,y,IW,prevH,14,c.bg);
 
-    let iy = cardY + previewPad;
-    const ix = PAD + previewPad;
-    const iw = INNER_W - previewPad * 2;
+    let iy=y+pp;
+    const ix=PAD+pp, iw=IW-pp*2;
 
-    txt('這裡是標題',                 ix, iy+22, 30, 900, c.tx);
-    iy += hdH;
-    txt('這是副標題',                 ix, iy+17, 22, 700, c.tx);
-    iy += subH;
-    fillRR(ix, iy, iw, hlH, 12, c.hl);
-    txt('請感受易讀性',       ix+24, iy+28, 18, 700, c.bt);
-    txt('細一點的文字在這', ix+24, iy+62, 18, 500, c.bt);
-    iy += hlH + 12;
-    txt('這是內文小字',              ix+6, iy+15, 18, 500, c.tx);
-    iy += 30;
-    txt('這是稍微粗一點的內文小字', ix+6, iy+15, 18, 700, c.tx);
-    iy += 30 + 12;
+    // ① 標題
+    txt('這裡是標題',ix,iy+22,30,900,c.tx); iy+=hdH;
 
-    const ctaW = 140;
-    const ctaBestCol = contrast(c.bt,c.ct) >= contrast(c.tx,c.ct) ? c.bt : c.tx;
-    fillRR(ix, iy, ctaW, ctaH, 9, c.ct);
-    txt('閱讀更多 →', ix+ctaW/2, iy+ctaH/2, 14, 700, ctaBestCol, 'center');
+    // ② 虛線
+    ctx.save();
+    ctx.strokeStyle=c.tx; ctx.lineWidth=2; ctx.globalAlpha=0.38;
+    ctx.setLineDash([6,5]);
+    ctx.beginPath(); ctx.moveTo(ix,iy); ctx.lineTo(ix+iw,iy); ctx.stroke();
+    ctx.setLineDash([]); ctx.restore();
+    iy+=14;
 
-    y = cardY + previewInnerH + GAP;
+    // ③ 副標題
+    txt('這是副標題',ix,iy+17,22,700,c.tx); iy+=subH;
 
-    // ★ Contrast row — 4 chips side by side, pre-measured width
-    const pairs = [
-      { label:'背景 / 標題', r:contrast(c.tx,c.bg) },
-      { label:'背景 / 內文', r:contrast(c.tx,c.bg) },
-      { label:'色塊 / 文字', r:contrast(c.bt,c.hl) },
-      { label:'CTA / 文字',  r:contrast(c.bt,c.ct) },
-    ];
+    // ④ 色塊
+    fillRR(ix,iy,iw,hlH,12,c.hl);
+    txt('請感受易讀性',   ix+24,iy+28,18,700,c.bt);
+    txt('細一點的文字在這',ix+24,iy+62,18,500,c.bt);
+    iy+=hlH+12;
 
-    // Measure chip widths (approx 7.5px per char + padding)
-    const chipGap = 12;
-    const chipPadH = 24; // horizontal padding inside chip
-    const CHIP_H = chipH;
+    // ⑤ 內文兩排 — medium + bold（粗那排「稍微粗一點」用 c.hl 色）
+    txt('這是內文小字',ix+6,iy+15,18,500,c.tx); iy+=30;
+    ctx.letterSpacing='0.05em'; ctx.textBaseline='middle'; ctx.textAlign='left';
+    const seg1='這是', seg2='稍微粗一點', seg3='的內文小字';
+    ctx.font=`700 18px '${fontFam}','Noto Sans TC',sans-serif`;
+    ctx.fillStyle=c.tx;  ctx.fillText(seg1,ix+6,iy+15);
+    const w1=ctx.measureText(seg1).width;
+    ctx.fillStyle=c.hl; ctx.fillText(seg2,ix+6+w1,iy+15);
+    const w2=ctx.measureText(seg2).width;
+    ctx.fillStyle=c.tx;  ctx.fillText(seg3,ix+6+w1+w2,iy+15);
+    iy+=30+12;
 
-    // Draw section label
-    txt('對比度', PAD, y + contrastLabelH/2, 10, 700, 'rgba(255,255,255,0.32)', 'left', 'Noto Sans TC');
-    y += contrastLabelH;
+    // ⑥ CTA
+    const ctaTC=contrastRatio(c.bt,c.ct)>=contrastRatio(c.tx,c.ct)?c.bt:c.tx;
+    fillRR(ix,iy,140,ctaH,9,c.ct);
+    txt('閱讀更多 →',ix+70,iy+ctaH/2,14,700,ctaTC,'center');
 
-    // Pre-measure chip widths using a temporary canvas (unscaled, so no DPR)
-    const measCanvas = document.createElement('canvas');
-    const measCtx = measCanvas.getContext('2d');
-    measCtx.font = `500 11px 'Noto Sans TC', sans-serif`;
+    y+=prevH+GAP;
 
-    let cx = PAD;
-    pairs.forEach(({label,r}) => {
-      const w = wcag(r);
-      const chipContent = `${label}  ${r.toFixed(2)}:1  ${w.t}`;
-      const textW = measCtx.measureText(chipContent).width;
-      const chipW = Math.ceil(textW) + 20 + chipPadH; // 20 = dot(8) + gap(12)
-
-      fillRR(cx, y, chipW, CHIP_H, 8, 'rgba(255,255,255,0.08)');
-      dot(cx + 14, y + CHIP_H/2, 4, w.col);
-      // txt() uses the already-scaled ctx, coordinates are in logical px
-      txt(chipContent, cx + 26, y + CHIP_H/2, 11, 500, 'rgba(255,255,255,0.85)', 'left', 'Noto Sans TC');
-
-      cx += chipW + chipGap;
+    const pairs=[{lbl:'背景/文字',r:contrastRatio(c.tx,c.bg)},{lbl:'hl/文字',r:contrastRatio(c.bt,c.hl)},{lbl:'CTA/文字',r:contrastRatio(c.bt,c.ct)}];
+    txt('對比度',PAD,y+cLblH/2,10,700,'rgba(255,255,255,0.32)','left','Noto Sans TC');
+    y+=cLblH;
+    const meas=document.createElement('canvas').getContext('2d');
+    meas.font=`500 11px 'Noto Sans TC',sans-serif`;
+    let cx=PAD;
+    pairs.forEach(({lbl,r})=>{
+      const w=wcagLevel(r);
+      const str=`${lbl}  ${r.toFixed(2)}:1  ${w.t}`;
+      const cw=Math.ceil(meas.measureText(str).width)+44;
+      fillRR(cx,y,cw,chipH,8,'rgba(255,255,255,0.08)');
+      dot(cx+14,y+chipH/2,4,w.col);
+      txt(str,cx+26,y+chipH/2,11,500,'rgba(255,255,255,0.85)','left','Noto Sans TC');
+      cx+=cw+12;
     });
+    y+=chipH+GAP;
 
-    y += CHIP_H + GAP;
+    txt('© Triple.Cell_illustration 細胞日常插畫',W/2,y+copyH/2,11,400,'rgba(255,255,255,0.28)','center','Noto Sans TC');
 
-    // Copyright
-    txt('© Triple.Cell_illustration 細胞日常插畫', W/2, y+copyH/2, 11, 400, 'rgba(255,255,255,0.28)', 'center', 'Noto Sans TC');
-
-    // Export
-    await new Promise((resolve, reject) => {
-      cv.toBlob(blob => {
-        if (!blob){ reject(new Error('toBlob 失敗')); return; }
-        try {
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.download = `color-scheme-${Date.now()}.png`;
-          a.href = url;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          setTimeout(() => URL.revokeObjectURL(url), 3000);
-          resolve();
-        } catch(e){ reject(e); }
-      }, 'image/png');
+    await new Promise((res,rej)=>{
+      cv.toBlob(blob=>{
+        if(!blob){ rej(new Error('toBlob 失敗')); return; }
+        const url=URL.createObjectURL(blob);
+        const a=Object.assign(document.createElement('a'),{download:`color-scheme-${Date.now()}.png`,href:url});
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(()=>URL.revokeObjectURL(url),3000); res();
+      },'image/png');
     });
-
-  } catch(err){
-    alert('匯出失敗：' + err.message);
-  } finally {
-    overlay.classList.remove('show');
-  }
+  } catch(err){ alert('匯出失敗：'+err.message); }
+  finally { overlay.classList.remove('show'); }
 }
 
-/* ══ Init ══ */
-Object.keys(c).forEach(k => document.getElementById('sw-'+k).style.background = c[k]);
-document.getElementById('ppOk').style.background = c.ct;
-// Init hue slider gradient
-document.getElementById('slH').style.background = buildHueGrad();
+/* ── Init ── */
+(function init(){
+  Object.keys(c).forEach(k=>document.getElementById('sw-'+k).style.background=c[k]);
+  document.getElementById('ppOk').style.background=c.ct;
+  document.getElementById('slH').style.background=buildHueGrad();
+  document.getElementById('slS').style.background=`linear-gradient(to right,${hsbToHex(0,0,100)},${hsbToHex(0,100,100)})`;
+  document.getElementById('slB').style.background=`linear-gradient(to right,#000000,${hsbToHex(0,0,100)})`;
+})();
 
-/* ══ Lottie ══ */
-async function initLottie(){
-  const wrap = document.getElementById('lottieCellWrap');
+/* ── Lottie ── */
+(async function initLottie(){
+  const wrap=document.getElementById('lottieCellWrap');
   if(!wrap) return;
-  let tries = 0;
-  while(typeof lottie === 'undefined' && tries++ < 20){
-    await new Promise(r => setTimeout(r, 150));
-  }
-  if(typeof lottie === 'undefined'){ wrap.style.display='none'; return; }
-  try {
-    const res = await fetch('data.json');
-    if(!res.ok) throw new Error('data.json not found');
-    const animData = await res.json();
-    lottie.loadAnimation({ container: wrap, renderer: 'svg', loop: true, autoplay: true, animationData: animData });
-  } catch(e){
-    wrap.style.display = 'none';
-  }
-}
-initLottie();
+  for(let i=0;i<20;i++){ if(typeof lottie!=='undefined') break; await new Promise(r=>setTimeout(r,150)); }
+  if(typeof lottie==='undefined'){ wrap.style.display='none'; return; }
+  try{
+    const res=await fetch('data.json');
+    if(!res.ok) throw 0;
+    lottie.loadAnimation({container:wrap,renderer:'svg',loop:true,autoplay:true,animationData:await res.json()});
+  } catch(_){ wrap.style.display='none'; }
+})();
 
-if('serviceWorker' in navigator && location.protocol !== 'file:'){
-  navigator.serviceWorker.register('sw.js')
-    .then(reg => console.log('SW ok, scope:', reg.scope))
-    .catch(e => console.warn('SW reg failed', e));
+/* ── SW ── */
+if('serviceWorker' in navigator && location.protocol!=='file:'){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
 </script>
 </body>
