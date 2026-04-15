@@ -225,7 +225,7 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   display: none; position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 9000; width: 288px;
+  z-index: 9000; width: 316px;
   background: #F5F2EC; border-radius: 16px;
   border: 1px solid #D9D3C7;
   box-shadow: 0 16px 48px rgba(44,58,74,0.32);
@@ -244,25 +244,29 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
   width: 100%; height: 38px; border-radius: 10px;
   border: 1px solid rgba(0,0,0,0.10); margin-bottom: 14px;
 }
-.hsb-sliders { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
-.hsb-row     { display: flex; align-items: center; gap: 8px; }
-.hsb-label   { font-size: 11px; font-weight: 700; color: #9AABB8; width: 13px; flex-shrink: 0; }
-.hsb-slider  {
-  flex: 1; min-width: 0; height: 6px; border-radius: 3px;
-  -webkit-appearance: none; appearance: none;
-  outline: none; cursor: pointer; border: none;
+/* Photoshop-style picker */
+.ps-picker-wrap { display: flex; gap: 8px; margin-bottom: 14px; user-select: none; }
+.ps-field-wrap {
+  position: relative; flex: 1; border-radius: 8px; overflow: hidden;
+  cursor: crosshair; touch-action: none;
 }
-.hsb-slider::-webkit-slider-thumb {
-  -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
-  background: #fff; border: 2px solid rgba(44,58,74,0.28);
-  box-shadow: 0 1px 4px rgba(44,58,74,0.2); cursor: pointer;
+#ppField { display: block; width: 100%; height: 100%; border-radius: 8px; }
+.ps-cursor {
+  position: absolute; width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid #fff; box-shadow: 0 0 0 1.5px rgba(0,0,0,0.45);
+  transform: translate(-50%, -50%); pointer-events: none; top: 0; left: 0;
 }
-.hsb-slider::-moz-range-thumb {
-  width: 18px; height: 18px; border-radius: 50%;
-  background: #fff; border: 2px solid rgba(44,58,74,0.28);
-  box-shadow: 0 1px 4px rgba(44,58,74,0.2); cursor: pointer;
+.ps-hue-wrap {
+  position: relative; width: 18px; border-radius: 6px; overflow: visible;
+  cursor: pointer; flex-shrink: 0; touch-action: none;
 }
-.hsb-val { font-size: 12px; font-weight: 600; color: #2C3A4A; width: 36px; text-align: right; flex-shrink: 0; }
+#ppHueStrip { display: block; width: 18px; border-radius: 6px; }
+.ps-hue-handle {
+  position: absolute; left: -3px; right: -3px; height: 5px;
+  border: 2.5px solid #fff; border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+  pointer-events: none; top: 0; transform: translateY(-50%);
+}
 .pp-hex-row  { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
 .pp-hex-label { font-size: 11px; font-weight: 700; color: #9AABB8; letter-spacing: 0.05em; }
 #ppHex {
@@ -344,24 +348,24 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
       <div class="cb-hex" id="disp-bg">#EDE8DF</div>
     </div>
 
-    <div class="color-btn" onclick="openPickerFromBtn('hl',event)">
-      <div class="cb-swatch" id="sw-hl"></div>
-      <div class="cb-info">
-        <div class="cb-num">02</div>
-        <div class="cb-name">Highlight 色塊</div>
-        <div class="cb-desc">強調區塊的底色</div>
-      </div>
-      <div class="cb-hex" id="disp-hl">#548EB8</div>
-    </div>
-
     <div class="color-btn" onclick="openPickerFromBtn('tx',event)">
       <div class="cb-swatch" id="sw-tx"></div>
       <div class="cb-info">
-        <div class="cb-num">03</div>
+        <div class="cb-num">02</div>
         <div class="cb-name">背景文字色</div>
         <div class="cb-desc">直接疊在背景上的文字</div>
       </div>
       <div class="cb-hex" id="disp-tx">#2C3A4A</div>
+    </div>
+
+    <div class="color-btn" onclick="openPickerFromBtn('hl',event)">
+      <div class="cb-swatch" id="sw-hl"></div>
+      <div class="cb-info">
+        <div class="cb-num">03</div>
+        <div class="cb-name">Highlight 色塊</div>
+        <div class="cb-desc">強調區塊的底色</div>
+      </div>
+      <div class="cb-hex" id="disp-hl">#548EB8</div>
     </div>
 
     <div class="color-btn" onclick="openPickerFromBtn('bt',event)">
@@ -460,21 +464,14 @@ html, body { height: 100%; font-family: 'Noto Sans TC', sans-serif; }
 <div id="pickerPopup">
   <div class="pp-title" id="ppTitle">修改顏色</div>
   <div class="pp-preview-strip" id="ppStrip"></div>
-  <div class="hsb-sliders">
-    <div class="hsb-row">
-      <span class="hsb-label">H</span>
-      <input class="hsb-slider" id="slH" type="range" min="0" max="359" step="1" oninput="onHsbSlide()">
-      <span class="hsb-val" id="valH">0</span>
+  <div class="ps-picker-wrap">
+    <div class="ps-field-wrap" id="ppFieldWrap">
+      <canvas id="ppField" width="240" height="150"></canvas>
+      <div class="ps-cursor" id="ppCursor"></div>
     </div>
-    <div class="hsb-row">
-      <span class="hsb-label">S</span>
-      <input class="hsb-slider" id="slS" type="range" min="0" max="100" step="1" oninput="onHsbSlide()">
-      <span class="hsb-val" id="valS">0%</span>
-    </div>
-    <div class="hsb-row">
-      <span class="hsb-label">B</span>
-      <input class="hsb-slider" id="slB" type="range" min="0" max="100" step="1" oninput="onHsbSlide()">
-      <span class="hsb-val" id="valB">100%</span>
+    <div class="ps-hue-wrap" id="ppHueWrap">
+      <canvas id="ppHueStrip" width="18" height="150"></canvas>
+      <div class="ps-hue-handle" id="ppHueHandle"></div>
     </div>
   </div>
   <div class="pp-hex-row">
@@ -528,17 +525,73 @@ function setFont(type) {
   document.querySelectorAll('.font-btn').forEach(b=>b.classList.toggle('active',b.dataset.font===type));
   P2_FONT_ELS.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.fontFamily=FONTS[type]; });
 }
-function updateSliderTracks() {
-  const h=+document.getElementById('slH').value, s=+document.getElementById('slS').value, bv=+document.getElementById('slB').value;
-  document.getElementById('slH').style.background='linear-gradient(to right,'+Array.from({length:7},(_,i)=>`hsl(${i*60},100%,50%) ${(i/6*100).toFixed(1)}%`).join(',')+')';
-  document.getElementById('slS').style.background=`linear-gradient(to right,${hsbToHex(h,0,bv)},${hsbToHex(h,100,bv)})`;
-  document.getElementById('slB').style.background=`linear-gradient(to right,#000000,${hsbToHex(h,s,100)})`;
+/* ── PS Picker core ── */
+let _psH=0,_psS=0,_psB=100,_dragField=false,_dragHue=false;
+function _drawField(h){
+  const cv=document.getElementById('ppField');if(!cv)return;
+  const ctx=cv.getContext('2d'),w=cv.width,ht=cv.height;
+  ctx.fillStyle=`hsl(${h},100%,50%)`;ctx.fillRect(0,0,w,ht);
+  const wg=ctx.createLinearGradient(0,0,w,0);
+  wg.addColorStop(0,'rgba(255,255,255,1)');wg.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=wg;ctx.fillRect(0,0,w,ht);
+  const bg=ctx.createLinearGradient(0,0,0,ht);
+  bg.addColorStop(0,'rgba(0,0,0,0)');bg.addColorStop(1,'rgba(0,0,0,1)');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,w,ht);
 }
-function loadHsbFromHex(hex) {
+function _drawHue(){
+  const cv=document.getElementById('ppHueStrip');if(!cv)return;
+  const ctx=cv.getContext('2d'),g=ctx.createLinearGradient(0,0,0,cv.height);
+  for(let i=0;i<=6;i++)g.addColorStop(i/6,`hsl(${i*60},100%,50%)`);
+  ctx.fillStyle=g;ctx.fillRect(0,0,cv.width,cv.height);
+}
+function _updateCursor(){
+  const cv=document.getElementById('ppField'),cur=document.getElementById('ppCursor');if(!cv||!cur)return;
+  cur.style.left=(_psS/100*cv.offsetWidth)+'px';cur.style.top=((1-_psB/100)*cv.offsetHeight)+'px';
+}
+function _updateHueHandle(){
+  const cv=document.getElementById('ppHueStrip'),h=document.getElementById('ppHueHandle');if(!cv||!h)return;
+  h.style.top=(_psH/360*cv.offsetHeight)+'px';
+}
+function _getXY(e){return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY};}
+function _psFromField(e){
+  const cv=document.getElementById('ppField');if(!cv)return;
+  const r=cv.getBoundingClientRect(),{x,y}=_getXY(e);
+  _psS=Math.max(0,Math.min(100,(x-r.left)/r.width*100));
+  _psB=Math.max(0,Math.min(100,(1-(y-r.top)/r.height)*100));
+  _psApply();
+}
+function _psFromHue(e){
+  const cv=document.getElementById('ppHueStrip');if(!cv)return;
+  const r=cv.getBoundingClientRect(),{y}=_getXY(e);
+  _psH=Math.max(0,Math.min(359,(y-r.top)/r.height*360));
+  _drawField(_psH);_psApply();
+}
+function _psApply(){
+  const hex=hsbToHex(_psH,_psS,_psB);
+  document.getElementById('ppHex').value=hex;
+  document.getElementById('ppStrip').style.background=hex;
+  _updateCursor();_updateHueHandle();
+  if(!popupKey)return;
+  c[popupKey]=hex;_reflectChange(popupKey,hex);
+}
+function loadHsbFromHex(hex){
   const {h,s,b}=hexToHsb(hex);
-  document.getElementById('slH').value=h; document.getElementById('slS').value=s; document.getElementById('slB').value=b;
-  document.getElementById('valH').textContent=h; document.getElementById('valS').textContent=s+'%'; document.getElementById('valB').textContent=b+'%';
-  updateSliderTracks();
+  _psH=h;_psS=s;_psB=b;
+  _drawField(_psH);_updateCursor();_updateHueHandle();
+}
+function initPsEvents(){
+  const fw=document.getElementById('ppFieldWrap'),hw=document.getElementById('ppHueWrap');if(!fw||!hw)return;
+  fw.addEventListener('mousedown',e=>{_dragField=true;_psFromField(e);});
+  fw.addEventListener('touchstart',e=>{e.preventDefault();_dragField=true;_psFromField(e);},{passive:false});
+  hw.addEventListener('mousedown',e=>{_dragHue=true;_psFromHue(e);});
+  hw.addEventListener('touchstart',e=>{e.preventDefault();_dragHue=true;_psFromHue(e);},{passive:false});
+  document.addEventListener('mousemove',e=>{if(_dragField)_psFromField(e);if(_dragHue)_psFromHue(e);});
+  document.addEventListener('mouseup',()=>{_dragField=false;_dragHue=false;});
+  document.addEventListener('touchmove',e=>{
+    if(_dragField){e.preventDefault();_psFromField(e);}
+    if(_dragHue){e.preventDefault();_psFromHue(e);}
+  },{passive:false});
+  document.addEventListener('touchend',()=>{_dragField=false;_dragHue=false;});
 }
 function onPick(k,val) { if(!isValidHex(val)) return; c[k]=val.toUpperCase(); document.getElementById('sw-'+k).style.background=c[k]; document.getElementById('disp-'+k).textContent=c[k]; if(document.getElementById('page2').classList.contains('active')) syncPage2(); }
 function applyBgStyle() {
@@ -573,12 +626,6 @@ function goPage1() { closePicker(); document.getElementById('page2').classList.r
 /* ── Picker ── */
 function _openCore(key) { popupKey=key; document.getElementById('ppTitle').textContent='修改：'+(LABELS[key]||key); document.getElementById('ppStrip').style.background=c[key]; document.getElementById('ppHex').value=c[key]; document.getElementById('ppOk').style.background=c.ct; loadHsbFromHex(c[key]); document.getElementById('pickerOverlay').classList.add('show'); document.getElementById('pickerPopup').classList.add('open'); }
 function openPickerFromBtn(key,e) { if(e) e.stopPropagation(); _openCore(key); }
-function onHsbSlide() {
-  const h=+document.getElementById('slH').value, s=+document.getElementById('slS').value, bv=+document.getElementById('slB').value;
-  document.getElementById('valH').textContent=h; document.getElementById('valS').textContent=s+'%'; document.getElementById('valB').textContent=bv+'%';
-  const hex=hsbToHex(h,s,bv); document.getElementById('ppHex').value=hex; document.getElementById('ppStrip').style.background=hex;
-  updateSliderTracks(); if(!popupKey) return; c[popupKey]=hex; _reflectChange(popupKey,hex);
-}
 function onPopupHex(raw) { let val=raw.trim(); if(!val.startsWith('#')) val='#'+val; if(!isValidHex(val)) return; val=val.toUpperCase(); document.getElementById('ppStrip').style.background=val; loadHsbFromHex(val); if(!popupKey) return; c[popupKey]=val; _reflectChange(popupKey,val); }
 function _reflectChange(key,hex) { const sw=document.getElementById('sw-'+key), dp=document.getElementById('disp-'+key); if(sw) sw.style.background=hex; if(dp) dp.textContent=hex; if(document.getElementById('page2').classList.contains('active')) syncPage2(); }
 function closePicker() { document.getElementById('pickerPopup').classList.remove('open'); document.getElementById('pickerOverlay').classList.remove('show'); popupKey=null; }
@@ -722,7 +769,8 @@ async function downloadImage() {
 
 (function init(){
   Object.keys(c).forEach(k=>document.getElementById('sw-'+k).style.background=c[k]);
-  updateSliderTracks();
+  _drawHue();
+  initPsEvents();
 })();
 
 (async function initLottie(){
