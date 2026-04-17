@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Colour Compare</title>
 <link rel="manifest" href="manifest.json">
@@ -624,7 +624,7 @@ function goPage2() { document.getElementById('page1').classList.remove('active')
 function goPage1() { closePicker(); document.getElementById('page2').classList.remove('active'); document.getElementById('page1').classList.add('active'); }
 
 /* ── Picker ── */
-function _openCore(key) { popupKey=key; document.getElementById('ppTitle').textContent='修改：'+(LABELS[key]||key); document.getElementById('ppStrip').style.background=c[key]; document.getElementById('ppHex').value=c[key]; document.getElementById('ppOk').style.background=c.ct; loadHsbFromHex(c[key]); document.getElementById('pickerOverlay').classList.add('show'); document.getElementById('pickerPopup').classList.add('open'); }
+function _openCore(key) { popupKey=key; document.getElementById('ppTitle').textContent='修改：'+(LABELS[key]||key); document.getElementById('ppStrip').style.background=c[key]; document.getElementById('ppHex').value=c[key]; document.getElementById('ppOk').style.background=c.ct; const {h,s,b}=hexToHsb(c[key]); _psH=h;_psS=s;_psB=b; _drawField(_psH); document.getElementById('pickerOverlay').classList.add('show'); document.getElementById('pickerPopup').classList.add('open'); requestAnimationFrame(()=>{ _updateCursor(); _updateHueHandle(); }); }
 function openPickerFromBtn(key,e) { if(e) e.stopPropagation(); _openCore(key); }
 function onPopupHex(raw) { let val=raw.trim(); if(!val.startsWith('#')) val='#'+val; if(!isValidHex(val)) return; val=val.toUpperCase(); document.getElementById('ppStrip').style.background=val; loadHsbFromHex(val); if(!popupKey) return; c[popupKey]=val; _reflectChange(popupKey,val); }
 function _reflectChange(key,hex) { const sw=document.getElementById('sw-'+key), dp=document.getElementById('disp-'+key); if(sw) sw.style.background=hex; if(dp) dp.textContent=hex; if(document.getElementById('page2').classList.contains('active')) syncPage2(); }
